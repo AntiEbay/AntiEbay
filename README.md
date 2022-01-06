@@ -6,3 +6,9 @@ Our goal is to revolutionize the selling process by highlighting the needs of th
 the products of the seller. This website  should work exactly as the  opposite of Ebay. Instead of 
 advertising  the  products  available,  we  should  focus  on  the  needs  of  the  customer  and  let  the 
 sellers compete for the customers. 
+
+# Objectives
+a) Create a website 
+b) Handle seller and buyer profiles (login, rights, etc.) 
+c) Provide visually appealing  graphical interface to describe the needs of the buyer 
+d) Provide searchability capabilities for the sellers, ranking, bidding, etc. 
