@@ -8,7 +8,7 @@ advertising  the  products  available,  we  should  focus  on  the  needs  of  t
 sellers compete for the customers. 
 
 # Objectives
-a) Create a website 
-b) Handle seller and buyer profiles (login, rights, etc.) 
-c) Provide visually appealing  graphical interface to describe the needs of the buyer 
-d) Provide searchability capabilities for the sellers, ranking, bidding, etc. 
+a) Create a website <br />
+b) Handle seller and buyer profiles (login, rights, etc.) <br />
+c) Provide visually appealing  graphical interface to describe the needs of the buyer <br />
+d) Provide searchability capabilities for the sellers, ranking, bidding, etc. <br />
