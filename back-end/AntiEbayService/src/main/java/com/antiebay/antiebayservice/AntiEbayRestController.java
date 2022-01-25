@@ -16,7 +16,7 @@ public class AntiEbayRestController {
         this.userRegistrationService = userRegistrationService;
     }
 
-    @PostMapping("/user/registration")
+    @PostMapping(value = "/user/registration", consumes = {"application/json"})
     private void registerUserAccount(@RequestBody UserAccount userAccount,
                                      HttpServletRequest request,
                                      Errors errors) {
