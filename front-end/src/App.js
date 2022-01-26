@@ -1,13 +1,15 @@
-import './App.css';
-import HomePage from './HomePage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import "./App.css";
+import HomePage from "./HomePage";
+import SignUp from "./SignUp";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  return (  
+  return (
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<HomePage />} />
-      </Routes> 
+        <Route path="/SignUp" element={<SignUp />} />
+      </Routes>
     </BrowserRouter>
   );
 }

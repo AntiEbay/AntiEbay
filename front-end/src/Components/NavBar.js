@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Logo from "./Elements/Logo";
 import "./Elements/hamburgerMenuStyles.css";
 import { slide as Menu } from "react-burger-menu";
@@ -7,7 +8,9 @@ const NavBar = () => {
   return (
     <div className="flex justify-between w-full space-x-4 h-12 relative p-1 bg-slate-800">
       <div className="flex p-1.5">
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <div class="relative mx-auto text-gray-600 ml-2">
           <input
             class="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -46,7 +49,7 @@ const NavBar = () => {
               Sign Up
             </button>
           </Menu>
-        </div> 
+        </div>
         <div className=" mx-5 hidden lg:flex">
           <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
             FAQ
@@ -54,9 +57,11 @@ const NavBar = () => {
           <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
             Log In
           </button>
-          <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-            Sign Up
-          </button>
+          <Link to="/SignUp">
+            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Sign Up
+            </button>
+          </Link>
         </div>
       </div>
     </div>
