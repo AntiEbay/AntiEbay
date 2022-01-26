@@ -1,0 +1,24 @@
+version: "1.0"
+services:
+  maria_db:
+    build: back-end/database/dockerfolder/.
+    restart: always
+    ports:
+      - 3306:3306
+  api_service:
+    build: back-end/AntiEbayService/.
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - maria_db
+    links:
+      - maria_db:app_db
+  front-end:
+    build: front-end/.
+    restart: always
+    depends_on:
+      - api_service
+    ports:
+      - 3000:3000
+    command: sh -c 'npm start'
