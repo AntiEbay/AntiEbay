@@ -2,13 +2,22 @@ package com.antiebay.antiebayservice.useraccounts;
 
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class UserAccount {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String userName;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String password;
+
 
     public String getUserName() {
         return userName;
