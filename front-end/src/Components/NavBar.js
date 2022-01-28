@@ -54,9 +54,11 @@ const NavBar = () => {
           <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
             FAQ
           </button>
-          <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-            Log In
-          </button>
+          <Link to="/SignIn">
+            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Log In
+            </button>
+          </Link>
           <Link to="/SignUp">
             <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Sign Up
