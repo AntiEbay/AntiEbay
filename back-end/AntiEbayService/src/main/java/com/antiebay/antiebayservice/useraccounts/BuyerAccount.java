@@ -1,6 +1,6 @@
 package com.antiebay.antiebayservice.useraccounts;
 
-public class BuyerAccount extends UserAccount{
+public class BuyerAccount {
     private String userAddress;
 
 }

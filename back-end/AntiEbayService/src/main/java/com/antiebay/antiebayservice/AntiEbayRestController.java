@@ -2,6 +2,7 @@ package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.useraccounts.UserAccount;
 import com.antiebay.antiebayservice.useraccounts.UserRegistrationService;
+import com.antiebay.antiebayservice.useraccounts.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -9,24 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class AntiEbayRestController {
-    private final UserRegistrationService userRegistrationService;
 
-    public AntiEbayRestController(UserRegistrationService userRegistrationService) {
-        this.userRegistrationService = userRegistrationService;
-    }
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserRegistrationService userRegistrationService;
 
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
-    private void registerUserAccount(@RequestBody UserAccount userAccount,
+    private String registerUserAccount(@RequestBody UserAccount userAccount,
                                      HttpServletRequest request,
                                      Errors errors) {
         System.out.println("Received registration request");
         try {
-            UserAccount registered = userRegistrationService.registerUser(userAccount);
+            userRepository.save(userAccount);
+            return userAccount.toString();
         }
         catch (Exception ex) {
             ex.printStackTrace();
         }
+        return "";
     }
 
 
