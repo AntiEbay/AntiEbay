@@ -23,12 +23,12 @@ CREATE TABLE IF NOT EXISTS userType (
 
 -- Table for buyers. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS buyer (
-    emailAddress VARCHAR(225) PRIMARY KEY,
-    CONSTRAINT FK_emailAddress Foreign Key (emailAddress) REFERENCES user(emailAddress)
+    email VARCHAR(225) PRIMARY KEY,
+    CONSTRAINT 'FK_email' Foreign Key (email) REFERENCES user(emailAddress)
 );
 
 -- Table for seller. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS seller (
-    emailAddress VARCHAR(225) PRIMARY KEY,
-    CONSTRAINT FK_emailAddress Foreign Key (emailAddress) REFERENCES user(emailAddress)
+    email VARCHAR(225) PRIMARY KEY,
+    CONSTRAINT 'FK_email' Foreign Key (email) REFERENCES user(emailAddress)
 );
