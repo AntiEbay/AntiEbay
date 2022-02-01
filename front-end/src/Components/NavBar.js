@@ -11,14 +11,17 @@ const NavBar = () => {
         <Link to="/">
           <Logo />
         </Link>
-        <div class="relative mx-auto text-gray-600 ml-2">
+        <div className="relative mx-auto text-gray-600 ml-2">
           <input
-            class="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+            className="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
             type="search"
             name="search"
             placeholder="Search"
           />
-          <button type="submit" class="absolute -right-2 bottom-0.5 mt-5 mr-4">
+          <button
+            type="submit"
+            className="absolute -right-2 bottom-0.5 mt-5 mr-4"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -39,28 +42,28 @@ const NavBar = () => {
       <div className="flex">
         <div id="sideBar" className="flex lg:hidden">
           <Menu right outerContainerId="sideBar">
-            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               FAQ
             </button>
-            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Log In
             </button>
-            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Sign Up
             </button>
           </Menu>
         </div>
         <div className=" mx-5 hidden lg:flex">
-          <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+          <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
             FAQ
           </button>
           <Link to="/SignIn">
-            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Log In
             </button>
           </Link>
           <Link to="/SignUp">
-            <button class="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Sign Up
             </button>
           </Link>
