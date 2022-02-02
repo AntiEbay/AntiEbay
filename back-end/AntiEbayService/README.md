@@ -14,3 +14,9 @@ For many systems, this can be reached at `127.0.0.1:8080`
 Once built using maven, this application can be run in a docker container using the command
 `docker build -t antiebay/antiebayservice .`
 Once the container is built, the application can be run with the command `docker run -p 8080:8080 antiebay/antiebayservice`
+
+### Running with IntelliJ Idea
+Once the project is successfully loaded, go to `./src/main/resources/application.properties` 
+and make sure `spring.datasource.url=jdbc:mariadb://localhost:3306/AntiEbay` is `NOT` commented out, 
+and that `spring.datasource.url=jdbc:mariadb://app_db:3306/AntiEbay` `IS` commented out. Then make sure the
+database application is running, then finally run this service. 

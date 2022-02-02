@@ -1,8 +1,6 @@
 package com.antiebay.antiebayservice.useraccounts;
 
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
 
