@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS AntiEbay;
 USE AntiEbay;
 
 -- Table of all users. These include attributes shared by both buyer and seller
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS 'user' (
     userId VARCHAR(225),
     firstName VARCHAR(255),
     lastName VARCHAR(255), 
@@ -21,14 +21,29 @@ CREATE TABLE IF NOT EXISTS userType (
 );
 */
 
+--Post table to keep track of posts for each user
+--Each post will have these features from frontend
+CREATE TABLE IT NOT EXISTS posts(
+    postId int PRIMARY KEY,
+    photoPath VARCHAR(225),
+    title VARCHAR(225),
+    quantity int,
+    price int,
+    category VARCHAR(225),
+    condition VARCHAR(225),
+    description VARCHAR(225)
+);
+
 -- Table for buyers. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS buyer (
     email VARCHAR(225) PRIMARY KEY,
-    CONSTRAINT FK_buyer_to_user_email Foreign Key (email) REFERENCES user(emailAddress)
+    postId int,
+    CONSTRAINT fk_post FOREIGN KEY (postId) REFERENCES posts(postId),
+    CONSTRAINT FK_email Foreign Key (email) REFERENCES 'user'(emailAddress)
 );
 
 -- Table for seller. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS seller (
     email VARCHAR(225) PRIMARY KEY,
-    CONSTRAINT FK_seller_to_user_email Foreign Key (email) REFERENCES user(emailAddress)
+    CONSTRAINT FK_email Foreign Key (email) REFERENCES 'user'(emailAddress)
 );
