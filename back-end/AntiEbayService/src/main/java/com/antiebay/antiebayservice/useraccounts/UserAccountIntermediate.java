@@ -4,17 +4,13 @@ import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "user")
-public class UserAccount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class UserAccountIntermediate {
     private String userName;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String password;
+    private String userType;
 
 
     public String getUserName() {
@@ -57,7 +53,23 @@ public class UserAccount {
         this.password = password;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    @Override
     public String toString() {
-        return JSONObjectMapper.mapObjectToString(this);
+        return "UserAccountIntermediate{" +
+                "userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", userType='" + userType + '\'' +
+                '}';
     }
 }
