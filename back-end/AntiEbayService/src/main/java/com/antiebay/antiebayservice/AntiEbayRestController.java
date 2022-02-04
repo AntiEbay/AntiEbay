@@ -1,6 +1,8 @@
 package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.useraccounts.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +23,18 @@ public class AntiEbayRestController {
     @Autowired
     private UserRegistrationService userRegistrationService;
 
+    private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
+
+
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
     private String registerUserAccount(@RequestBody UserAccountIntermediate userAccount,
                                      HttpServletRequest request,
                                      Errors errors) {
-        System.out.println("Received registration request for:\n\t" + userAccount.toString());
+        logger.info("Received user registration request for: " + userAccount.getEmailAddress());
         try {
             UserAccountEntity userEntity = new UserAccountEntity(userAccount);
             userRepository.save(userEntity);
-            System.out.println("Successfully wrote:\n\t" + userEntity + "\nto database.");
+            logger.info("Successfully wrote user: " + userEntity.getEmailAddress() + " to database.");
             return userAccount.toString();
         }
         catch (Exception ex) {
@@ -43,37 +48,54 @@ public class AntiEbayRestController {
                                     HttpServletRequest request,
                                     HttpSession session,
                                     Errors errors) {
-        // Debug
-        Enumeration<String> attributes = session.getAttributeNames();
-        while (attributes.hasMoreElements()) {
-            String attr = attributes.nextElement();
-            System.out.println(attr + " -> " + session.getAttribute(attr));
-        }
 
         // Check if user exists
         // If so, return all information in user table (minus password I suppose)
-        System.out.println("Login request recieved for\n" + userLoginRequest.toString());
+        logger.info("Login request recieved for: " + userLoginRequest.getEmailAddress());
+
+        // Debug
+        logger.info("********** INCOMING USER SESSION VARIABLES **********");
+        Enumeration<String> attributes = session.getAttributeNames();
+        while (attributes.hasMoreElements()) {
+            String attr = attributes.nextElement();
+            logger.info(attr + " -> " + session.getAttribute(attr));
+        }
+        logger.info("*****************************************************");
+
+
+
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
 
         if (userAccount.isEmpty()) {
-            System.out.println("Could not log user " + userLoginRequest.getEmailAddress() + " in.");
-            return "Could not find user:" + userLoginRequest;
+            logger.warn("Could not sign in user: " + userLoginRequest.getEmailAddress());
+            return "Could not find user: " + userLoginRequest;
         }
-        System.out.println("Successfully verified that:\n\t" + userAccount + "\nexists in database.");
 
         UserAccountEntity userAccountEnt = userAccount.get();
 
+        logger.info("Successfully verified that: " + userAccountEnt.getEmailAddress() +
+                " exists in database.");
+
         if (!userLoginRequest.getPassword().equals(userAccountEnt.getPassword())) {
-            System.out.println("Could not log user " + userLoginRequest.getEmailAddress() + " in: Wrong password");
+            logger.warn("Could not log user " + userLoginRequest.getEmailAddress() + " in: Wrong password");
             return "Password failed to verify";
         }
-        System.out.println("Successfully verified password for:\n\t" + userAccount.get().getEmailAddress());
+        logger.info("Successfully verified password for: " + userAccount.get().getEmailAddress());
 
         // Set session variables for login
         session.setAttribute("email", userLoginRequest.getEmailAddress());
         session.setAttribute("userType", userAccountEnt.getUserType());
 
-        System.out.println("Successfully logged in: " + userAccountEnt);
+        logger.info("Successfully logged in: " + userAccountEnt.getEmailAddress());
+
+        logger.info("********** OUTGOING USER SESSION VARIABLES **********");
+        attributes = session.getAttributeNames();
+        while (attributes.hasMoreElements()) {
+            String attr = attributes.nextElement();
+            logger.info('\t' + attr + " -> " + session.getAttribute(attr));
+        }
+        logger.info("*****************************************************");
+
         return userAccount.toString();
     }
 
