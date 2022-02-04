@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component("userRegistrationService")
 public class UserRegistrationService {
-    public UserAccount registerUser(UserAccount userAccount) {
+    public UserAccountEntity registerUser(UserAccountEntity userAccount) {
         return userAccount;
     }
 }
