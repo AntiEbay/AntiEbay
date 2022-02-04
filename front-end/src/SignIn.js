@@ -23,6 +23,7 @@ const SignIn = () => {
           // Overwrite Axios's automatically set Content-Type
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
     console.log(logInResults);
