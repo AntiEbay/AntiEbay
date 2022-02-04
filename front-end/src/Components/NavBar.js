@@ -13,7 +13,7 @@ const NavBar = () => {
         </Link>
         <div className="relative mx-auto text-gray-600 ml-2">
           <input
-            className="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+            className="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg w-48 lg:w-96 text-sm focus:outline-none"
             type="search"
             name="search"
             placeholder="Search"

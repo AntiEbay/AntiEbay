@@ -90,20 +90,18 @@ const SignUp = () => {
             </div>
 
             {/* Second line */}
-            <div className="pb-6">
+            <div className=" space-x-0 pb-6">
               {/* Email */}
-              <input
-                className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8"
-                value={emailAddress}
-                onChange={(event) => setEmailAddress(event.target.value)}
-                name="emailAddress"
-                label="email Address"
-                placeholder="  Email Address"
-              />
-            </div>
-
-            {/* Third line */}
-            <div className="space-x-0 pb-6">
+              <div className="pb-6">
+                <input
+                  className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-48 lg:w-96 h-8"
+                  value={emailAddress}
+                  onChange={(event) => setEmailAddress(event.target.value)}
+                  name="emailAddress"
+                  label="email Address"
+                  placeholder="  Email Address"
+                />
+              </div>
               {/* UserName */}
               <input
                 className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-48 h-8"
@@ -154,7 +152,7 @@ const SignUp = () => {
 
             {/*Submit button*/}
             <button
-              className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
+              className="button1 bg-slate-600 text-white font-bold md:w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
               type="submit"
               onClick={postSignUpRequest}
             >

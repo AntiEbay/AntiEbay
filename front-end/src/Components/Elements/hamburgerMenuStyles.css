@@ -41,7 +41,7 @@ body {
   height: 1.75rem;
   left: -1rem;
   top: .4rem;
-  background: black;
+  background: rgb(30, 41, 59);
 }
 
 /* Color/shape of burger icon bars */
