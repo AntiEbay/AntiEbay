@@ -71,9 +71,9 @@ public class AntiEbayRestController {
 
         // Set session variables for login
         session.setAttribute("email", userLoginRequest.getEmailAddress());
-        session.setAttribute("userType", userAccount.get().getUserType());
+        session.setAttribute("userType", userAccountEnt.getUserType());
 
-        System.out.println("Successfully logged in: " + userAccountEnt.toString());
+        System.out.println("Successfully logged in: " + userAccountEnt);
         return userAccount.toString();
     }
 
