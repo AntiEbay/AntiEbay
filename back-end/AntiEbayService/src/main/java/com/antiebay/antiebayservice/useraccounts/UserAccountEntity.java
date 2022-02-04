@@ -13,8 +13,6 @@ public class UserAccountEntity {
     private String emailAddress;
     @Column(name = "user_id")
     private Integer id;
-    @Column(name = "user_name")
-    private String userName;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -25,7 +23,6 @@ public class UserAccountEntity {
     private String userType;
 
     public UserAccountEntity(UserAccountIntermediate userAccountI) {
-        this.userName = userAccountI.getUserName();
         this.firstName = userAccountI.getFirstName();
         this.lastName = userAccountI.getLastName();
         this.emailAddress = userAccountI.getEmailAddress();
@@ -34,14 +31,6 @@ public class UserAccountEntity {
     }
 
     public UserAccountEntity() {
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -81,7 +70,6 @@ public class UserAccountEntity {
         return "UserAccountEntity{" +
                 "emailAddress='" + emailAddress + '\'' +
                 ", id=" + id +
-                ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +

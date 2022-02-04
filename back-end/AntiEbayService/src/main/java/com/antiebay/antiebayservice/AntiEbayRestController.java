@@ -44,24 +44,36 @@ public class AntiEbayRestController {
                                     HttpSession session,
                                     Errors errors) {
         // Debug
-//        Enumeration<String> attributes = session.getAttributeNames();
-//        while (attributes.hasMoreElements()) {
-//            String attr = attributes.nextElement();
-//            System.out.println(attr + " -> " + session.getAttribute(attr));
-//        }
+        Enumeration<String> attributes = session.getAttributeNames();
+        while (attributes.hasMoreElements()) {
+            String attr = attributes.nextElement();
+            System.out.println(attr + " -> " + session.getAttribute(attr));
+        }
 
         // Check if user exists
         // If so, return all information in user table (minus password I suppose)
         System.out.println("Login request recieved for\n" + userLoginRequest.toString());
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
+
         if (userAccount.isEmpty()) {
             System.out.println("Could not log user " + userLoginRequest.getEmailAddress() + " in.");
             return "Could not find user:" + userLoginRequest;
         }
         System.out.println("Successfully verified that:\n\t" + userAccount + "\nexists in database.");
+
+        UserAccountEntity userAccountEnt = userAccount.get();
+
+        if (!userLoginRequest.getPassword().equals(userAccountEnt.getPassword())) {
+            System.out.println("Could not log user " + userLoginRequest.getEmailAddress() + " in: Wrong password");
+            return "Password failed to verify";
+        }
+        System.out.println("Successfully verified password for:\n\t" + userAccount.get().getEmailAddress());
+
+        // Set session variables for login
         session.setAttribute("email", userLoginRequest.getEmailAddress());
         session.setAttribute("userType", userAccount.get().getUserType());
-        System.out.println("Successfully logged in: " + userAccount.get());
+
+        System.out.println("Successfully logged in: " + userAccountEnt.toString());
         return userAccount.toString();
     }
 
