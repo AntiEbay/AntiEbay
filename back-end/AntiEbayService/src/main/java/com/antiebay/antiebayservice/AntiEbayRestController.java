@@ -8,13 +8,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 public class AntiEbayRestController {
 
     @Autowired
@@ -24,7 +25,6 @@ public class AntiEbayRestController {
     private UserRegistrationService userRegistrationService;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
-
 
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
     private String registerUserAccount(@RequestBody UserAccountIntermediate userAccount,
@@ -45,9 +45,20 @@ public class AntiEbayRestController {
 
     @PostMapping(value = "/user/login", consumes = {"application/json"})
     private String loginUserAccount(@RequestBody UserLoginRequest userLoginRequest,
+                                    HttpServletResponse response,
                                     HttpServletRequest request,
-                                    HttpSession session,
+//                                    HttpSession session,
                                     Errors errors) {
+
+        logger.info("********** REQUEST HEADER VARIABLES **********");
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            logger.info(headerName + " -> " + request.getHeader(headerName));
+        }
+        logger.info("*****************************************************");
+
+        HttpSession session = request.getSession();
 
         // Check if user exists
         // If so, return all information in user table (minus password I suppose)
@@ -94,6 +105,15 @@ public class AntiEbayRestController {
         }
         logger.info("*****************************************************");
 
+        logger.info("********** RESPONSE HEADER VARIABLES **********");
+        Collection<String> responseHeaderNames = response.getHeaderNames();
+        for (String responseHeaderName : responseHeaderNames) {
+            logger.info(responseHeaderName + " -> " + response.getHeader(responseHeaderName));
+        }
+        logger.info("*****************************************************");
+
+//        response.setHeader("test", "testingheader");
+//        response.setHeader("Access-Control-Allow-Credentials", String.valueOf(true));
         return userAccount.toString();
     }
 
