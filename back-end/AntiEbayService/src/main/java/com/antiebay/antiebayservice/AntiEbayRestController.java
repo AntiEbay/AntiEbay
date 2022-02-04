@@ -43,7 +43,7 @@ public class AntiEbayRestController {
         return "";
     }
 
-    @GetMapping(value = "/user/login", consumes = {"application/json"})
+    @PostMapping(value = "/user/login", consumes = {"application/json"})
     private String loginUserAccount(@RequestBody UserLoginRequest userLoginRequest,
                                     HttpServletRequest request,
                                     HttpSession session,
@@ -51,7 +51,7 @@ public class AntiEbayRestController {
 
         // Check if user exists
         // If so, return all information in user table (minus password I suppose)
-        logger.info("Login request recieved for: " + userLoginRequest.getEmailAddress());
+        logger.info("Login request received for: " + userLoginRequest.getEmailAddress());
 
         // Debug
         logger.info("********** INCOMING USER SESSION VARIABLES **********");
@@ -61,8 +61,6 @@ public class AntiEbayRestController {
             logger.info(attr + " -> " + session.getAttribute(attr));
         }
         logger.info("*****************************************************");
-
-
 
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
 
