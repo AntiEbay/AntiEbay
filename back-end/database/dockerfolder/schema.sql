@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS userType (
 
 --Post table to keep track of posts for each user
 --Each post will have these features from frontend
-CREATE TABLE IT NOT EXISTS posts(
+CREATE TABLE IF NOT EXISTS posts(
     postId int PRIMARY KEY,
     photoPath VARCHAR(225),
     title VARCHAR(225),
@@ -37,6 +37,7 @@ CREATE TABLE IT NOT EXISTS posts(
 -- Table for buyers. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS buyer (
     email VARCHAR(225) PRIMARY KEY,
+    buyer VARCHAR(225)
     postId int,
     CONSTRAINT fk_post FOREIGN KEY (postId) REFERENCES posts(postId),
     CONSTRAINT FK_email Foreign Key (email) REFERENCES 'user'(emailAddress)
@@ -45,5 +46,6 @@ CREATE TABLE IF NOT EXISTS buyer (
 -- Table for seller. More attributes will be added as profile develops
 CREATE TABLE IF NOT EXISTS seller (
     email VARCHAR(225) PRIMARY KEY,
+    seller VARCHAR(225),
     CONSTRAINT FK_email Foreign Key (email) REFERENCES 'user'(emailAddress)
 );
