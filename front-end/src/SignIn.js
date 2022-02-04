@@ -13,6 +13,8 @@ const SignIn = () => {
 
   async function signInPostRequest(event) {
     event.preventDefault();
+    signInValues.emailAddress = emailAddress;
+    signInValues.password = password;
     const logInResults = await axios.post(
       "http://localhost:8080/user/login",
       JSON.stringify(signInValues),
