@@ -14,7 +14,7 @@ const SignIn = () => {
   async function signInPostRequest(event) {
     event.preventDefault();
     const logInResults = await axios.post(
-      "http://localhost:8080/user/registration",
+      "http://localhost:8080/user/login",
       JSON.stringify(signInValues),
       {
         headers: {
