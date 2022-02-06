@@ -1,5 +1,6 @@
 package com.antiebay.antiebayservice;
 
+import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,94 +28,59 @@ public class AntiEbayRestController {
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
-    private String registerUserAccount(@RequestBody UserAccountIntermediate userAccount,
-                                     HttpServletRequest request,
-                                     Errors errors) {
+    private String registerUserAccount(@RequestBody UserAccountIntermediate userAccount) {
         logger.info("Received user registration request for: " + userAccount.getEmailAddress());
+
+        // Check if user already exists
+        Optional<UserAccountEntity> userAccountEnt = userRepository.findById(userAccount.getEmailAddress());
+        if (userAccountEnt.isPresent()) {
+            logger.warn(StatusMessages.USER_ACCOUNT_CREATE_FAIL + " Cause: " + StatusMessages.USER_EXISTS);
+            return StatusMessages.USER_ACCOUNT_CREATE_FAIL.toString();
+        }
+
         try {
-            UserAccountEntity userEntity = new UserAccountEntity(userAccount);
-            userRepository.save(userEntity);
-            logger.info("Successfully wrote user: " + userEntity.getEmailAddress() + " to database.");
-            return userAccount.toString();
+            userRepository.save(new UserAccountEntity(userAccount));
+            return StatusMessages.USER_ACCOUNT_CREATE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getStackTrace());
+            return StatusMessages.USER_ACCOUNT_CREATE_FAIL.toString();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return "";
     }
 
     @PostMapping(value = "/user/login", consumes = {"application/json"})
     private String loginUserAccount(@RequestBody UserLoginRequest userLoginRequest,
-                                    HttpServletResponse response,
-                                    HttpServletRequest request,
-//                                    HttpSession session,
-                                    Errors errors) {
+                                    HttpServletRequest request) {
 
-        logger.info("********** REQUEST HEADER VARIABLES **********");
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            logger.info(headerName + " -> " + request.getHeader(headerName));
-        }
-        logger.info("*****************************************************");
-
+        // Get session for writing
         HttpSession session = request.getSession();
 
         // Check if user exists
         // If so, return all information in user table (minus password I suppose)
         logger.info("Login request received for: " + userLoginRequest.getEmailAddress());
 
-        // Debug
-        logger.info("********** INCOMING USER SESSION VARIABLES **********");
-        Enumeration<String> attributes = session.getAttributeNames();
-        while (attributes.hasMoreElements()) {
-            String attr = attributes.nextElement();
-            logger.info(attr + " -> " + session.getAttribute(attr));
-        }
-        logger.info("*****************************************************");
-
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
 
         if (userAccount.isEmpty()) {
-            logger.warn("Could not sign in user: " + userLoginRequest.getEmailAddress());
-            return "Could not find user: " + userLoginRequest;
+            logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.USER_NOT_EXIST);
+            return StatusMessages.LOGIN_FAIL.toString();
         }
 
         UserAccountEntity userAccountEnt = userAccount.get();
 
-        logger.info("Successfully verified that: " + userAccountEnt.getEmailAddress() +
-                " exists in database.");
+        logger.info(StatusMessages.USER_EXISTS);
 
         if (!userLoginRequest.getPassword().equals(userAccountEnt.getPassword())) {
-            logger.warn("Could not log user " + userLoginRequest.getEmailAddress() + " in: Wrong password");
-            return "Password failed to verify";
+            logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.LOGIN_PASSWORD_NOT_VERIFIED);
+            return StatusMessages.LOGIN_FAIL.toString();
         }
-        logger.info("Successfully verified password for: " + userAccount.get().getEmailAddress());
+        logger.info(StatusMessages.LOGIN_PASSWORD_VERIFIED);
 
         // Set session variables for login
         session.setAttribute("email", userLoginRequest.getEmailAddress());
         session.setAttribute("userType", userAccountEnt.getUserType());
 
-        logger.info("Successfully logged in: " + userAccountEnt.getEmailAddress());
-
-        logger.info("********** OUTGOING USER SESSION VARIABLES **********");
-        attributes = session.getAttributeNames();
-        while (attributes.hasMoreElements()) {
-            String attr = attributes.nextElement();
-            logger.info('\t' + attr + " -> " + session.getAttribute(attr));
-        }
-        logger.info("*****************************************************");
-
-        logger.info("********** RESPONSE HEADER VARIABLES **********");
-        Collection<String> responseHeaderNames = response.getHeaderNames();
-        for (String responseHeaderName : responseHeaderNames) {
-            logger.info(responseHeaderName + " -> " + response.getHeader(responseHeaderName));
-        }
-        logger.info("*****************************************************");
-
-//        response.setHeader("test", "testingheader");
-//        response.setHeader("Access-Control-Allow-Credentials", String.valueOf(true));
-        return userAccount.toString();
+        logger.info(StatusMessages.LOGIN_SUCCESS);
+        return StatusMessages.LOGIN_SUCCESS.toString();
     }
 
 
