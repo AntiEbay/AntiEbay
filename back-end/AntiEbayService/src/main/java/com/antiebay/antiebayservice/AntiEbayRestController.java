@@ -40,9 +40,11 @@ public class AntiEbayRestController {
 
         try {
             userRepository.save(new UserAccountEntity(userAccount));
+            logger.info(StatusMessages.USER_ACCOUNT_CREATE_SUCCESS);
             return StatusMessages.USER_ACCOUNT_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
             logger.warn(ex.getStackTrace());
+            logger.warn(StatusMessages.USER_ACCOUNT_CREATE_FAIL);
             return StatusMessages.USER_ACCOUNT_CREATE_FAIL.toString();
         }
     }
