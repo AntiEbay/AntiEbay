@@ -33,11 +33,14 @@ public class AntiEbayRestController {
 
         // Check if user already exists
         Optional<UserAccountEntity> userAccountEnt = userRepository.findById(userAccount.getEmailAddress());
+
+        // If user already exists, don't write new data
         if (userAccountEnt.isPresent()) {
             logger.warn(StatusMessages.USER_ACCOUNT_CREATE_FAIL + " Cause: " + StatusMessages.USER_EXISTS);
             return StatusMessages.USER_ACCOUNT_CREATE_FAIL.toString();
         }
 
+        // Try writing user to database
         try {
             userRepository.save(new UserAccountEntity(userAccount));
             logger.info(StatusMessages.USER_ACCOUNT_CREATE_SUCCESS);
@@ -60,21 +63,26 @@ public class AntiEbayRestController {
         // If so, return all information in user table (minus password I suppose)
         logger.info("Login request received for: " + userLoginRequest.getEmailAddress());
 
+        // Get user from database
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
 
+        // if databse does not contain user
         if (userAccount.isEmpty()) {
             logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.USER_NOT_EXIST);
             return StatusMessages.LOGIN_FAIL.toString();
         }
 
+        // Get user account from Optional object for easier use later
         UserAccountEntity userAccountEnt = userAccount.get();
 
         logger.info(StatusMessages.USER_EXISTS);
 
+        // If the incoming password does not match the database password
         if (!userLoginRequest.getPassword().equals(userAccountEnt.getPassword())) {
             logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.LOGIN_PASSWORD_NOT_VERIFIED);
             return StatusMessages.LOGIN_FAIL.toString();
         }
+
         logger.info(StatusMessages.LOGIN_PASSWORD_VERIFIED);
 
         // Set session variables for login
@@ -82,6 +90,7 @@ public class AntiEbayRestController {
         session.setAttribute("userType", userAccountEnt.getUserType());
 
         logger.info(StatusMessages.LOGIN_SUCCESS);
+
         return StatusMessages.LOGIN_SUCCESS.toString();
     }
 
