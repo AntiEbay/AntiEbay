@@ -1,7 +1,6 @@
 import react, { useState } from "react";
-import NavBar from "./Components/NavBar";
+import NavBar from "../Components/NavBar";
 import axios from "axios";
-import { ReactBurgerMenu } from "react-burger-menu";
 
 const signUpValues = {
   userName: "",
