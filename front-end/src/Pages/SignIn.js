@@ -44,14 +44,14 @@ const SignIn = () => {
             </h1>
             <h2 className=" text-white text-4xl text-center pt-4">Sign In</h2>
             <input
-              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 my-5"
+              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 my-5 pl-2"
               value={emailAddress}
               onChange={(event) => setEmailAddress(event.target.value)}
               label="email address"
               placeholder="Email Address"
             />
             <input
-              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 mb-5"
+              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 mb-5 pl-2"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               name="password"
