@@ -1,5 +1,5 @@
 import react, { useState } from "react";
-import NavBar from "./Components/NavBar";
+import NavBar from "../Components/NavBar";
 import axios from "axios";
 
 const signUpValues = {
