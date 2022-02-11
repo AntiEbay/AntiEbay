@@ -12,58 +12,98 @@ import "../Components/UploadForm/UploadForm.css";
 
 window.onload = function() {
 
-  var fileInput = document.getElementById('fileInput');
-  var fileDisplayArea = document.getElementById('fileDisplayArea5');
+  let fileInput = document.getElementById('fileInput');
+  var string = "fileDisplayArea";
+  var fileDisplayArea;
 
-
+  // Click event
   fileInput.addEventListener('change', function(e) {
       var file = fileInput.files[0];
       var imageType = /image.*/;
 
+      // Check if Valid
       if (file.type.match(imageType)) {
 
-          document.getElementById("fileDisplayArea5").body.style.backgroundImage = "url(./Components/img1.jpg)";
-          /*
-          var reader = new FileReader();
+        // Look for empty space
+        var i;
+        for(i = 5; i > 0; i--){
 
-          reader.onload = function(e) {
-              fileDisplayArea.innerHTML = "";
+          // check value, false = no image, true = image
+          var check = document.getElementById(string + i).getAttribute('value');
 
-              var img = new Image();
-              img.src = reader.result;
-
-              fileDisplayArea.appendChild(img);
+          // If false, set as image block, set value to true
+          if(check == "false"){
+            fileDisplayArea = document.getElementById(string + i);
+            fileDisplayArea.setAttribute('value','true');
+            break;
           }
+        }
 
-          reader.readAsDataURL(file); */
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            fileDisplayArea.innerHTML = "";
+
+            //fileDisplayArea.style.backgroundImage = "none";
+
+            // Collect Image
+            var img = new Image();
+            img.src = reader.result;
+
+            // Place image on div
+            fileDisplayArea.appendChild(img);
+
+            // Set size
+            if (i != 1){
+              img.style.height = "500px"
+            }
+            else{
+              img.style.height = "368px";
+              img.style.width = "500px";
+              img.style.position = "relative";
+              img.style.top = "-160px";
+            }
+            
+            // Add rounded borders
+            if(i == 5){
+              img.style.borderBottomRightRadius = "1rem";
+            }
+            else if (i == 2){
+              img.style.borderTopRightRadius = "1rem";
+            }
+            else if(i==1){
+              img.style.borderTopLeftRadius = "1rem";
+              img.style.borderBottomLeftRadius = "1rem";
+            }
+
+            document.getElementById("count").innerHTML = 6 - i;
+        }
+
+        reader.readAsDataURL(file); 
       } else {
-          fileDisplayArea.innerHTML = "File not supported!"
+          console.log("File not supported!");
       }
   });
 
 }
 
-    
-
 const signUpValues = {
-  userName: "",
   title: "",
-  lastName: "",
-  //emailAddress: "",
-  //password: "",
-  //userType: "",
+  quantity: "",
+  price: "",
+  category: "",
+  condition: "",
+  description: "",
 };
-
-
 
 const BuyerPost = () => {
   //Variables to send to backend
-  const [userName, setUserName] = useState(""); //Todo make this code more dry
-  const [title, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  //const [emailAddress, setEmailAddress] = useState("");
-  //const [password, setPassword] = useState("");
-  //const [userType, setUserType] = useState(Boolean);
+  const [title, setTitle] = useState(""); //Todo make this code more dry
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [condition, setCondition] = useState("");
+  const [description, setDescription] = useState("");
 
     const[file, setFile] = useState(null);
     const [error, setError] = useState(null);
@@ -74,25 +114,28 @@ const BuyerPost = () => {
         let selected = e.target.files[0];
 
         if(selected && types.includes(selected.type)) {
+            console.log("success");
+
             setFile(selected);
             setError('');
         }else{
-            setFile(null);
-            setError('Please selecte an image file (png or jpeg');
+            console.log("failure");
+            //setFile(null);
+            //setError('Please selecte an image file (png or jpeg');
         }
     }
 
   
 
   //Post Request Fucntion
-  async function postSignUpRequest(event) {
+  async function buyerPostRequest(event) {
     event.preventDefault();
-    signUpValues.userName = userName;
-    signUpValues.firstName = title;
-    signUpValues.lastName = lastName;
-    //signUpValues.emailAddress = emailAddress;
-    //signUpValues.password = password;
-    //signUpValues.userType = userType ? "buyer" : "seller";
+    signUpValues.title = title;
+    signUpValues.quantity = quantity;
+    signUpValues.price = price;
+    signUpValues.category = category;
+    signUpValues.condition = condition;
+    signUpValues.description = description;
     console.log(signUpValues);
     const res = await axios.post(
       "http://localhost:8080/user/registration",
@@ -112,7 +155,6 @@ const BuyerPost = () => {
   
 
   return (
-
     
     <div id="container" className="bg-slate-600" style={{
       width: '100%', 
@@ -144,7 +186,7 @@ const BuyerPost = () => {
             {/* Large image */}
             <div className="bg-slate-50 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 text-center text-xl font-bold text-slate-600 pt-40"
               id="fileDisplayArea1"
-                //style={{backgroundImage: "url(" + background1 + ")" }}
+              value="false"
             >
               <form>
                   <label className=" bg-slate-400  rounded-sm text-center hover:bg-sky-600">
@@ -163,29 +205,33 @@ const BuyerPost = () => {
             <div className="m-auto bg-slate-600 w-1/5 h-full">
 
               <div className="flex flex-col items-center bg-sky-400 h-1/4 bg-cover rounded-tr-2xl border-b-2 border-slate-600"
-                  //style={{backgroundImage: "url(" + background2 + ")" }}
                   id="fileDisplayArea2"
+                  value="false"
                   ></div>
 
               <div className="flex flex-col items-center bg-sky-600 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
-                  style={{backgroundImage: "url(" + background3 + ")" }}
                   id="fileDisplayArea3"
+                  value="false"
                   ></div>
 
               <div className="flex flex-col items-center bg-sky-400 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
-                  style={{backgroundImage: "url(" + background4 + ")" }}
                   id="fileDisplayArea4"
+                  value="false"
                   ></div>
 
               <div className="flex flex-col items-center bg-sky-600 h-1/4 bg-cover rounded-br-2xl border-t-2 border-slate-600" 
-                  style={{backgroundImage: "url(" + background5 + ")" }}
                   id="fileDisplayArea5"
+                  value="false"
                   ></div>
 
             </div>
           </div>
 
-          <p className="text-white text-lg text-center pr-96 ">Photos: 0/5 </p>
+          <div className="flex flex-row place-content-center">
+            <p className="text-white text-lg text-center">Photos:&nbsp;</p>
+              <p id="count" className="text-white text-lg text-center"> 0 </p>
+            <p className="text-white text-lg text-center">/5 </p>
+          </div>
 
           {/* Input Boxes */}
           <div className="flex flex-col items-center pt-4 space-y-6">
@@ -197,10 +243,10 @@ const BuyerPost = () => {
 
               <input
                 className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
-                //value={title}
-                onChange={(event) => setFirstName(event.target.value)}
-                //name="title"
-                //label="Title"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                name="title"
+                label="Title"
                 placeholder=" "
               ></input>
             </div>
@@ -213,10 +259,10 @@ const BuyerPost = () => {
               <input
                 className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
                 type="number"
-                //value={title}
-                onChange={(event) => setUserName(event.target.value)}
-                //name="title"
-                //label="Title"
+                value={quantity}
+                onChange={(event) => setQuantity(event.target.value)}
+                name="quantity"
+                label="Quantity"
                 placeholder=" "
               ></input>
             </div>
@@ -237,10 +283,10 @@ const BuyerPost = () => {
               <input
                 className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
                 type="number"
-                //value={title}
-                onChange={(event) => setLastName(event.target.value)}
-                //name="title"
-                //label="Title"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+                name="price"
+                label="Price"
                 placeholder=" "
               ></input>
             </div>
@@ -250,7 +296,11 @@ const BuyerPost = () => {
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Category</label>
 
-              <select className=" focus:outline-none rounded-md pl-2 text-lg h-8">
+              <select className=" focus:outline-none rounded-md pl-2 text-lg h-8"
+                      onchange={(event) => setCategory(event.target.value)}
+                      name="category"
+                      label="Category"
+              >
                 <option value="null" selcted="selected"></option>
                 <option value="ant">Antiques & Collectibles</option>
                 <option value="art">Arts & Crafts</option>
@@ -282,7 +332,11 @@ const BuyerPost = () => {
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Condition</label>
 
-              <select className=" focus:outline-none rounded-md pl-2 text-lg h-8 box">
+              <select className=" focus:outline-none rounded-md pl-2 text-lg h-8 box"
+                      onchange={(event) => setCondition(event.target.value)}
+                      name="condition"
+                      label="Condition"
+              >
                 <option value="null" selcted="selected"></option>
                 <option value="ant">New</option>
                 <option value="art">Used - Like New</option>
@@ -298,10 +352,10 @@ const BuyerPost = () => {
 
               <textarea
                 className="focus:outline-none rounded-md text-lg w-full h-28 pl-2 resize-none"
-                //value={title}
-                onChange={(event) => setFirstName(event.target.value)}
-                //name="title"
-                //label="Title"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                name="description"
+                label="Description"
                 placeholder=" "
               ></textarea>
             </div>
@@ -311,7 +365,7 @@ const BuyerPost = () => {
             <button
               className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
               type="submit"
-              onClick={postSignUpRequest}
+              onClick={buyerPostRequest}
             >Next</button>
 
           </div> {/*End of 2nd set of input boxes*/}
