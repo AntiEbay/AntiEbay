@@ -1,13 +1,7 @@
 import { useState } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-//import UploadForm from "./Components/UploadForm";
 
-import background1 from "../Components/Images/img1.jpg";
-import background2 from "../Components/Images/img2.jpg";
-import background3 from "../Components/Images/img3.jpg";
-import background4 from "../Components/Images/img4.jpg";
-import background5 from "../Components/Images/img5.jpg";
 import "../Components/UploadForm/UploadForm.css";
 
 window.onload = function() {
