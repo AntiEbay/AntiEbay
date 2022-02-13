@@ -1,6 +1,7 @@
 import React from "react";
-import NavBar from "./Components/NavBar";
-import HomePageInfo from "./Components/HomePageInfo";
+import NavBar from "../Components/NavBar";
+import HomePageInfo from "../Components/HomePageComponents/HomePageInfo";
+
 const HomePage = () => {
   return (
     <div className="flex flex-col  bg-slate-600 h-screen">
