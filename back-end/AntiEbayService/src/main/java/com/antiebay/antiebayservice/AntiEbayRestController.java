@@ -2,6 +2,7 @@ package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
+import com.antiebay.antiebayservice.userposts.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class AntiEbayRestController {
 
     @Autowired
     private UserRegistrationService userRegistrationService;
+
+    @Autowired
+    private PostsRepository postsRepository; 
+
+    @Autowired
+    private PostsRegistration userPosts;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -93,6 +100,30 @@ public class AntiEbayRestController {
 
         return StatusMessages.LOGIN_SUCCESS.toString();
     }
+
+    /*
+    //PostMapping for writing a post to the databse
+
+    @PostMapping(value = "user/post/writing", consumes = {"application/json"})
+    private String loginUserAccount(@RequestBody UserAccountIntermediate userAccount) {
+        logger.info("Received user registration request for: " + userAccount.getEmailAddress());
+
+        // Check if user is loged-in
+        //... Code will go here ...
+
+        // Try writing user to database
+        try {
+            postsRepository.save(new UserPosts(userPosts));
+            logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
+            return StatusMessages.USER_POST_CREATE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getStackTrace());
+            logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
+            return StatusMessages.USER_POST_CREATE_FAIL.toString();
+        }
+    }
+    */
+
 
 
     @GetMapping("/")
