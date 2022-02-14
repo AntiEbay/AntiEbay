@@ -225,6 +225,7 @@ public class AntiEbayRestController {
 
         // Try writing user to database
         //THIS PART IS HAVING ISSUES
+        
         /*
         try {
             postsRepository.save(new UserPosts(userPosts));
@@ -236,6 +237,7 @@ public class AntiEbayRestController {
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
         */
+        
     }
     
     
