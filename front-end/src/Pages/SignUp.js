@@ -29,7 +29,6 @@ const SignUp = () => {
     signUpValues.emailAddress = emailAddress;
     signUpValues.password = password;
     signUpValues.userType = userType ? "buyer" : "seller";
-    console.log(signUpValues);
     const res = await axios.post(
       "http://localhost:8080/user/registration",
       JSON.stringify(signUpValues),
@@ -41,17 +40,15 @@ const SignUp = () => {
       }
     );
 
-    console.log(res.data.data);
-    console.log(res.data.headers["Content-Type"]);
+    console.log(res);
   }
 
   return (
     <div className="">
       <NavBar />
 
-      <div className="text-slate-600 bg-slate-600 h-24">
-      </div>
-      
+      <div className="text-slate-600 bg-slate-600 h-24"></div>
+
       {/* Everything below NavBar */}
       <form className=" bg-slate-600 h-screen">
         {/* Box Around actual form */}
@@ -126,62 +123,72 @@ const SignUp = () => {
               />
             </div>
 
-            <p className="text-white pb-3">Select the type of profile you would like to create</p>
+            <p className="text-white pb-3">
+              Select the type of profile you would like to create
+            </p>
 
             {/*Usertype = true means buyer, false means seller */}
             {/* Radio Buttons*/}
-            <ul class="flex flex-col w-96">
-
+            <ul className="flex flex-col w-96">
               {/* Buyer Selection */}
-              <li class="relative">
+              <li className="relative">
                 <input
-                  className="sr-only peer"  
+                  className="sr-only peer"
                   id="buyer"
                   type="radio"
                   name="accountType"
                   value={userType}
                   onChange={() => setUserType(true)}
                 />
-                <label 
+                <label
                   for="buyer"
                   className="flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none
                             text-white text-4xl text-center border-transparent
-                            peer-checked:bg-sky-700">Buyer
-                  <label className="text-white text-center text-lg pt-1 cursor-pointer focus:outline-none peer-checked:bg-sky-700" for="buyer">
-                    Advertise to sellers that you're interested<br></br> in items, you set the price range.
+                            peer-checked:bg-sky-700"
+                >
+                  Buyer
+                  <label
+                    className="text-white text-center text-lg pt-1 cursor-pointer focus:outline-none peer-checked:bg-sky-700"
+                    for="buyer"
+                  >
+                    Advertise to sellers that you're interested<br></br> in
+                    items, you set the price range.
                   </label>
                 </label>
-                  
 
                 {/* OR */}
                 <div className="flex flex-col content-center text-center">
                   <h1 className="text-white text-2xl italic text-center">Or</h1>
                 </div>
 
-              {/* Seller Selection */}
-              <li class="relative">
-                <input
-                  className="sr-only peer" 
-                  id="seller"
-                  type="radio"
-                  name="accountType"
-                  value={userType}
-                  onChange={() => setUserType(false)}
-                />
-                <label 
-                  for="seller"
-                  class="flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none 
+                {/* Seller Selection */}
+                <li className="relative">
+                  <input
+                    className="sr-only peer"
+                    id="seller"
+                    type="radio"
+                    name="accountType"
+                    value={userType}
+                    onChange={() => setUserType(false)}
+                  />
+                  <label
+                    for="seller"
+                    className="flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none 
                           text-white text-4xl text-center border-transparent
-                          peer-checked:bg-sky-700">Seller
-                  <label className="text-white text-center text-lg pt-1 cursor-pointer focus:outline-none peer-checked:bg-sky-700" for="seller">
-                    Find persepctive buyers that could be<br></br> interested in your product.
+                          peer-checked:bg-sky-700"
+                  >
+                    Seller
+                    <label
+                      className="text-white text-center text-lg pt-1 cursor-pointer focus:outline-none peer-checked:bg-sky-700"
+                      for="seller"
+                    >
+                      Find persepctive buyers that could be<br></br> interested
+                      in your product.
+                    </label>
                   </label>
-                </label>
-
-
-              </li></li>
+                </li>
+              </li>
             </ul>
-
 
             {/*Already Have an Account?*/}
             <div className="flex flex-col w-96">
@@ -193,18 +200,17 @@ const SignUp = () => {
               </p>
             </div>
 
-
             {/*Submit button*/}
             <button
               className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
               type="submit"
               onClick={postSignUpRequest}
-            >Sign Up</button>
+            >
+              Sign Up
+            </button>
           </div>
         </div>
-        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 xl:h-0 lg:h-20 md:h-20 sm:h-20">
-
-        </div>
+        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 xl:h-0 lg:h-20 md:h-20 sm:h-20"></div>
       </form>
     </div>
   );
