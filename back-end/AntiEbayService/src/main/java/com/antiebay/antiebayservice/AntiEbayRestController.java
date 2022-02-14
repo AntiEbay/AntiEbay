@@ -172,17 +172,38 @@ public class AntiEbayRestController {
         return "";
     }
 
-    /*
+    
     //PostMapping for writing a post to the databse
-
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
-    private String loginUserAccount(@RequestBody UserPosts userPosts) {
-        logger.info("Received user registration request for: " + userAccount.getEmailAddress());
+    private String userPostWriting(@RequestBody UserPosts userPosts, 
+                                    HttpServletRequest request) {
+        logger.info("Received user post request for: " + userPosts.getId());
+        HttpSession session = request.getSession();
 
-        // Check if user is loged-in
-        //... Code will go here ...
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // Check if user logged in is user in buyer table
+        //HOW CAN WE CONNECT USER ID TO THE POST ID?
+        /*
+        if (!userAccount.getBuyerId().equals(session.getAttribute("email"))) {
+            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+        }
+        */
+
+        // Check if user logged in is of buyer type
+        if (!session.getAttribute("userType").equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
 
         // Try writing user to database
+        //THIS PART IS HAVING ISSUES
+        /*
         try {
             postsRepository.save(new UserPosts(userPosts));
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
@@ -192,8 +213,9 @@ public class AntiEbayRestController {
             logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
+        */
     }
-    */
+    
     
 
 
