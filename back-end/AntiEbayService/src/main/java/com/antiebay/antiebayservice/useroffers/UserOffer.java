@@ -62,6 +62,17 @@ public class UserOffer {
         hasBeenAcceptedByBuyer = Objects.equals(buyerId, this.buyerId);
     }
 
+    @Override
+    public String toString() {
+        return "UserOffer{" +
+                "offerAmount=" + offerAmount +
+                ", sellerId='" + sellerId + '\'' +
+                ", buyerId='" + buyerId + '\'' +
+                ", buyerPostId='" + buyerPostId + '\'' +
+                ", hasBeenAcceptedByBuyer=" + hasBeenAcceptedByBuyer +
+                '}';
+    }
+
 //    public void setHasBeenAcceptedByBuyer(boolean hasBeenAcceptedByBuyer) {
 //        this.hasBeenAcceptedByBuyer = hasBeenAcceptedByBuyer;
 //    }

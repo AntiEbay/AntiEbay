@@ -2,12 +2,16 @@ import react, { useContext, useState } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
+import { CookiesProvider, useCookies } from "react-cookie";
 const signInValues = {
   emailAddress: "",
   password: "",
 };
 
 const SignIn = () => {
+  const [cookie, setCookie, removeCookie] = useCookies([
+    "signInResults.data.config.xsrfCookieName",
+  ]);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const { state, update } = useContext(accountTypeContext);
@@ -17,7 +21,7 @@ const SignIn = () => {
     // console.log(emailAddress);
     signInValues.emailAddress = emailAddress;
     signInValues.password = password;
-    const logInResults = await axios.post(
+    const signInResults = await axios.post(
       "http://localhost:8080/user/login",
       JSON.stringify(signInValues),
       {
@@ -28,7 +32,9 @@ const SignIn = () => {
         withCredentials: true,
       }
     );
-    update({ accountType: "1" });
+    console.log(signInResults);
+    update({ accountType: signInResults.data.userType });
+    update({ isloggedIn: true });
   };
 
   return (

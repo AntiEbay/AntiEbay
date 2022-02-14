@@ -1,13 +1,21 @@
 package com.antiebay.antiebayservice;
 
+import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.*;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import jdk.jshell.Snippet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +41,9 @@ public class AntiEbayRestController {
 
     @Autowired
     private PostsRegistration userPosts;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -63,7 +74,11 @@ public class AntiEbayRestController {
 
     @PostMapping(value = "/user/login", consumes = {"application/json"})
     private String loginUserAccount(@RequestBody UserLoginRequest userLoginRequest,
-                                    HttpServletRequest request) {
+                                    HttpServletRequest request) throws JsonProcessingException {
+
+        // Default Login Response
+        UserLoginResponse userLoginResponse = new UserLoginResponse(false);
+        String responseStr = objectMapper.writeValueAsString(userLoginResponse);
 
         // Get session for writing
         HttpSession session = request.getSession();
@@ -75,10 +90,10 @@ public class AntiEbayRestController {
         // Get user from database
         Optional<UserAccountEntity> userAccount = userRepository.findById(userLoginRequest.getEmailAddress());
 
-        // if databse does not contain user
+        // if database does not contain user
         if (userAccount.isEmpty()) {
             logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.USER_NOT_EXIST);
-            return StatusMessages.LOGIN_FAIL.toString();
+            return responseStr;
         }
 
         // Get user account from Optional object for easier use later
@@ -89,10 +104,17 @@ public class AntiEbayRestController {
         // If the incoming password does not match the database password
         if (!userLoginRequest.getPassword().equals(userAccountEnt.getPassword())) {
             logger.warn(StatusMessages.LOGIN_FAIL + " Cause: " + StatusMessages.LOGIN_PASSWORD_NOT_VERIFIED);
-            return StatusMessages.LOGIN_FAIL.toString();
+            return responseStr;
         }
 
         logger.info(StatusMessages.LOGIN_PASSWORD_VERIFIED);
+
+        // Modify Login Response
+        userLoginResponse.setUserType(userAccountEnt.getUserType());
+        userLoginResponse.setLoggedIn(true);
+
+        // Set response
+        responseStr = objectMapper.writeValueAsString(userLoginResponse);
 
         // Set session variables for login
         session.setAttribute("email", userLoginRequest.getEmailAddress());
@@ -100,7 +122,7 @@ public class AntiEbayRestController {
 
         logger.info(StatusMessages.LOGIN_SUCCESS);
 
-        return StatusMessages.LOGIN_SUCCESS.toString();
+        return responseStr;
     }
 
     private boolean isUserLoggedIn(HttpSession session) {

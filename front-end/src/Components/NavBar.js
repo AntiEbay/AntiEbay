@@ -4,7 +4,7 @@ import Logo from "./Elements/Logo";
 import "./Elements/hamburgerMenuStyles.css";
 import { slide as Menu } from "react-burger-menu";
 import { accountTypeContext } from "../SessionVariables";
-
+import NavBarButtons from "./NavBarComponents/NavBarButtons";
 const NavBar = () => {
   const { state, update } = useContext(accountTypeContext);
   console.log(state.accountType);
@@ -42,36 +42,7 @@ const NavBar = () => {
           </button>
         </div>
       </div>
-      <div className="flex">
-        <div id="sideBar" className="flex lg:hidden">
-          <Menu right outerContainerId="sideBar">
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              FAQ
-            </button>
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Log In
-            </button>
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Sign Up
-            </button>
-          </Menu>
-        </div>
-        <div className=" mx-5 hidden lg:flex">
-          <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-            FAQ
-          </button>
-          <Link to="/SignIn">
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Log In
-            </button>
-          </Link>
-          <Link to="/SignUp">
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Sign Up
-            </button>
-          </Link>
-        </div>
-      </div>
+      <NavBarButtons accountType={state.accountType} />
     </div>
   );
 };
