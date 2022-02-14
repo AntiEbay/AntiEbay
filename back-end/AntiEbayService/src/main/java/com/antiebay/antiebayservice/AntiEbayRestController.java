@@ -208,10 +208,9 @@ public class AntiEbayRestController {
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
-        // Check if user logged in is user in buyer table
-        //HOW CAN WE CONNECT USER ID TO THE POST ID?
+        // Get email from http
         /*
-        if (!userAccount.getBuyerId().equals(session.getAttribute("email"))) {
+        if (!userAccount.getEmail().equals(session.getAttribute("email"))) {
             logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
             return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
         }
@@ -224,9 +223,6 @@ public class AntiEbayRestController {
         }
 
         // Try writing user to database
-        //THIS PART IS HAVING ISSUES
-        
-        
         try {
             postsRepository.save(userPosts);
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);

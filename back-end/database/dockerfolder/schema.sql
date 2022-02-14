@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS userType (
 --One to many relationship
 CREATE TABLE IF NOT EXISTS posts (
     post_id int PRIMARY KEY,
+    buyer_email VARCHAR(225),
     photo_path VARCHAR(225),
     title VARCHAR(225),
     quantity int,
