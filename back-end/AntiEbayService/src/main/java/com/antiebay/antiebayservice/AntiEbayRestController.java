@@ -2,7 +2,9 @@ package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
+import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.*;
+import jdk.jshell.Snippet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +101,75 @@ public class AntiEbayRestController {
         logger.info(StatusMessages.LOGIN_SUCCESS);
 
         return StatusMessages.LOGIN_SUCCESS.toString();
+    }
+
+    private boolean isUserLoggedIn(HttpSession session) {
+        return session.getAttribute("email") != null && session.getAttribute("userType") != null;
+    }
+
+
+    // TODO: Idea for security: introduce integrity hash check for requests?
+    @PostMapping(value = "/user/interactions/makeoffer")
+    private String userSellerMakeOffer(@RequestBody UserOffer userOffer,
+                                       HttpServletRequest request) {
+        logger.info("Received Make Offer Request From: " + userOffer.getSellerId());
+        HttpSession session = request.getSession();
+
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // Check if user logged in is user in userOffer
+        if (!userOffer.getSellerId().equals(session.getAttribute("email"))) {
+            logger.warn(StatusMessages.INTERACTION_SELLER_ID_NOT_MATCH_SESSION_ID);
+            return StatusMessages.INTERACTION_SELLER_ID_NOT_MATCH_SESSION_ID.toString();
+        }
+
+        // Check if user logged in is of seller type
+        if (!session.getAttribute("userType").equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        logger.info("Debug: User Make Offer Success.");
+
+        // make write request to db
+
+        return "";
+    }
+
+    @PostMapping(value = "/user/interactions/acceptoffer")
+    private String userBuyerAcceptOffer(@RequestBody UserOffer userOffer,
+                                        HttpServletRequest request) {
+        logger.info("Received Accept Offer From: " + userOffer.getBuyerId());
+        HttpSession session = request.getSession();
+
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // Check if user logged in is user in userOffer
+        if (!userOffer.getSellerId().equals(session.getAttribute("email"))) {
+            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+        }
+
+        // Check if user logged in is of seller type
+        if (!session.getAttribute("userType").equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
+
+        logger.info("Debug: User Make Offer Success.");
+        // verify that offer exists
+
+        // mark offer as accepted
+
+        return "";
     }
 
     /*
