@@ -105,7 +105,7 @@ public class AntiEbayRestController {
     //PostMapping for writing a post to the databse
 
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
-    private String loginUserAccount(@RequestBody UserAccountIntermediate userAccount) {
+    private String loginUserAccount(@RequestBody UserPosts userPosts) {
         logger.info("Received user registration request for: " + userAccount.getEmailAddress());
 
         // Check if user is loged-in
@@ -123,6 +123,7 @@ public class AntiEbayRestController {
         }
     }
     */
+    
 
 
 
