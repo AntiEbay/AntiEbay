@@ -21,7 +21,7 @@ public class AntiEbayServiceApplication {
                 registry.addMapping("/user/login")
                         .allowedOrigins("http://localhost:8080")
                         .allowedOrigins("http://localhost:3000")
-                        .allowedOrigins("http://localhost:3306");;
+                        .allowedOrigins("http://localhost:3306");
             }
         };
     }

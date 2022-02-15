@@ -1,29 +1,20 @@
 package com.antiebay.antiebayservice;
 
-import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
-import com.antiebay.antiebayservice.userposts.*;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.antiebay.antiebayservice.userposts.PostsRegistration;
+import com.antiebay.antiebayservice.userposts.PostsRepository;
+import com.antiebay.antiebayservice.userposts.UserPosts;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import jdk.jshell.Snippet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectSerializer;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Optional;
 
 @RestController
