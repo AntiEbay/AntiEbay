@@ -2,44 +2,64 @@ import react, { useContext, useState } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
-import { CookiesProvider, useCookies } from "react-cookie";
+import SolidAlert from "../Components/Alerts/SolidAlert";
 const signInValues = {
   emailAddress: "",
   password: "",
 };
 
 const SignIn = () => {
-  const [cookie, setCookie, removeCookie] = useCookies([
-    "signInResults.data.config.xsrfCookieName",
-  ]);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [alertValues, setAlertValues] = useState({
+    visible: false,
+    text: "",
+  });
+  //Use context for global account type and islogged in variable.
   const { state, update } = useContext(accountTypeContext);
-
+  //Sign in requets
   const signInPostRequest = async (event) => {
-    event.preventDefault();
-    // console.log(emailAddress);
-    signInValues.emailAddress = emailAddress;
-    signInValues.password = password;
-    const signInResults = await axios.post(
-      "http://localhost:8080/user/login",
-      JSON.stringify(signInValues),
-      {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+    try {
+      event.preventDefault();
+      signInValues.emailAddress = emailAddress;
+      signInValues.password = password;
+      const signInResults = await axios.post(
+        "http://localhost:8080/user/login",
+        JSON.stringify(signInValues),
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(signInResults);
+      update({ accountType: signInResults.data.userType });
+      update({ isloggedIn: true });
+      if (state.isloggedIn === true) {
+        setAlertValues({
+          visible: true,
+          text: "Success! You are now logged in.",
+        });
+      } else {
+        setAlertValues({
+          visible: true,
+          text: "Log in request failed",
+        });
       }
-    );
-    console.log(signInResults);
-    update({ accountType: signInResults.data.userType });
-    update({ isloggedIn: true });
+    } catch (error) {
+      setAlertValues({
+        visible: true,
+        text: "Log in request failed.",
+      });
+    }
   };
 
   return (
     <div>
       <NavBar />
+      <SolidAlert alertValues={alertValues} />
       <form className="flex bg-slate-600 h-screen">
         {/* Box Around actual form */}
         <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5">
@@ -63,6 +83,7 @@ const SignIn = () => {
               name="password"
               label="password"
               placeholder="Password"
+              type="password"
             />
             <button
               className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"

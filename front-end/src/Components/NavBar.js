@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./Elements/Logo";
-import "./Elements/hamburgerMenuStyles.css";
-import { slide as Menu } from "react-burger-menu";
 import { accountTypeContext } from "../SessionVariables";
 import NavBarButtons from "./NavBarComponents/NavBarButtons";
 const NavBar = () => {

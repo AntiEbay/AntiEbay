@@ -1,5 +1,6 @@
 import react, { useState } from "react";
 import NavBar from "../Components/NavBar";
+import SolidAlert from "../Components/Alerts/SolidAlert";
 import axios from "axios";
 
 const signUpValues = {
@@ -19,34 +20,57 @@ const SignUp = () => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState(Boolean);
+  const [alertValues, setAlertValues] = useState({
+    visible: false,
+    text: "",
+  });
 
   //Post Request Fucntion
   async function postSignUpRequest(event) {
-    event.preventDefault();
-    signUpValues.userName = userName;
-    signUpValues.firstName = firstName;
-    signUpValues.lastName = lastName;
-    signUpValues.emailAddress = emailAddress;
-    signUpValues.password = password;
-    signUpValues.userType = userType ? "buyer" : "seller";
-    const res = await axios.post(
-      "http://localhost:8080/user/registration",
-      JSON.stringify(signUpValues),
-      {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          "Content-Type": "application/json",
-        },
+    try {
+      event.preventDefault();
+      signUpValues.userName = userName;
+      signUpValues.firstName = firstName;
+      signUpValues.lastName = lastName;
+      signUpValues.emailAddress = emailAddress;
+      signUpValues.password = password;
+      signUpValues.userType = userType ? "buyer" : "seller";
+      const res = await axios.post(
+        "http://localhost:8080/user/registration",
+        JSON.stringify(signUpValues),
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      //Will update the solid alert to show
+      //If status === 200 then the sign up request was sucessfuly processed.
+      //Else there was an error.
+      if (res.status === 200) {
+        setAlertValues({
+          visible: true,
+          text: "Your sign up request was successful! Please click the Log In button.",
+        });
+      } else {
+        setAlertValues({
+          visible: true,
+          text: "Your sign up request was unsuccessful. Please try again.",
+        });
       }
-    );
-
-    console.log(res);
+    } catch (error) {
+      setAlertValues({
+        visible: true,
+        text: "Your sign up request was unsuccessful. Please try again.",
+      });
+    }
   }
 
   return (
     <div className="">
       <NavBar />
-
+      <SolidAlert alertValues={alertValues} />
       <div className="text-slate-600 bg-slate-600 h-24"></div>
 
       {/* Everything below NavBar */}
