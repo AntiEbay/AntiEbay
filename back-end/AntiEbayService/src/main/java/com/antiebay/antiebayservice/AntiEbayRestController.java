@@ -200,12 +200,11 @@ public class AntiEbayRestController {
         }
 
         // Get email from http
-        /*
-        if (!userAccount.getEmail().equals(session.getAttribute("email"))) {
+
+        if (!userPosts.getBuyerEmail().equals(session.getAttribute("email"))) {
             logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
             return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
         }
-        */
 
         // Check if user logged in is of buyer type
         if (!session.getAttribute("userType").equals("buyer")) {
@@ -219,12 +218,11 @@ public class AntiEbayRestController {
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
             return StatusMessages.USER_POST_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
-            logger.warn(ex.getStackTrace());
-            logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
+//            logger.warn(ex.getMessage());
+//            logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
+            ex.printStackTrace();
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
-        
-        
     }
     
     

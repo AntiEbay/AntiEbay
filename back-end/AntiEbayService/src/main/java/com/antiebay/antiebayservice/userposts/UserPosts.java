@@ -5,26 +5,27 @@ import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class UserPosts {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Integer postId;
     @Column(name = "buyer_email")
     private String buyerEmail;
-    @Column(name = "post_path")
+    @Column(name = "photo_path")
     private String postPath;
     @Column(name = "title")
     private String title;
-    @Column(name = "quality")
-    private String quality;
+    @Column(name = "quantity")
+    private Integer quantity;
     @Column(name = "price")
     private Integer price;
     @Column(name = "category")
     private String category;
     @Column(name = "product_condition")
     private String productCondition;
-    @Column(name = "description")
+    @Column(name = "product_description")
     private String description;
 
 
@@ -63,14 +64,6 @@ public class UserPosts {
         this.title = title;
     }
 
-    public String getQuality() {
-        return quality;
-    }
-
-    public void setQuality(String quality) {
-        this.quality = quality;
-    }
-
     public Integer getPrice() {
         return price;
     }
@@ -103,18 +96,35 @@ public class UserPosts {
         this.description = description;
     }
 
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "UserPosts{" +
-                "postId='" + postId + '\'' +
-                ", postPath=" + postPath +
+                "postId=" + postId +
+                ", buyerEmail='" + buyerEmail + '\'' +
+                ", postPath='" + postPath + '\'' +
                 ", title='" + title + '\'' +
-                ", quality='" + quality + '\'' +
-                ", price='" + price+ '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
                 ", category='" + category + '\'' +
                 ", productCondition='" + productCondition + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
-
 }
