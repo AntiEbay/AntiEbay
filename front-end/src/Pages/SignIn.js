@@ -38,6 +38,7 @@ const SignIn = () => {
       update({
         accountType: signInResults.data.userType,
         isLoggedIn: signInResults.data.isLoggedIn,
+        accountEmail: signInValues.emailAddress,
       });
       console.log(state);
       if (signInResults.data.isLoggedIn === true) {

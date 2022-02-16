@@ -7,6 +7,7 @@ const reducer = (state, pair) => ({ ...state, ...pair });
 const initialState = {
   accountType: "0",
   isLoggedIn: false,
+  accountEmail: "",
 };
 
 export function AccountProvider(props) {
