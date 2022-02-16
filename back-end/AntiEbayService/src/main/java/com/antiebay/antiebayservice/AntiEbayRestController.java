@@ -218,9 +218,8 @@ public class AntiEbayRestController {
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
             return StatusMessages.USER_POST_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
-//            logger.warn(ex.getMessage());
-//            logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
-            ex.printStackTrace();
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
     }
