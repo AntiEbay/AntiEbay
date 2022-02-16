@@ -3,10 +3,10 @@ package com.antiebay.antiebayservice.useroffers;
 import java.util.Objects;
 
 public class UserOffer {
-    private double offerAmount;
-    private String sellerId;
+    private final double offerAmount;
+    private final String sellerId;
     private String buyerId;
-    private String buyerPostId;
+    private final String buyerPostId;
     private boolean hasBeenAcceptedByBuyer;
 
     public UserOffer(double offerAmount, String sellerId, String buyerPostId) {

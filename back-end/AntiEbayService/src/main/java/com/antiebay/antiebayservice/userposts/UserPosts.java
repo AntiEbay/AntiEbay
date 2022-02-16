@@ -10,6 +10,8 @@ public class UserPosts {
     @Id
     @Column(name = "post_id")
     private Integer postId;
+    @Column(name = "buyer_email")
+    private String buyerEmail;
     @Column(name = "post_path")
     private String postPath;
     @Column(name = "title")
@@ -37,11 +39,19 @@ public class UserPosts {
         this.postId = postId;
     }
 
+    public String getBuyerEmail() {
+        return buyerEmail;
+    }
+
+    public void setBuyerEmail(String buyerEmail) {
+        this.buyerEmail = buyerEmail;
+    }
+
     public String getPostPath() {
         return postPath;
     }
 
-    public void setFirstName(String postPath) {
+    public void setPostPath(String postPath) {
         this.postPath = postPath;
     }
 

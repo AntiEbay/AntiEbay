@@ -1,29 +1,20 @@
 package com.antiebay.antiebayservice;
 
-import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
-import com.antiebay.antiebayservice.userposts.*;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.antiebay.antiebayservice.userposts.PostsRegistration;
+import com.antiebay.antiebayservice.userposts.PostsRepository;
+import com.antiebay.antiebayservice.userposts.UserPosts;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import jdk.jshell.Snippet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectSerializer;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Optional;
 
 @RestController
@@ -194,19 +185,37 @@ public class AntiEbayRestController {
         return "";
     }
 
-    /*
+    
     //PostMapping for writing a post to the databse
-
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
-    private String loginUserAccount(@RequestBody UserPosts userPosts) {
-        logger.info("Received user registration request for: " + userAccount.getEmailAddress());
+    private String userPostWriting(@RequestBody UserPosts userPosts, 
+                                    HttpServletRequest request) {
+        logger.info("Received user post request for: " + userPosts.getId());
+        HttpSession session = request.getSession();
 
-        // Check if user is loged-in
-        //... Code will go here ...
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // Get email from http
+        /*
+        if (!userAccount.getEmail().equals(session.getAttribute("email"))) {
+            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+        }
+        */
+
+        // Check if user logged in is of buyer type
+        if (!session.getAttribute("userType").equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
 
         // Try writing user to database
         try {
-            postsRepository.save(new UserPosts(userPosts));
+            postsRepository.save(userPosts);
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
             return StatusMessages.USER_POST_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
@@ -214,8 +223,10 @@ public class AntiEbayRestController {
             logger.warn(StatusMessages.USER_POST_CREATE_FAIL);
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
+        
+        
     }
-    */
+    
     
 
 
