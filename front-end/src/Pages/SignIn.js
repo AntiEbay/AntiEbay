@@ -35,9 +35,12 @@ const SignIn = () => {
         }
       );
       console.log(signInResults);
-      update({ accountType: signInResults.data.userType });
-      update({ isloggedIn: true });
-      if (state.isloggedIn === true) {
+      update({
+        accountType: signInResults.data.userType,
+        isLoggedIn: signInResults.data.isLoggedIn,
+      });
+      console.log(state);
+      if (signInResults.data.isLoggedIn === true) {
         setAlertValues({
           visible: true,
           text: "Success! You are now logged in.",

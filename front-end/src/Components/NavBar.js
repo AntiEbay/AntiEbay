@@ -5,7 +5,6 @@ import { accountTypeContext } from "../SessionVariables";
 import NavBarButtons from "./NavBarComponents/NavBarButtons";
 const NavBar = () => {
   const { state, update } = useContext(accountTypeContext);
-  console.log(state.accountType);
   return (
     <div className="flex justify-between w-full space-x-4 h-12 relative p-1 bg-slate-800">
       <div className="flex p-1.5">

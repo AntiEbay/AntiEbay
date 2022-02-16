@@ -5,7 +5,7 @@ const SolidAlert = (props) => {
   if (props.alertValues.visible === true) {
     return (
       <div
-        class="flex justify-center bg-blue-500 text-white text-lg font-bold px-4 py-3"
+        className="flex justify-center bg-blue-500 text-white text-lg font-bold px-4 py-3"
         role="alert"
       >
         <p>{props.alertValues.text}</p>
@@ -14,7 +14,7 @@ const SolidAlert = (props) => {
   } else {
     return (
       <div
-        class="hidden items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
+        className="hidden items-center bg-blue-500 text-white text-sm font-bold px-4 py-3"
         role="alert"
       >
         <p>{props.alertValues.text}</p>

@@ -42,7 +42,7 @@ const NavBarButtons = (props) => {
         </div>
       </div>
     );
-  } else if (props.accountType === "Seller") {
+  } else if (props.accountType === "seller") {
     return (
       <div className="flex">
         <div id="sideBar" className="flex lg:hidden">
