@@ -5,138 +5,205 @@ import axios from "axios";
 import "../Components/UploadForm/UploadForm.css";
 
 window.onload = function() {
-
-  let fileInput = document.getElementById('fileInput');
+  
+  let fileInput = document.getElementById("fileInput");
   var string = "fileDisplayArea";
   var fileDisplayArea;
 
   // Click event
-  fileInput.addEventListener('change', function(e) {
+  fileInput.addEventListener("change", function(e) {
+
       var file = fileInput.files[0];
       var imageType = /image.*/;
+
+      //console.log();
 
       // Check if Valid
       if (file.type.match(imageType)) {
 
+
         // Look for empty space
         var i;
-        for(i = 5; i > 0; i--){
+        for(i = 1; i < 6; i++){
 
           // check value, false = no image, true = image
-          var check = document.getElementById(string + i).getAttribute('value');
+          var check = document.getElementById(string + i).getAttribute("value");
 
           // If false, set as image block, set value to true
-          if(check == "false"){
+          if(check === "false"){
             fileDisplayArea = document.getElementById(string + i);
-            fileDisplayArea.setAttribute('value','true');
+            fileDisplayArea.setAttribute("value","true");
             break;
           }
         }
 
         var reader = new FileReader();
-
         reader.onload = function(e) {
-            fileDisplayArea.innerHTML = "";
 
-            //fileDisplayArea.style.backgroundImage = "none";
+        
+          // Collect Image
+          var img = new Image();
+          img.src = reader.result;
 
-            // Collect Image
-            var img = new Image();
-            img.src = reader.result;
+          // Place image as background image
+          fileDisplayArea.style.backgroundImage = "url("+img.src+")";
 
-            // Place image on div
-            fileDisplayArea.appendChild(img);
+          // Update Photo Tally
+          var count = 0;
+          for(var j = 1; j < 6; j++){
 
-            // Set size
-            if (i != 1){
-              img.style.height = "500px"
+            // check value, false = no image, true = image
+            var check = document.getElementById(string + j).getAttribute("value");
+  
+            // If true, iterate count
+            if(check === "true"){
+              count++;
             }
-            else{
-              img.style.height = "368px";
-              img.style.width = "500px";
-              img.style.position = "relative";
-              img.style.top = "-160px";
-            }
-            
-            // Add rounded borders
-            if(i == 5){
-              img.style.borderBottomRightRadius = "1rem";
-            }
-            else if (i == 2){
-              img.style.borderTopRightRadius = "1rem";
-            }
-            else if(i==1){
-              img.style.borderTopLeftRadius = "1rem";
-              img.style.borderBottomLeftRadius = "1rem";
-            }
+          }
+      
+          document.getElementById("count").innerHTML = count;
+          console.log("count: " + count);
 
-            document.getElementById("count").innerHTML = 6 - i;
+          // Add X button
+          fileDisplayArea.innerHTML += "<div id='x"+ i +"' className=''>X</div>";
+          document.getElementById("x"+i).style.position = "absolute";
+
+          // X button Attributes
+          document.getElementById("x"+i).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";// Intial Color
+          document.getElementById("x"+i).style.fontWeight = "700"; // Bold
+          document.getElementById("x"+i).style.paddingLeft = ".25rem"; // Padding
+          document.getElementById("x"+i).style.paddingRight = ".25rem"; // Padding
+          document.getElementById("x"+i).style.borderRadius = ".375rem"; // border rounding
+          document.getElementById("x"+i).style.borderWidth = "2px";  // border thickness
+          document.getElementById("x"+i).style.fontSize = ".75rem";  // text size
+          document.getElementById("x"+i).style.lineHeight = "1rem";   // line height
+          document.getElementById("x"+i).style.borderColor = "rgb(71 85 105 / var(--tw-border-opacity))"; //border color
+          document.getElementById("x"+i).style.width = "1.25rem"; // Width of box
+          document.getElementById("x"+i).style.marginTop = "5px"; // Top margin
+          document.getElementById("x"+i).style.cursor = "pointer"; // cursor (hand)
+          // Hover
+          document.getElementById("x"+i).addEventListener("mouseover", function() { document.getElementById("x"+i).style.backgroundColor = "rgb(185 28 28 / var(--tw-bg-opacity))";});
+          document.getElementById("x"+i).addEventListener("mouseout", function() {document.getElementById("x"+i).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";});
+          if(i !== 5){
+            document.getElementById("x"+i).style.marginLeft = "80px"; // For x on small images
+          }else{
+            document.getElementById("x"+i).style.marginLeft = "400px"; // for x on large image
+          }
+
+          // X click function
+           document.getElementById("x"+i).addEventListener("click", function() {
+             document.getElementById(string+i).style.backgroundImage = "none";
+             document.getElementById("x"+i).remove();
+             document.getElementById("count").innerHTML = parseInt(document.getElementById("count").innerHTML) - 1;
+             document.getElementById(string+i).setAttribute("value", "false");
+
+             // IGNORE
+          //   if((document.getElementById("fileDisplayArea1").getAttribute("value") == "false" ||
+          //      document.getElementById("fileDisplayArea2").getAttribute("value") == "false" ||
+          //      document.getElementById("fileDisplayArea3").getAttribute("value") == "false" ||
+          //      document.getElementById("fileDisplayArea4").getAttribute("value") == "false") &&
+          //      document.getElementById("fileDisplayArea5").getAttribute("value") == "true")
+          //      {
+          //       for(var j = 1; j < 5; j++){
+          //         console.log("call");
+
+          //         // check value, false = no image, true = image
+          //         var check = document.getElementById(string + j).getAttribute("value");
+        
+          //         // If false, set as image block, set value to true
+          //         if(check == "false"){
+          //           document.getElementById(string + j).style.backgroundImage = document.getElementById("fileDisplayArea5").style.backgroundImage;
+          //           document.getElementById(string + j).innerHTML += "<div id='x"+ j +"' className=''>X</div>";
+
+          //           // X button Attributes
+          //           document.getElementById("x"+j).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";// Intial Color
+          //           document.getElementById("x"+j).style.fontWeight = "700"; // Bold
+          //           document.getElementById("x"+j).style.paddingLeft = ".25rem"; // Padding
+          //           document.getElementById("x"+j).style.paddingRight = ".25rem"; // Padding
+          //           document.getElementById("x"+j).style.borderRadius = ".375rem"; // border rounding
+          //           document.getElementById("x"+j).style.borderWidth = "2px";  // border thickness
+          //           document.getElementById("x"+j).style.fontSize = ".75rem";  // text size
+          //           document.getElementById("x"+j).style.lineHeight = "1rem";   // line height
+          //           document.getElementById("x"+j).style.borderColor = "rgb(71 85 105 / var(--tw-border-opacity))"; //border color
+          //           document.getElementById("x"+j).style.width = "1.25rem"; // Width of box
+          //           document.getElementById("x"+j).style.marginTop = "5px"; // Top margin
+          //           // Hover
+          //           document.getElementById("x"+j).addEventListener("mouseover", function() { document.getElementById("x"+j).style.backgroundColor = "rgb(185 28 28 / var(--tw-bg-opacity))";});
+          //           document.getElementById("x"+j).addEventListener("mouseout", function() {document.getElementById("x"+j).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";});
+          //           if(j != 5){
+          //             document.getElementById("x"+j).style.marginLeft = "80px"; // For x on small images
+          //           }else{
+          //             document.getElementById("x"+j).style.marginLeft = "400px"; // for x on large image
+          //           }
+
+          //           // X click function
+          //           document.getElementById("x"+j).addEventListener("click", function() {
+          //             document.getElementById(string+j).style.backgroundImage = "none";
+          //             document.getElementById("x"+j).remove();
+          //             document.getElementById("count").innerHTML = parseInt(document.getElementById("count").innerHTML) - 1;
+          //             document.getElementById(string+j).setAttribute("value", "false");
+          //           });
+                    
+          //           document.getElementById("fileDisplayArea5").style.backgroundImage = "none";
+          //           document.getElementById("x5").remove();
+
+
+          //           // Update bool values
+          //           document.getElementById(string + j).setAttribute("value", "true");
+          //           document.getElementById("fileDisplayArea5").setAttribute("value", "false");
+          //           break;
+          //         }
+          //       }// end of inner loop
+                 
+          //      }// end of inner if
+           
+          });
         }
-
         reader.readAsDataURL(file); 
       } else {
           console.log("File not supported!");
+          alert("File Type not supported.")
       }
   });
-
 }
 
-const signUpValues = {
+const buyerPostValues = {
+  buyerEmail: "",
+  postPath: "",
   title: "",
-  quantity: "",
-  price: "",
+  quantity: 0,
+  price: 0,
   category: "",
-  condition: "",
+  productCondition: "",
   description: "",
 };
 
 const BuyerPost = () => {
   //Variables to send to backend
   const [title, setTitle] = useState(""); //Todo make this code more dry
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
   const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState("");
+  const [productCondition, setCondition] = useState("");
   const [description, setDescription] = useState("");
-
-    const[file, setFile] = useState(null);
-    const [error, setError] = useState(null);
-
-    const types = ['image/png', 'image/jpeg'];
-
-    const changeHandler = (e) => {
-        let selected = e.target.files[0];
-
-        if(selected && types.includes(selected.type)) {
-            console.log("success");
-
-            setFile(selected);
-            setError('');
-        }else{
-            console.log("failure");
-            //setFile(null);
-            //setError('Please selecte an image file (png or jpeg');
-        }
-    }
-
   
 
   //Post Request Fucntion
   async function buyerPostRequest(event) {
     event.preventDefault();
-    signUpValues.title = title;
-    signUpValues.quantity = quantity;
-    signUpValues.price = price;
-    signUpValues.category = category;
-    signUpValues.condition = condition;
-    signUpValues.description = description;
-    console.log(signUpValues);
+    buyerPostValues.title = title;
+    buyerPostValues.quantity = quantity;
+    buyerPostValues.price = price;
+    buyerPostValues.category = category;
+    buyerPostValues.productCondition = productCondition;
+    buyerPostValues.description = description;
+    console.log(buyerPostValues);
     const res = await axios.post(
       "http://localhost:8080/user/registration",
-      JSON.stringify(signUpValues),
+      JSON.stringify(buyerPostValues),
       {
         headers: {
-          // Overwrite Axios's automatically set Content-Type
+          // Overwrite Axioss automatically set Content-Type
           "Content-Type": "application/json",
         },
       }
@@ -151,10 +218,10 @@ const BuyerPost = () => {
   return (
     
     <div id="container" className="bg-slate-600" style={{
-      width: '100%', 
-      overflow: 'visible',
-      height: '1500px',
-      display: 'table'}}>
+      width: "100%", 
+      overflow: "visible",
+      height: "1500px",
+      display: "table"}}>
       <NavBar />
 
       {/*Empty space*/}
@@ -178,43 +245,38 @@ const BuyerPost = () => {
           <div className="m-auto flex grid-cols-2 bg-slate-600 w-2/5 h-96 rounded-3xl border-slate-600 border-8">
             
             {/* Large image */}
-            <div className="bg-slate-50 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 text-center text-xl font-bold text-slate-600 pt-40"
-              id="fileDisplayArea1"
+            <div className="relative flex flex-col bg-slate-50 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 items-center text-xl font-bold text-slate-600"
+              id="fileDisplayArea5"
               value="false"
             >
-              <form>
+              <div id="addHide" className="mt-40">
                   <label className=" bg-slate-400  rounded-sm text-center hover:bg-sky-600">
-                      <input className="w-1" type="file" id="fileInput"onchange={changeHandler} />
+                      <input className="w-1" type="file" id="fileInput" />
                       <span className=" text-black">Add Photos Here</span>
                   </label>
-                  
-                  <div className="output">
-                      {error && <div className="error">{error}</div>}
-                      { file && <div>{file.name } </div>}
-                  </div>
-              </form>
+              </div>
             </div>
             
             {/* Smaller images */}
             <div className="m-auto bg-slate-600 w-1/5 h-full">
 
-              <div className="flex flex-col items-center bg-sky-400 h-1/4 bg-cover rounded-tr-2xl border-b-2 border-slate-600"
-                  id="fileDisplayArea2"
-                  value="false"
-                  ></div>
-
-              <div className="flex flex-col items-center bg-sky-600 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
-                  id="fileDisplayArea3"
-                  value="false"
-                  ></div>
-
-              <div className="flex flex-col items-center bg-sky-400 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
+              <div className="relative flex flex-col bg-sky-400 h-1/4 bg-cover rounded-tr-2xl border-b-2 border-slate-600 items-center"
                   id="fileDisplayArea4"
                   value="false"
                   ></div>
 
-              <div className="flex flex-col items-center bg-sky-600 h-1/4 bg-cover rounded-br-2xl border-t-2 border-slate-600" 
-                  id="fileDisplayArea5"
+              <div className="relative flex flex-col items-center bg-sky-600 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
+                  id="fileDisplayArea3"
+                  value="false"
+                  ></div>
+
+              <div className="relative flex flex-col items-center bg-sky-400 h-1/4 bg-cover border-b-2 border-t-2 border-slate-600"
+                  id="fileDisplayArea2"
+                  value="false"
+                  ></div>
+
+              <div className="relative flex flex-col items-center bg-sky-600 h-1/4 bg-cover rounded-br-2xl border-t-2 border-slate-600" 
+                  id="fileDisplayArea1"
                   value="false"
                   ></div>
 
@@ -231,12 +293,12 @@ const BuyerPost = () => {
           <div className="flex flex-col items-center pt-4 space-y-6">
 
             {/* title */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Title</label>
 
               <input
-                className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
+                className="focus:outline-none rounded-md text-lg w-full h-8 pl-3"
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
                 name="title"
@@ -246,12 +308,12 @@ const BuyerPost = () => {
             </div>
           
             {/* Prefered Quantity */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Prefered Quantity</label>
 
               <input
-                className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
+                className="focus:outline-none rounded-md text-lg w-full h-8 pl-3"
                 type="number"
                 value={quantity}
                 onChange={(event) => setQuantity(event.target.value)}
@@ -270,12 +332,12 @@ const BuyerPost = () => {
           <div className="flex flex-col items-center pt-6 space-y-6">
 
             {/* Price */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Price</label>
 
               <input
-                className="focus:outline-none rounded-md text-lg w-full h-8 pl-2"
+                className="focus:outline-none rounded-md text-lg w-full h-8 pl-3"
                 type="number"
                 value={price}
                 onChange={(event) => setPrice(event.target.value)}
@@ -286,12 +348,12 @@ const BuyerPost = () => {
             </div>
 
             {/* Category */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Category</label>
 
               <select className=" focus:outline-none rounded-md pl-2 text-lg h-8"
-                      onchange={(event) => setCategory(event.target.value)}
+                      onChange={(event) => setCategory(event.target.value)}
                       name="category"
                       label="Category"
               >
@@ -322,12 +384,12 @@ const BuyerPost = () => {
             </div>
 
             {/* Condition */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600 " >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600 " >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Condition</label>
 
-              <select className=" focus:outline-none rounded-md pl-2 text-lg h-8 box"
-                      onchange={(event) => setCondition(event.target.value)}
+              <select className=" focus:outline-none rounded-md pl-3 text-lg h-8 box"
+                      onChange={(event) => setCondition(event.target.value)}
                       name="condition"
                       label="Condition"
               >
@@ -340,7 +402,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Description */}
-            <div class="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
+            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600" >
 
               <label className=" text-md text-slate-600">&nbsp;&nbsp;Description</label>
 
