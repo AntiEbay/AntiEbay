@@ -4,6 +4,8 @@ import axios from "axios";
 
 import "../Components/UploadForm/UploadForm.css";
 
+var imageClassList = [];
+
 window.onload = function() {
   
   let fileInput = document.getElementById("fileInput");
@@ -49,6 +51,7 @@ window.onload = function() {
 
         // Place image as background image
         fileDisplayArea.style.backgroundImage = "url("+img.src+")";
+        imageClassList.push(new ImageObj('test.png', img.src.split(',')[1]));
         document.getElementById(string + i).style.cursor = "zoom-in";
 
         document.getElementById(string + i).addEventListener("click", function() {
@@ -198,7 +201,18 @@ const buyerPostValues = {
   category: "",
   productCondition: "",
   description: "",
+  imageList: []
 };
+
+class ImageObj {
+    fileName = "";
+    contents = "";
+    // maybe add type field
+    constructor(fileName, contents) {
+        this.fileName = fileName;
+        this.contents = contents;
+    }
+}
 
 const BuyerPost = () => {
   //Variables to send to backend
@@ -218,6 +232,7 @@ const BuyerPost = () => {
     buyerPostValues.category = category;
     buyerPostValues.productCondition = productCondition;
     buyerPostValues.description = description;
+    buyerPostValues.imageList = imageClassList
     console.log(buyerPostValues);
     const res = await axios.post(
       "http://localhost:8080/user/post/writing",

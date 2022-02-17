@@ -3,6 +3,7 @@ package com.antiebay.antiebayservice.userposts;
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -27,6 +28,17 @@ public class UserPosts {
     private String productCondition;
     @Column(name = "product_description")
     private String description;
+
+    public List<UserPostImage> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<UserPostImage> imageList) {
+        this.imageList = imageList;
+    }
+
+    @Transient
+    private List<UserPostImage> imageList;
 
 
     public UserPosts() {

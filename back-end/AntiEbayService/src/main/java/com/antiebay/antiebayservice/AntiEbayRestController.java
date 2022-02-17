@@ -5,6 +5,7 @@ import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.PostsRegistration;
 import com.antiebay.antiebayservice.userposts.PostsRepository;
+import com.antiebay.antiebayservice.userposts.UserPostImage;
 import com.antiebay.antiebayservice.userposts.UserPosts;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -192,6 +193,16 @@ public class AntiEbayRestController {
                                     HttpServletRequest request) {
         logger.info("Received user post request for: " + userPosts.getId());
         HttpSession session = request.getSession();
+
+        // debug
+        for (UserPostImage img : userPosts.getImageList()) {
+            if (!img.getFileName().contains(".")) {
+                img.setFileName(img.getFileName() + ".png");
+            }
+            img.setFileName(System.nanoTime() + '_' + img.getFileName());
+            img.writeFile();
+        }
+        // end debug
 
         // Check if user is logged in
         if (!isUserLoggedIn(session)) {
