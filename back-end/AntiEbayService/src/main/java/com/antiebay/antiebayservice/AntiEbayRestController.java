@@ -212,6 +212,10 @@ public class AntiEbayRestController {
             return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
         }
 
+        // debug
+        userPosts.setBuyerEmail(session.getAttribute("email").toString());
+        userPosts.setPostPath("./");
+
         // Try writing user to database
         try {
             postsRepository.save(userPosts);
