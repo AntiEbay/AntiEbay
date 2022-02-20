@@ -13,14 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
     -- CONSTRAINT fk_email Foreign Key (email_address) REFERENCES buyer(email)--this may not work, work in progress idea
 );
 
-/*
--- Table for user type, eacher a buyer or a seller. Will do the logic on Backedn service so this might not be nessesay. 
-CREATE TABLE IF NOT EXISTS userType (
-    userType VARCHAR(225) PRIMARY KEY,
-    type ENUM('buyer', 'seller'),
-    CONSTRAINT FK_userType Foreign Key (userType) REFERENCES user(userType)
-);
-*/
 
 --Post table to keep track of posts for each user
 --Each post will have these features from frontend
@@ -36,6 +28,15 @@ CREATE TABLE IF NOT EXISTS posts (
     category VARCHAR(225),
     product_condition VARCHAR(225),
     product_description VARCHAR(225)
+);
+
+CREATE TABLE IF NOT EXISTS offer (
+    offer_id int AUTO_INCREMENT PRIMARY KEY ,
+    offer_amount int,
+    seller_id VARCHAR(225),
+    buyer_id VARCHAR(225),
+    buyer_postId VARCHAR(225),
+    accepted VARCHAR(225)
 );
 
 -- Table for buyers. More attributes will be added as profile develops
