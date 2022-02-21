@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.List;
 
+
 public interface ProductRepository extends JpaRepository<UserPosts, Integer> {
 
 	@Query("SELECT p FROM posts p WHERE CONCAT(p.description, ' ', p.category, ' ', p.price) LIKE %?1%")
     public List<UserPosts> search(String keyword);
 }
+
