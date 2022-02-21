@@ -1,4 +1,6 @@
-package com.antiebay.antiebayservice.search;
+//package com.antiebay.antiebayservice.search;
+
+import com.antiebay.antiebayservice.userposts.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

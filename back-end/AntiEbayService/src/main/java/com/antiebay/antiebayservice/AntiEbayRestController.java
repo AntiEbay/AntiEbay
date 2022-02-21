@@ -1,6 +1,7 @@
 package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
+import com.antiebay.antiebayservice.search.SearchService;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.PostsRegistration;
@@ -12,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +39,9 @@ public class AntiEbayRestController {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+	private SearchService service;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -238,7 +244,18 @@ public class AntiEbayRestController {
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
     }
-    
+
+    //Read keyword 
+    /*
+    @RequestMapping("/")
+	public String viewHomePage(Model model, @Param("keyword") String keyword) {
+		List<UserPosts> listProducts = service.listAll(keyword);
+		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("keyword", keyword);
+		
+		return "index";
+	}
+    */
     
 
 
