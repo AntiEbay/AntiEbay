@@ -1,20 +1,16 @@
 import react, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
 
-const options = {
-  category: "",
-  maxPrice: 0,
-  minPrice: 0,
-};
-const emptyOptions = {};
-
-const SearchResults = (props) => {
+const SearchResults = () => {
+  const location = useLocation();
   const [newSearch, setNewSearch] = useState(Boolean);
-  const [searchQuery, setSearchQuery] = useState(props.searchQuery);
+  const [searchQuery, setSearchQuery] = useState("test");
   const [category, setCategory] = useState("null");
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
+  console.log(location);
   const startSearch = async (event) => {
     event.preventDefault();
     if (
@@ -22,23 +18,31 @@ const SearchResults = (props) => {
       minPrice === Number.MIN_VALUE &&
       maxPrice === Number.MAX_VALUE
     ) {
-      const search = {
-        query: "",
-        emptyOptions,
-      };
-      search.query = searchQuery;
-    } else {
+      //If check if no adv search parameters are added
+      const options = {};
       const search = {
         query: "",
         options,
       };
       search.query = searchQuery;
+    } else {
+      //Else if there are adv search parameters
+      const options = {
+        category: "",
+        maxPrice: 0,
+        minPrice: 0,
+      };
+      const search = {
+        query: "",
+        options,
+      };
       search.options.category = category;
       search.option.minPrice = minPrice;
       search.options.minPrice = maxPrice;
     }
+    search.query = searchQuery;
     try {
-      const getSearchRes = await axios.post(
+      const getSearchRes = await axios.get(
         "http://localhost:8080/user/login",
         JSON.stringify(search),
         {
@@ -49,7 +53,7 @@ const SearchResults = (props) => {
           withCredentials: true,
         }
       );
-      console.log(signInResults);
+      console.log(getSearchRes);
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +67,7 @@ const SearchResults = (props) => {
             <span className=" text-white ml-1 mr-2 text-lg">Search: </span>
             <input
               className=" focus:outline-none rounded-md pl-2 text-lg h-8 w-48 lg:w-96"
-              defaultValue={props.search}
+              defaultValue={location.search.substring(1)}
             ></input>
           </div>
           {/*Everything in here is for the Categories */}
