@@ -3,6 +3,7 @@ package com.antiebay.antiebayservice.userposts;
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.List;
 
 @Entity
@@ -29,19 +30,37 @@ public class UserPosts {
     @Column(name = "product_description")
     private String description;
 
+    @Transient
+    private List<UserPostImage> imageList;
+
+    public UserPosts() {
+    }
+
+    public void writeImages() {
+        File userParentDir = new File("users/");
+        if (!userParentDir.exists()) {
+            userParentDir.mkdirs();
+        }
+        File userDir = new File("users/" + buyerEmail + '/');
+        if (!userDir.exists()) {
+            userDir.mkdirs();
+        }
+        File postDir = new File("users/" + buyerEmail + '/' + postId + '/');
+        if (!postDir.exists()) {
+            postDir.mkdirs();
+        }
+        for (UserPostImage img : imageList) {
+            img.setFileName("users/" + buyerEmail + '/' + postId + '/');
+            img.writeFile();
+        }
+    }
+
     public List<UserPostImage> getImageList() {
         return imageList;
     }
 
     public void setImageList(List<UserPostImage> imageList) {
         this.imageList = imageList;
-    }
-
-    @Transient
-    private List<UserPostImage> imageList;
-
-
-    public UserPosts() {
     }
 
     public Integer getId() {

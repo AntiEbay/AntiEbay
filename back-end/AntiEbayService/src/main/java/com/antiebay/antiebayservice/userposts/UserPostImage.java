@@ -15,10 +15,27 @@ public class UserPostImage {
     @Transient
     private String type; // use later
 
+    public UserPostImage() {
+        fileName = "";
+        contents = "";
+        type = "";
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void writeFile() {
         byte[] decodedImg = Base64.getDecoder().decode(contents.getBytes(StandardCharsets.UTF_8));
         try {
-            Files.write(Path.of(fileName), decodedImg);
+            File dir = new File(fileName);
+            String[] filesAtPath = dir.list();
+            int fileCount = (filesAtPath == null) ? 0 : filesAtPath.length;
+            Files.write(Path.of(fileName + fileCount), decodedImg);
         } catch (IOException e) {
             e.printStackTrace();
         }

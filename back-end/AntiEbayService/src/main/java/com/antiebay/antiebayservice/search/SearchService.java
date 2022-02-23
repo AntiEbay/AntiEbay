@@ -1,21 +1,23 @@
-//package com.antiebay.antiebayservice.search;
+package com.antiebay.antiebayservice.search;
 
-import com.antiebay.antiebayservice.userposts.ProductRepository;
-
+import com.antiebay.antiebayservice.userposts.UserPosts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import antlr.collections.List;
+import java.util.List;
 
-@Service
+@Component("searchService")
 public class SearchService {
+	@Qualifier("productRepository")
 	@Autowired
-	private ProductRepository repo;
+	private ProductRepository productRepository;
 	
 	public List<UserPosts> listAll(String keyword) {
 		if (keyword != null) {
-			return repo.search(keyword);
+			return productRepository.search(keyword);
 		}
-		return repo.findAll();
+		return productRepository.findAll();
 	}
 }

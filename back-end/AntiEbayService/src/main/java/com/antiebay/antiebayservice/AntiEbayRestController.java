@@ -1,6 +1,9 @@
 package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
+import com.antiebay.antiebayservice.search.SearchRequest;
+import com.antiebay.antiebayservice.search.SearchResponse;
+import com.antiebay.antiebayservice.search.SearchResult;
 import com.antiebay.antiebayservice.search.SearchService;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -41,7 +45,7 @@ public class AntiEbayRestController {
     private ObjectMapper objectMapper;
 
     @Autowired
-	private SearchService service;
+	private SearchService searchService;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -201,13 +205,13 @@ public class AntiEbayRestController {
         HttpSession session = request.getSession();
 
         // debug
-        for (UserPostImage img : userPosts.getImageList()) {
-            if (!img.getFileName().contains(".")) {
-                img.setFileName(img.getFileName() + ".png");
-            }
-            img.setFileName(System.nanoTime() + '_' + img.getFileName());
-            img.writeFile();
-        }
+//        for (UserPostImage img : userPosts.getImageList()) {
+//            if (!img.getFileName().contains(".")) {
+//                img.setFileName(img.getFileName() + ".png");
+//            }
+//            img.setFileName(System.nanoTime() + '_' + img.getFileName());
+//            img.writeFile();
+//        }
         // end debug
 
         // Check if user is logged in
@@ -231,12 +235,14 @@ public class AntiEbayRestController {
 
         // debug
         userPosts.setBuyerEmail(session.getAttribute("email").toString());
-        userPosts.setPostPath("./");
 
         // Try writing user to database
         try {
             postsRepository.save(userPosts);
+            userPosts.setPostPath("users/" + userPosts.getBuyerEmail() + '/' + userPosts.getPostId() + '/');
+            postsRepository.save(userPosts);
             logger.info(StatusMessages.USER_POST_CREATE_SUCCESS);
+            userPosts.writeImages();
             return StatusMessages.USER_POST_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
             logger.warn(ex.getMessage());
@@ -245,24 +251,37 @@ public class AntiEbayRestController {
         }
     }
 
-    //Read keyword 
-    
-    @PostMapping("/")
-	public String viewHomePage(Model model, @Param("keyword") String keyword) {
-		List<UserPosts> listProducts = service.listAll(keyword);
-		model.addAttribute("listProducts", listProducts);
-		model.addAttribute("keyword", keyword);
-		
-		return "index";
-	}
-    
-    
+    //Read keyword
 
-
+    @PostMapping("/search")
+    public String searchFunction(@RequestBody SearchRequest searchRequest) {
+        SearchResponse response = new SearchResponse();
+        try {
+            List<UserPosts> returnedPosts = searchService.listAll(searchRequest.getQuery());
+            if (returnedPosts.isEmpty()) {
+                return objectMapper.writeValueAsString(response);
+            }
+            for (UserPosts post : returnedPosts) {
+                SearchResult result = new SearchResult(post);
+                response.addSearchResult(result);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        String strToReturn = "";
+        try {
+            strToReturn = objectMapper.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return strToReturn;
+    }
 
     @GetMapping("/")
     private String getString() {
         System.out.println("Hello received");
-        return "<h1>Hello World</h1>";
+        return "<h1>This isnt the page you're looking for</h1>";
     }
 }
