@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.antiebay.antiebayservice.userposts.PostRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -250,6 +251,27 @@ public class AntiEbayRestController {
             return StatusMessages.USER_POST_CREATE_FAIL.toString();
         }
     }
+
+    //A retrieval function that will send back whole post back to the front end with just the ID and email
+    @PostMapping(value = "/user/post/retrieval", consumes = {"application/json"})
+    private String userPostRequest(@RequestBody PostRequest requestPost,
+                                   HttpServletRequest request) throws JsonProcessingException {
+
+        Optional<UserPosts> userPost = postsRepository.findById(requestPost.getId());
+
+        if(userPost.isEmpty()) {
+            return objectMapper.writeValueAsString(userPost);
+        }
+
+        String strToReturn = "";
+        try {
+            strToReturn = objectMapper.writeValueAsString(userPost);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return strToReturn;
+    }
+
 
     //Read keyword
 
