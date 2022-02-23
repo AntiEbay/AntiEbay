@@ -133,7 +133,7 @@ public class AntiEbayRestController {
 
 
     // TODO: Idea for security: introduce integrity hash check for requests?
-    @PostMapping(value = "/user/interactions/makeoffer")
+    @PostMapping(value = "/user/interactions/makeoffer", consumes = {"application/json"})
     private String userSellerMakeOffer(@RequestBody UserOffer userOffer,
                                        HttpServletRequest request) {
         logger.info("Received Make Offer Request From: " + userOffer.getSellerId());
@@ -164,7 +164,7 @@ public class AntiEbayRestController {
         return "";
     }
 
-    @PostMapping(value = "/user/interactions/acceptoffer")
+    @PostMapping(value = "/user/interactions/acceptoffer", consumes = {"application/json"})
     private String userBuyerAcceptOffer(@RequestBody UserOffer userOffer,
                                         HttpServletRequest request) {
         logger.info("Received Accept Offer From: " + userOffer.getBuyerId());
@@ -253,7 +253,7 @@ public class AntiEbayRestController {
 
     //Read keyword
 
-    @PostMapping(value = "/search", consumes = "application/json")
+    @PostMapping(value = "/search", consumes = {"application/json"})
     public String searchFunction(@RequestBody SearchRequest searchRequest) {
         SearchResponse response = new SearchResponse();
         try {
