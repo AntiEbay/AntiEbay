@@ -246,8 +246,8 @@ public class AntiEbayRestController {
     }
 
     //Read keyword 
-    /*
-    @RequestMapping("/")
+    
+    @PostMapping("/")
 	public String viewHomePage(Model model, @Param("keyword") String keyword) {
 		List<UserPosts> listProducts = service.listAll(keyword);
 		model.addAttribute("listProducts", listProducts);
@@ -255,7 +255,7 @@ public class AntiEbayRestController {
 		
 		return "index";
 	}
-    */
+    
     
 
 
