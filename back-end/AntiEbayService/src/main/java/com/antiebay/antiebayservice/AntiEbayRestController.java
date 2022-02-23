@@ -253,7 +253,7 @@ public class AntiEbayRestController {
 
     //Read keyword
 
-    @PostMapping("/search")
+    @PostMapping(value = "/search", consumes = "application/json")
     public String searchFunction(@RequestBody SearchRequest searchRequest) {
         SearchResponse response = new SearchResponse();
         try {
