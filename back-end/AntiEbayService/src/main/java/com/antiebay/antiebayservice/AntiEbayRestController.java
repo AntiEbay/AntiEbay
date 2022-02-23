@@ -282,6 +282,25 @@ public class AntiEbayRestController {
     @GetMapping("/")
     private String getString() {
         System.out.println("Hello received");
-        return "<h1>This isnt the page you're looking for</h1>";
+        String msg = "<h1>That's no endpoint......its a debug page</h1><br>";
+        msg += "<pre>";
+        msg += "            .          .\n" +
+                "  .          .                  .          .              .\n" +
+                "        +.           _____  .        .        + .                    .\n" +
+                "    .        .   ,-~\"     \"~-.                                +\n" +
+                "               ,^ ___         ^. +                  .    .       .\n" +
+                "              / .^   ^.         \\         .      _ .\n" +
+                "             Y  l  o  !          Y  .         __CL\\H--.\n" +
+                "     .       l_ `.___.'        _,[           L__/_\\H' \\\\--_-          +\n" +
+                "             |^~\"-----------\"\"~ ^|       +    __L_(=): ]-_ _-- -\n" +
+                "   +       . !                   !     .     T__\\ /H. //---- -       .\n" +
+                "          .   \\                 /               ~^-H--'\n" +
+                "               ^.             .^            .      \"       +.\n" +
+                "                 \"-.._____.,-\" .                    .\n" +
+                "          +           .                .   +                       .\n" +
+                "   +          .             +                                  .\n" +
+                "          .             .      .       \n";
+        msg += "<pre/>";
+        return msg;
     }
 }
