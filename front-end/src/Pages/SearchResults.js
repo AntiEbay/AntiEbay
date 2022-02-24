@@ -64,7 +64,7 @@ const SearchResults = () => {
     return (
       <div className=" bg-slate-600 h-screen">
         <NavBar />
-        <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-1/4 mt-4">
+        <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-1/3 mt-4">
           <div className="flex justify-between">
             <div className="my-6">
               <span className=" text-white ml-1 mr-2 text-lg">Search: </span>
@@ -73,7 +73,7 @@ const SearchResults = () => {
                 defaultValue={location.search.substring(1)}
               ></input>
             </div>
-            <span className=" text2xl text-white my-6 mr-3">
+            <span className=" text-2xl text-white my-6 mr-3">
               Advanced Search
             </span>
           </div>
@@ -134,10 +134,11 @@ const SearchResults = () => {
               placeholder="Min Price"
             />
             <span className=" ml-1 text-sm text-white align-top">
+              {" "}
               -optional
             </span>
           </div>
-          <div className="flex justify-between">
+          <div className="lg:flex lg:justify-between">
             <div>
               <span className=" text-white ml-1 mr-2 text-lg hidden lg:inline">
                 Max Price:
@@ -155,10 +156,11 @@ const SearchResults = () => {
                 placeholder="Max Price"
               />
               <span className=" ml-1 text-sm text-white align-top">
+                {" "}
                 -optional
               </span>
             </div>
-            <div>
+            <div className="flex">
               <button
                 className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 ring-2 ring-white"
                 onClick={() => {

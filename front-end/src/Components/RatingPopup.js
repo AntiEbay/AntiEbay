@@ -10,7 +10,7 @@ const StarRating = (props) => {
     const review = {
       rating: rating,
       comment: comment,
-      email: state.accountEmail,
+      email: "test@test",
       buyer_postId: 1,
     };
     const postReviewRes = await axios.post(
@@ -71,7 +71,10 @@ const StarRating = (props) => {
                 >
                   Leave a message, if you want
                 </textarea>
-                <button className="py-3 my-8 text-lg bg-gradient-to-r from-slate-400 to-slate-600 rounded-xl text-white">
+                <button
+                  className="py-3 my-8 text-lg bg-gradient-to-r from-slate-400 to-slate-600 rounded-xl text-white"
+                  onClick={postReview}
+                >
                   Rate now
                 </button>
               </div>
