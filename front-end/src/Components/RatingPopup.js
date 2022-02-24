@@ -10,9 +10,10 @@ const StarRating = (props) => {
     const review = {
       rating: rating,
       comment: comment,
-      email: "test@test",
-      buyer_postId: 1,
+      sellerEmail: "test@test",
+      buyerPostId: 1,
     };
+    console.log(review);
     const postReviewRes = await axios.post(
       "http://localhost:8080/post/review/writing",
       JSON.stringify(review),
