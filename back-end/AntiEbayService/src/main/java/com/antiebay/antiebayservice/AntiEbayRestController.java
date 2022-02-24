@@ -1,6 +1,9 @@
 package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
+import com.antiebay.antiebayservice.reviews.PostReview;
+import com.antiebay.antiebayservice.reviews.PostReviewRegistration;
+import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.search.SearchRequest;
 import com.antiebay.antiebayservice.search.SearchResponse;
 import com.antiebay.antiebayservice.search.SearchResult;
@@ -47,6 +50,9 @@ public class AntiEbayRestController {
 
     @Autowired
 	private SearchService searchService;
+
+    @Autowired
+    private PostReviewRepository postReviewRepository;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -299,6 +305,47 @@ public class AntiEbayRestController {
             e.printStackTrace();
         }
         return strToReturn;
+    }
+
+    //PostMapping for writing a post review to the databse
+    @PostMapping(value = "post/review/writing", consumes = {"application/json"})
+    private String postReview(@RequestBody PostReview postReview, 
+                                    HttpServletRequest request) {
+        logger.info("Received post review request for: " + postReview.getPostReviewId());
+        HttpSession session = request.getSession();
+
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // Get email from http
+
+        //if (!userPosts.getBuyerEmail().equals(session.getAttribute("email"))) {
+            //logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+            //return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+        //}
+
+        // Check if user logged in is of seller type
+        if (!session.getAttribute("userType").equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        // debug
+        //userPosts.setBuyerEmail(session.getAttribute("email").toString());
+
+        // Try writing user to database
+        try {
+            postReviewRepository.save(postReview);
+            logger.info(StatusMessages.POST_REVIEW_CREATE_SUCCESS);
+            return StatusMessages.POST_REVIEW_CREATE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.POST_REVIEW_CREATE_FAIL);
+            return StatusMessages.POST_REVIEW_CREATE_FAIL.toString();
+        }
     }
 
     @GetMapping("/")
