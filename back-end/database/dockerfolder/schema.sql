@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS posts (
     product_description VARCHAR(225)
 );
 
+-- Table containing bidding information
 CREATE TABLE IF NOT EXISTS offer (
     offer_id int AUTO_INCREMENT PRIMARY KEY ,
     offer_amount int,
@@ -37,6 +38,24 @@ CREATE TABLE IF NOT EXISTS offer (
     buyer_id VARCHAR(225),
     buyer_postId VARCHAR(225),
     accepted VARCHAR(225)
+);
+
+-- Table containing information about a review on a post made by a seller
+CREATE TABLE IF NOT EXISTS postReview (
+    post_review_id int AUTO_INCREMENT PRIMARY KEY ,
+    rating int,
+    seller_email VARCHAR(225),
+    buyer_postId int,
+    comment VARCHAR(225)
+);
+
+-- Table containing information on the reviews of a seller
+CREATE TABLE IF NOT EXISTS sellerReview (
+    seller_review_id int AUTO_INCREMENT PRIMARY KEY ,
+    rating int,
+    buyer_email VARCHAR(225),
+    seller_id VARCHAR(225),
+    comment VARCHAR(225)
 );
 
 -- Table for buyers. More attributes will be added as profile develops
@@ -48,8 +67,10 @@ CREATE TABLE IF NOT EXISTS buyer (
 );
 
 -- Table for seller. More attributes will be added as profile develops
+-- add attribute for ratings/reviews?
 CREATE TABLE IF NOT EXISTS seller (
     email VARCHAR(225) PRIMARY KEY,
-    seller VARCHAR(225)
+    seller VARCHAR(225),
+    seller_id int
     -- CONSTRAINT fk_email Foreign Key (email) REFERENCES users(email_address)
 );
