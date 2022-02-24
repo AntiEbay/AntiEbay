@@ -1,11 +1,14 @@
 import react, { useState } from "react";
 import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
+import axios from "axios";
 const BiddingPage = (props) => {
   const eventHandler = (data) => console.log(data);
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
   const [reviewScreen, setReviewScreen] = useState(false);
+
+  const sendBid = () => {};
   return (
     <div className="flex flex-col items-center bg-slate-600 h-screen">
       <NavBar />
