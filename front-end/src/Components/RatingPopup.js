@@ -14,7 +14,7 @@ const StarRating = (props) => {
       buyer_postId: 1,
     };
     const postReviewRes = await axios.post(
-      "http://localhost:8080/user/login",
+      "http://localhost:8080/post/review/writing",
       JSON.stringify(review),
       {
         headers: {
