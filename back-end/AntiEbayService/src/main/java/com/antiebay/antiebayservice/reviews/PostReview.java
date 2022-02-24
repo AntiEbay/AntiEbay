@@ -5,18 +5,18 @@ import java.io.File;
 import java.util.List;
 
 @Entity
-@Table(name = "postReview")
+@Table(name = "post_review")
 public class PostReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_review_id")
     private Integer postReviewId;
-    @Column(name = "rating ")
-    private Integer rating ;
+    @Column(name = "rating")
+    private Integer rating;
     @Column(name = "seller_email")
     private String sellerEmail;
-    @Column(name = "buyer_postId")
-    private Integer buyerPostId;
+//    @Column(name = "buyer_postId")
+//    private Integer buyerPostId;
     @Column(name = "comment")
     private String comment;
     
@@ -45,13 +45,13 @@ public class PostReview {
         this.sellerEmail = sellerEmail;
     }
 
-    public Integer getBuyerPostId() {
-        return buyerPostId;
-    }
-
-    public void setBuyerPostId(Integer buyerPostId) {
-        this.buyerPostId = buyerPostId;
-    }
+//    public Integer getBuyerPostId() {
+//        return buyerPostId;
+//    }
+//
+//    public void setBuyerPostId(Integer buyerPostId) {
+//        this.buyerPostId = buyerPostId;
+//    }
 
     public String getComment() {
         return comment;
@@ -69,7 +69,7 @@ public class PostReview {
                 "postReviewId=" + postReviewId +
                 ", rating='" + rating + '\'' +
                 ", sellerEmail='" + sellerEmail + '\'' +
-                ", buyerPostId='" + buyerPostId + '\'' +
+//                ", buyerPostId='" + buyerPostId + '\'' +
                 ", comment=" + comment + '\'' +
                 '}';
     }

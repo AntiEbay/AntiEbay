@@ -5,13 +5,13 @@ import java.io.File;
 import java.util.List;
 
 @Entity
-@Table(name = "sellerReview")
+@Table(name = "seller_review")
 public class SellerReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seller_review_id")
     private Integer sellerReviewId;
-    @Column(name = "rating ")
+    @Column(name = "rating")
     private Integer rating ;
     @Column(name = "buyer_email")
     private String buyerEmail;
