@@ -51,6 +51,9 @@ public class AntiEbayRestController {
     @Autowired
 	private SearchService searchService;
 
+    @Autowired
+    private PostReviewRepository postReviewRepository;
+
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
