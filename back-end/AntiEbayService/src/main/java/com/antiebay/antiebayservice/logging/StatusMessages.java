@@ -15,7 +15,10 @@ public enum StatusMessages {
     INTERACTION_SELLER_ID_NOT_MATCH_SESSION_ID("User Login ID Is Not Offer SellerID."),
     INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID("User Logged In Is Not Offer Buyer."),
     USER_POST_CREATE_SUCCESS("Post Successfully Created."),
-    USER_POST_CREATE_FAIL("Post Creation Failed.");
+    USER_POST_CREATE_FAIL("Post Creation Failed."),
+    POST_REVIEW_CREATE_SUCCESS("Post Review Successfully Created."),
+    POST_REVIEW_CREATE_FAIL("Post Review Creation Failed.");
+
 
     private final String message;
 
