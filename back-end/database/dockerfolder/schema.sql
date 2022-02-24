@@ -41,16 +41,16 @@ CREATE TABLE IF NOT EXISTS offer (
 );
 
 -- Table containing information about a review on a post made by a seller
-CREATE TABLE IF NOT EXISTS postReview (
+CREATE TABLE IF NOT EXISTS post_review (
     post_review_id int AUTO_INCREMENT PRIMARY KEY ,
     rating int,
     seller_email VARCHAR(225),
-    buyer_postId int,
+    buyer_post_id int,
     comment VARCHAR(225)
 );
 
 -- Table containing information on the reviews of a seller
-CREATE TABLE IF NOT EXISTS sellerReview (
+CREATE TABLE IF NOT EXISTS seller_review (
     seller_review_id int AUTO_INCREMENT PRIMARY KEY ,
     rating int,
     buyer_email VARCHAR(225),
