@@ -4,7 +4,6 @@ import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 
 const NavBarButtons = (props) => {
-  console.log(props.accountType);
   if (props.accountType === "buyer") {
     return (
       <div className="flex">

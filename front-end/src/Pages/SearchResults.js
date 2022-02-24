@@ -5,7 +5,7 @@ import axios from "axios";
 
 const SearchResults = () => {
   const location = useLocation();
-  const [newSearch, setNewSearch] = useState(Boolean);
+  const [advSearchShow, setAdvSearchShow] = useState(true);
   const [searchQuery, setSearchQuery] = useState("test");
   const [category, setCategory] = useState("null");
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
@@ -42,7 +42,7 @@ const SearchResults = () => {
     }
     search.query = searchQuery;
     try {
-      const getSearchRes = await axios.get(
+      const getSearchRes = await axios.post(
         "http://localhost:8080/user/login",
         JSON.stringify(search),
         {
@@ -58,21 +58,28 @@ const SearchResults = () => {
       console.log(error);
     }
   };
-  if (!newSearch) {
+  if (advSearchShow) {
     return (
       <div className=" bg-slate-600 h-screen">
         <NavBar />
         <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-1/4 mt-4">
-          <div className="my-6">
-            <span className=" text-white ml-1 mr-2 text-lg">Search: </span>
-            <input
-              className=" focus:outline-none rounded-md pl-2 text-lg h-8 w-48 lg:w-96"
-              defaultValue={location.search.substring(1)}
-            ></input>
+          <div className="flex justify-between">
+            <div className="my-6">
+              <span className=" text-white ml-1 mr-2 text-lg">Search: </span>
+              <input
+                className=" focus:outline-none rounded-md pl-2 text-lg h-8 w-48 lg:w-96"
+                defaultValue={location.search.substring(1)}
+              ></input>
+            </div>
+            <span className=" text-2xl text-white my-6 mr-3">
+              Advanced Search Options
+            </span>
           </div>
           {/*Everything in here is for the Categories */}
           <div className="flex">
-            <span className=" text-white ml-1 mr-2 text-lg">Category:</span>
+            <span className=" text-white ml-1 mr-2 text-lg hidden lg:block">
+              Category:
+            </span>
             <select
               className=" focus:outline-none rounded-md pl-2 text-lg h-8"
               onChange={(event) => setCategory(event.target.value)}
@@ -103,6 +110,10 @@ const SearchResults = () => {
               <option value="toy">Toys & Games</option>
               <option value="vid">Video Games & Consoles</option>
             </select>
+            <span className=" ml-1 text-sm text-white align-top">
+              {" "}
+              -optional
+            </span>
           </div>
           <div className=" flex my-5">
             <span className=" text-white ml-1 mr-2 text-lg hidden lg:inline">
@@ -120,6 +131,10 @@ const SearchResults = () => {
               }}
               placeholder="Min Price"
             />
+            <span className=" ml-1 text-sm text-white align-top">
+              {" "}
+              -optional
+            </span>
           </div>
           <div className="flex justify-between">
             <div>
@@ -138,9 +153,47 @@ const SearchResults = () => {
                 }}
                 placeholder="Max Price"
               />
+              <span className=" ml-1 text-sm text-white align-top">
+                {" "}
+                -optional
+              </span>
             </div>
+            <div>
+              <button
+                className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 ring-2 ring-white"
+                onClick={() => {
+                  setAdvSearchShow(!advSearchShow);
+                }}
+              >
+                Hide advanced Search
+              </button>
+              <button
+                className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 ring-2 ring-white"
+                onClick={startSearch}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className=" bg-slate-600 h-screen">
+        <NavBar />
+        <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-1/6 lg:h-16 mt-4">
+          <div className="flex justify-between mt-3">
             <button
-              className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3"
+              className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 ml-3 ring-2 ring-white"
+              onClick={() => {
+                setAdvSearchShow(!advSearchShow);
+              }}
+            >
+              Show advanced Search
+            </button>
+            <button
+              className=" hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 ring-2 ring-white"
               onClick={startSearch}
             >
               Search
