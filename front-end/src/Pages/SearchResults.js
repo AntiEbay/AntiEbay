@@ -43,7 +43,7 @@ const SearchResults = () => {
     search.query = searchQuery;
     try {
       const getSearchRes = await axios.post(
-        "http://localhost:8080/user/login",
+        "http://localhost:8080/search",
         JSON.stringify(search),
         {
           headers: {
