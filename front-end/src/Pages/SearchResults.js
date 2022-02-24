@@ -13,6 +13,8 @@ const SearchResults = () => {
   console.log(location);
   const startSearch = async (event) => {
     event.preventDefault();
+    const options = {};
+    const search = {};
     if (
       category === "null" &&
       minPrice === Number.MIN_VALUE &&
@@ -71,8 +73,8 @@ const SearchResults = () => {
                 defaultValue={location.search.substring(1)}
               ></input>
             </div>
-            <span className=" text-2xl text-white my-6 mr-3">
-              Advanced Search Options
+            <span className=" text2xl text-white my-6 mr-3">
+              Advanced Search
             </span>
           </div>
           {/*Everything in here is for the Categories */}
@@ -132,7 +134,6 @@ const SearchResults = () => {
               placeholder="Min Price"
             />
             <span className=" ml-1 text-sm text-white align-top">
-              {" "}
               -optional
             </span>
           </div>
@@ -154,7 +155,6 @@ const SearchResults = () => {
                 placeholder="Max Price"
               />
               <span className=" ml-1 text-sm text-white align-top">
-                {" "}
                 -optional
               </span>
             </div>

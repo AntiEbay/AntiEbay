@@ -11,6 +11,7 @@ const StarRating = (props) => {
       rating: rating,
       comment: comment,
       email: state.accountEmail,
+      buyer_postId: 1,
     };
     const postReviewRes = await axios.post(
       "http://localhost:8080/user/login",
