@@ -15,8 +15,8 @@ public class PostReview {
     private Integer rating;
     @Column(name = "seller_email")
     private String sellerEmail;
-//    @Column(name = "buyer_postId")
-//    private Integer buyerPostId;
+    @Column(name = "buyer_post_id")
+    private Integer buyerPostId;
     @Column(name = "comment")
     private String comment;
     
@@ -45,13 +45,13 @@ public class PostReview {
         this.sellerEmail = sellerEmail;
     }
 
-//    public Integer getBuyerPostId() {
-//        return buyerPostId;
-//    }
-//
-//    public void setBuyerPostId(Integer buyerPostId) {
-//        this.buyerPostId = buyerPostId;
-//    }
+    public Integer getBuyerPostId() {
+        return buyerPostId;
+    }
+
+    public void setBuyerPostId(Integer buyerPostId) {
+        this.buyerPostId = buyerPostId;
+    }
 
     public String getComment() {
         return comment;
@@ -69,7 +69,7 @@ public class PostReview {
                 "postReviewId=" + postReviewId +
                 ", rating='" + rating + '\'' +
                 ", sellerEmail='" + sellerEmail + '\'' +
-//                ", buyerPostId='" + buyerPostId + '\'' +
+                ", buyerPostId='" + buyerPostId + '\'' +
                 ", comment=" + comment + '\'' +
                 '}';
     }
