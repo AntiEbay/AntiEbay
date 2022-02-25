@@ -55,6 +55,9 @@ public class AntiEbayRestController {
     @Autowired
     private PostReviewRepository postReviewRepository;
 
+    @Autowired
+    private SellerReviewRepository sellerReviewRepository;
+
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
@@ -375,7 +378,7 @@ public class AntiEbayRestController {
 
     //PostMapping for writing a seller review to the databse
     @PostMapping(value = "seller/review/writing", consumes = {"application/json"})
-    private String sellerReview(@RequestBody PostReview sellerReview, 
+    private String sellerReview(@RequestBody SellerReview sellerReview,
                                     HttpServletRequest request) {
         logger.info("Received post review request for: " + sellerReview.getSellerReviewId());
         HttpSession session = request.getSession();
