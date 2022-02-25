@@ -5,7 +5,6 @@ import com.antiebay.antiebayservice.reviews.PostReview;
 import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
-import com.antiebay.antiebayservice.reviews.SellerReviewRegistration;
 import com.antiebay.antiebayservice.search.SearchRequest;
 import com.antiebay.antiebayservice.search.SearchResponse;
 import com.antiebay.antiebayservice.search.SearchResult;
@@ -283,6 +282,38 @@ public class AntiEbayRestController {
     }
 
 
+    private double getUserAverageReviewFromEmail(String email) {
+        double reviewSum = 0;
+        double reviewCount = 0;
+        double averageReivew = 0;
+        try {
+            UserAccountEntity user = userRepository.getOne(email);
+
+            if (user.getUserType().equals("buyer")) {
+                List<UserPosts> userPosts = postsRepository.findByBuyerEmail(user.getEmailAddress());
+                for (UserPosts post : userPosts) {
+                    List<PostReview> postReviews = postReviewRepository.findByBuyerPostId(post.getPostId());
+                    reviewCount += postReviews.size();
+                    for (PostReview review : postReviews) {
+                        reviewSum += review.getRating();
+                    }
+                }
+            } else {
+                List<SellerReview> sellerReviews = sellerReviewRepository.findBySellerId(user.getId());
+                reviewCount += sellerReviews.size();
+                for (SellerReview review : sellerReviews) {
+                    reviewSum += review.getRating();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (reviewCount != 0) {
+            averageReivew = reviewSum / reviewCount;
+        }
+        return averageReivew;
+    }
+
     //Read keyword
 
     @PostMapping(value = "/search", consumes = {"application/json"})
@@ -301,26 +332,8 @@ public class AntiEbayRestController {
         // calculate average review score for user
         for (UserPosts post : returnedPosts) {
             SearchResult searchRes = new SearchResult(post);
-            try {
-                double reviewSum = 0;
-                double reviewCount = 0;
-                double averageReivew = 0;
-                List<UserPosts> buyerPosts = postsRepository.findByBuyerEmail(post.getBuyerEmail());
-                for (UserPosts buyerPost : buyerPosts) {
-                    List<PostReview> postReviews = postReviewRepository.findByBuyerPostId(buyerPost.getPostId());
-                    reviewCount += postReviews.size();
-                    for (PostReview review : postReviews) {
-                        reviewSum += review.getRating();
-                    }
-                }
-                if (reviewCount != 0) {
-                    averageReivew = reviewSum / reviewCount;
-                }
-                searchRes.setBuyerRating(averageReivew);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            double averageReviewScore = getUserAverageReviewFromEmail(post.getBuyerEmail());
+            searchRes.setBuyerRating(averageReviewScore);
             response.addSearchResult(searchRes);
         }
 
