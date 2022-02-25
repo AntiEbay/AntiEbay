@@ -1,5 +1,7 @@
 package com.antiebay.antiebayservice.search;
 
+import com.antiebay.antiebayservice.userposts.UserPosts;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class SearchResponse {
         this.searchResults = searchResults;
     }
 
-    public void addSearchResult(SearchResult result) {
-        searchResults.add(result);
+    public void addSearchResult(SearchResult res) {
+        searchResults.add(res);
     }
 }

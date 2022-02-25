@@ -2,7 +2,6 @@ package com.antiebay.antiebayservice;
 
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.reviews.PostReview;
-import com.antiebay.antiebayservice.reviews.PostReviewRegistration;
 import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.search.SearchRequest;
 import com.antiebay.antiebayservice.search.SearchResponse;
@@ -12,20 +11,18 @@ import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.PostsRegistration;
 import com.antiebay.antiebayservice.userposts.PostsRepository;
-import com.antiebay.antiebayservice.userposts.UserPostImage;
 import com.antiebay.antiebayservice.userposts.UserPosts;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.PostRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -284,20 +281,44 @@ public class AntiEbayRestController {
     @PostMapping(value = "/search", consumes = {"application/json"})
     public String searchFunction(@RequestBody SearchRequest searchRequest) {
         SearchResponse response = new SearchResponse();
+        List<UserPosts> returnedPosts = new ArrayList();
         try {
-            List<UserPosts> returnedPosts = searchService.listAll(searchRequest.getQuery());
-            if (returnedPosts.isEmpty()) {
-                return objectMapper.writeValueAsString(response);
-            }
-            for (UserPosts post : returnedPosts) {
-                SearchResult result = new SearchResult(post);
-                response.addSearchResult(result);
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+             returnedPosts = searchService.listAll(searchRequest.getQuery());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        for (UserPosts post : returnedPosts) {
+            post.loadImages();
+        }
+
+        // calculate average review score for user
+        for (UserPosts post : returnedPosts) {
+            SearchResult searchRes = new SearchResult(post);
+            try {
+                double reviewSum = 0;
+                double reviewCount = 0;
+                double averageReivew = 0;
+                List<UserPosts> buyerPosts = postsRepository.findByBuyerEmail(post.getBuyerEmail());
+                for (UserPosts buyerPost : buyerPosts) {
+                    List<PostReview> postReviews = postReviewRepository.findByBuyerPostId(buyerPost.getPostId());
+                    reviewCount += postReviews.size();
+                    for (PostReview review : postReviews) {
+                        reviewSum += review.getRating();
+                    }
+                }
+                if (reviewCount != 0) {
+                    averageReivew = reviewSum / reviewCount;
+                }
+                searchRes.setBuyerRating(averageReivew);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            response.addSearchResult(searchRes);
+        }
+
+        // get rating for each search result
+
         String strToReturn = "";
         try {
             strToReturn = objectMapper.writeValueAsString(response);

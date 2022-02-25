@@ -4,7 +4,13 @@ import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "posts")
@@ -53,6 +59,33 @@ public class UserPosts {
             img.setFileName("users/" + buyerEmail + '/' + postId + '/');
             img.writeFile();
         }
+    }
+
+    public void loadImages() {
+        if (imageList == null) {
+            imageList = new ArrayList<>();
+        }
+        File dir = new File(postPath);
+        for (int i = 0; i < Objects.requireNonNull(dir.list()).length; i++) {
+            imageList.add(getImageFromPath(postPath + i));
+        }
+    }
+
+    private UserPostImage getImageFromPath(String path) {
+        UserPostImage img = new UserPostImage();
+        File f = new File(path);
+        try {
+            if (!f.exists()) {
+                return img;
+            }
+            byte[] decoded = Files.readAllBytes(Path.of(path));
+            String encoded  = Base64.getEncoder().encodeToString(decoded);
+            img.setContents(encoded);
+            img.setFileName(path + img.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 
     public List<UserPostImage> getImageList() {
