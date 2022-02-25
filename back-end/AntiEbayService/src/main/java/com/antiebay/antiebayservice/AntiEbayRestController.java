@@ -3,6 +3,9 @@ package com.antiebay.antiebayservice;
 import com.antiebay.antiebayservice.logging.StatusMessages;
 import com.antiebay.antiebayservice.reviews.PostReview;
 import com.antiebay.antiebayservice.reviews.PostReviewRepository;
+import com.antiebay.antiebayservice.reviews.SellerReview;
+import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
+import com.antiebay.antiebayservice.reviews.SellerReviewRegistration;
 import com.antiebay.antiebayservice.search.SearchRequest;
 import com.antiebay.antiebayservice.search.SearchResponse;
 import com.antiebay.antiebayservice.search.SearchResult;
@@ -19,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.PostRequest;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -350,7 +354,7 @@ public class AntiEbayRestController {
 
         // Check if user logged in is of seller type
         if (!session.getAttribute("userType").equals("seller")) {
-            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
             return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
         }
 
@@ -366,6 +370,39 @@ public class AntiEbayRestController {
             logger.warn(ex.getMessage());
             logger.warn(StatusMessages.POST_REVIEW_CREATE_FAIL);
             return StatusMessages.POST_REVIEW_CREATE_FAIL.toString();
+        }
+    }
+
+    //PostMapping for writing a seller review to the databse
+    @PostMapping(value = "seller/review/writing", consumes = {"application/json"})
+    private String sellerReview(@RequestBody PostReview sellerReview, 
+                                    HttpServletRequest request) {
+        logger.info("Received post review request for: " + sellerReview.getSellerReviewId());
+        HttpSession session = request.getSession();
+
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+
+        // Check if user logged in is of buyer type
+        if (!session.getAttribute("userType").equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
+
+
+        // Try writing user to database
+        try {
+            sellerReviewRepository.save(sellerReview);
+            logger.info(StatusMessages.SELLER_REVIEW_CREATE_SUCCESS);
+            return StatusMessages.SELLER_REVIEW_CREATE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.SELLER_REVIEW_CREATE_FAIL);
+            return StatusMessages.SELLER_REVIEW_CREATE_FAIL.toString();
         }
     }
 

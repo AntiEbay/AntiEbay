@@ -17,7 +17,9 @@ public enum StatusMessages {
     USER_POST_CREATE_SUCCESS("Post Successfully Created."),
     USER_POST_CREATE_FAIL("Post Creation Failed."),
     POST_REVIEW_CREATE_SUCCESS("Post Review Successfully Created."),
-    POST_REVIEW_CREATE_FAIL("Post Review Creation Failed.");
+    POST_REVIEW_CREATE_FAIL("Post Review Creation Failed."),
+    SELLER_REVIEW_CREATE_SUCCESS("Seller Review Successfully Created."),
+    SELLER_REVIEW_CREATE_FAIL("Seller Review Creation Failed.");
 
 
     private final String message;
