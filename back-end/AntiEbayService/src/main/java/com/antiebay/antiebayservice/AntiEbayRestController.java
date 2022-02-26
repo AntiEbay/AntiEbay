@@ -231,11 +231,10 @@ public class AntiEbayRestController {
         }
 
         // Get email from http
-
-        if (!userPosts.getBuyerEmail().equals(session.getAttribute("email"))) {
-            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
-            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
-        }
+//        if (!userPosts.getBuyerEmail().equals(session.getAttribute("email"))) {
+//            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+//            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+//        }
 
         // Check if user logged in is of buyer type
         if (!session.getAttribute("userType").equals("buyer")) {
@@ -243,8 +242,11 @@ public class AntiEbayRestController {
             return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
         }
 
+        // set email from session
+        userPosts.setBuyerEmail(String.valueOf(session.getAttribute("email")));
+
         // debug
-        userPosts.setBuyerEmail(session.getAttribute("email").toString());
+//        userPosts.setBuyerEmail(session.getAttribute("email").toString());
 
         // Try writing user to database
         try {
