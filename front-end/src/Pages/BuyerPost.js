@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-
+import { accountTypeContext } from "../SessionVariables";
 import "../Components/UploadForm/UploadForm.css";
 
 var imageClassList = [];
@@ -216,18 +216,6 @@ window.onload = function () {
   );
 };
 
-const buyerPostValues = {
-  buyerEmail: "",
-  postPath: "",
-  title: "",
-  quantity: 100,
-  price: 100,
-  category: "",
-  productCondition: "",
-  description: "",
-  imageList: [],
-};
-
 class ImageObj {
   fileName = "";
   contents = "";
@@ -240,15 +228,27 @@ class ImageObj {
 
 const BuyerPost = () => {
   //Variables to send to backend
-  const [title, setTitle] = useState(""); //Todo make this code more dry
-  const [quantity, setQuantity] = useState();
-  const [price, setPrice] = useState();
+  const [title, setTitle] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [productCondition, setCondition] = useState("");
   const [description, setDescription] = useState("");
-
+  const { state, update } = useContext(accountTypeContext);
+  console.log(state.accountEmail);
   //Post Request Fucntion
   async function buyerPostRequest(event) {
+    const buyerPostValues = {
+      buyerEmail: "t",
+      postPath: "",
+      title: "",
+      quantity: 100,
+      price: 100,
+      category: "",
+      productCondition: "",
+      description: "",
+      imageList: [],
+    };
     event.preventDefault();
     buyerPostValues.title = title;
     buyerPostValues.quantity = parseInt(quantity);
@@ -462,10 +462,10 @@ const BuyerPost = () => {
                 label="Condition"
               >
                 <option value="null" selcted="selected"></option>
-                <option value="ant">New</option>
-                <option value="art">Used - Like New</option>
-                <option value="aut">Used - Good</option>
-                <option value="bab">Used - Fair</option>
+                <option value="new">New</option>
+                <option value="good">Used - Like New</option>
+                <option value="fair">Used - Good</option>
+                <option value="used">Used - Fair</option>
               </select>
             </div>
 

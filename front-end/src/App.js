@@ -5,6 +5,7 @@ import SignIn from "./Pages/SignIn";
 import BuyerPost from "./Pages/BuyerPost";
 import SearchResults from "./Pages/SearchResults";
 import BiddingPage from "./Pages/BiddingPage";
+import PostDisplay from "./Components/PostDisplay";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccountProvider } from "./SessionVariables";
 
@@ -18,7 +19,8 @@ function App() {
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/BuyerPost" element={<BuyerPost />} />
           <Route path="/SearchResults" element={<SearchResults />} />
-          <Route path="Bidding" element={<BiddingPage />} />
+          <Route path="/Bidding" element={<BiddingPage />} />
+          <Route path="/PostDisplay" element={<PostDisplay />} />
         </Routes>
       </BrowserRouter>
     </AccountProvider>

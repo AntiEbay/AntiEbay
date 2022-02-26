@@ -1,0 +1,3 @@
+/*This file is needed beucase compatibility issues with tailwind and swiper */
+.swiper-button-next {color: white;}
+.swiper-button-prev {color: white;}

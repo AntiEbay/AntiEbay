@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-
+import PostDisplay from "../Components/PostDisplay";
 const SearchResults = () => {
   const location = useLocation();
   const [advSearchShow, setAdvSearchShow] = useState(true);
@@ -10,7 +10,12 @@ const SearchResults = () => {
   const [category, setCategory] = useState("null");
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
+  const [mapPosts, setMapPosts] = useState([]);
   console.log(location);
+  //Making a list of all the search Results
+
+  <span className="text-white">Test Test Test</span>;
+
   const startSearch = async (event) => {
     event.preventDefault();
     const options = {};
@@ -56,15 +61,48 @@ const SearchResults = () => {
         }
       );
       console.log(getSearchRes);
+      const res = getSearchRes.searchResults;
     } catch (error) {
+      const post = {
+        postTitle: "testTitle",
+        postDescription: "desc",
+        postId: 4,
+        imageArray: undefined,
+        price: 4,
+        quantity: 2,
+        productCondition: "new",
+      };
+      const res = { userRating: 3, post };
+      console.log(Object.keys(res.post));
+      setMapPosts(
+        Object.keys(res.post).map(
+          (key) => (
+            console.log(key),
+            (
+              <PostDisplay
+                userRating={3}
+                title={key.postTitle}
+                description={key.postDescription}
+                postId={key.postId}
+                imageArray={key.imageList}
+                price={key.price}
+                quantity={key.quantity}
+                condition={key.productCondition}
+              ></PostDisplay>
+            )
+          )
+        )
+      );
+      console.log(mapPosts);
       console.log(error);
     }
   };
   if (advSearchShow) {
     return (
       <div className=" bg-slate-600 h-screen">
+        {mapPosts}
         <NavBar />
-        <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-1/3 mt-4">
+        <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-60 mt-4">
           <div className="flex justify-between">
             <div className="my-6">
               <span className=" text-white ml-1 mr-2 text-lg">Search: </span>
@@ -73,7 +111,7 @@ const SearchResults = () => {
                 defaultValue={location.search.substring(1)}
               ></input>
             </div>
-            <span className=" text-2xl text-white my-6 mr-3">
+            <span className=" text-2xl text-white my-6 mr-3 ">
               Advanced Search
             </span>
           </div>
@@ -202,6 +240,7 @@ const SearchResults = () => {
             </button>
           </div>
         </div>
+        {mapPosts}
       </div>
     );
   }

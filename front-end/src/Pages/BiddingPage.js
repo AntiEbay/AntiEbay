@@ -17,9 +17,9 @@ const BiddingPage = (props) => {
         triggerOff={setReviewScreen}
         review={setReview}
       />
-      <div className=" grid grid-cols-2 bg-slate-800 lg:w-3/4 lg:h-2/3 mt-20">
+      <div className=" grid lg:grid-cols-2 bg-slate-800 lg:w-3/4 lg:h-2/3 mt-20">
         <div className=" flex items-start justify-center">
-          <div className="flex h-1/2 w-1/2 bg-slate-400 items-center justify-center mt-20 rounded-md">
+          <div className="flex h-1/2 w-1/2 bg-slate-400 items-center justify-center mt-20 rounded-lg">
             No Image Available
           </div>
         </div>
@@ -34,18 +34,18 @@ const BiddingPage = (props) => {
             </span>
           )}
           <hr />
-          <div className="flex flex-col bg-slate-600 rounded-md mr-3 mt-1">
+          <div className="flex flex-col bg-slate-600 rounded-lg mr-3 mt-1">
             {props.description !== undefined ? (
-              <span className="text-white text-center  bg-slate-600 mr-3 text-lg rounded-md">
+              <span className="text-white text-center  bg-slate-600 mr-3 text-lg rounded-md my-3">
                 {props.description}
               </span>
             ) : (
-              <span className=" text-white text-center bg-slate-600 mr-3 text-lg rounded-md">
+              <span className=" text-white text-center bg-slate-600 mr-3 text-lg rounded-md my-3">
                 Item description is undefined.
               </span>
             )}
             <hr />
-            <div className=" bg-slate-600 mr-3 text-center rounded-md my-2 text-lg">
+            <div className=" bg-slate-600 mr-3 text-center rounded-md text-lg my-3">
               <span className="mr-2 text-white">Current Bid:</span>
               {props.offer !== undefined ? (
                 <span className="text-white text-centermr-3 text-lg rounded-md">
@@ -57,7 +57,8 @@ const BiddingPage = (props) => {
                 </span>
               )}
             </div>
-            <div className="flex justify-center rounded-md mr-3 my-2">
+            <hr />
+            <div className="flex justify-center rounded-md mr-3 my-3">
               <span className="text-white text-center text-lg rounded-md hidden lg:block">
                 Place your bid here: $
               </span>
@@ -75,7 +76,7 @@ const BiddingPage = (props) => {
               />
             </div>
           </div>
-          <div className="flex justify-between my-2">
+          <div className="flex justify-between my-5">
             {!review ? (
               <button
                 className=" text-white text-lg hover:bg-slate-400 rounded-md p-2 ring-2 ring-white ml-3"
