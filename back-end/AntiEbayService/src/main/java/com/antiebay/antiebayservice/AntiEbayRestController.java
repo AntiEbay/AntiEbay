@@ -22,13 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.PostRequest;
 
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import com.antiebay.antiebayservice.deleteservice.DeletePost;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import java.util.Set;
-//import org.springframework.http.ResponseEntity;
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -63,10 +56,7 @@ public class AntiEbayRestController {
     @Autowired
     private SellerReviewRepository sellerReviewRepository;
 
-    /*
-    @Autowired
-    private DeletePost deletePost;
-    */
+    
 
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
@@ -435,24 +425,36 @@ public class AntiEbayRestController {
             return StatusMessages.SELLER_REVIEW_CREATE_FAIL.toString();
         }
     }
-    /*
-    @GetMapping(value="/posts")
-    public ResponseEntity<Set<UserPosts>> all() {
-        return ok().body(deletePost.all());
-    }
 
-    @DeleteMapping(value = "/posts/{id}")
-    public ResponseEntity<Integer> deletePost(@PathVariable Integer postId) {
+    //PostMapping for deleting a post from the databse
+    @PostMapping(value = "post/delete", consumes = {"application/json"})
+    private String postDelete(@RequestBody UserPosts userPosts, 
+                                    HttpServletRequest request) {
+        logger.info("Received user post request for: " + userPosts.getId());
+        HttpSession session = request.getSession();
 
-        var isRemoved = deletePost.delete(postId);
 
-        if (!isRemoved) {
-            return new ResponseEntity<>(StatusMessages.POST_DELETE_FAIL);
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
-        return new ResponseEntity<>(postId, StatusMessages.POST_DELETE_SUCCESS);
+        // set email from session
+        userPosts.setBuyerEmail(String.valueOf(session.getAttribute("email")));
+
+        // Try writing user to database
+        try {
+            postsRepository.deleteById(userPosts.getId());
+            logger.info(StatusMessages.POST_DELETE_SUCCESS);
+            return StatusMessages.POST_DELETE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.POST_DELETE_FAIL);
+            return StatusMessages.POST_DELETE_FAIL.toString();
+        }
     }
-    */
+    
 
     @GetMapping("/")
     private String getString() {
