@@ -1,7 +1,6 @@
 import React from "react";
 
 const SolidAlert = (props) => {
-  console.log(props);
   if (props.alertValues.visible === true) {
     return (
       <div

@@ -211,7 +211,11 @@ const SearchResults = () => {
             </div>
           </div>
         </div>
-        {posts}
+        {posts !== undefined ? (
+          <div className=" flex flex-col justify-center">{posts}</div>
+        ) : (
+          <div></div>
+        )}
       </div>
     );
   } else {
@@ -236,7 +240,11 @@ const SearchResults = () => {
             </button>
           </div>
         </div>
-        {posts}
+        {posts !== undefined ? (
+          <div className=" flex flex-col justify-center">{posts}</div>
+        ) : (
+          <div></div>
+        )}
       </div>
     );
   }
