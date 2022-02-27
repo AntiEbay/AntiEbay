@@ -11,9 +11,10 @@ const SearchResults = () => {
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
   const [mapPosts, setMapPosts] = useState([]);
-  console.log(location);
+  const newArray = [];
+  const [posts, setPosts] = useState(undefined);
   //Making a list of all the search Results
-
+  const [imgString, setImgString] = useState("");
   <span className="text-white">Test Test Test</span>;
 
   const startSearch = async (event) => {
@@ -61,46 +62,40 @@ const SearchResults = () => {
         }
       );
       console.log(getSearchRes);
-      const res = getSearchRes.searchResults;
-    } catch (error) {
-      const post = {
-        postTitle: "testTitle",
-        postDescription: "desc",
-        postId: 4,
-        imageArray: undefined,
-        price: 4,
-        quantity: 2,
-        productCondition: "new",
-      };
-      const res = { userRating: 3, post };
-      console.log(Object.keys(res.post));
-      setMapPosts(
-        Object.keys(res.post).map(
+      Object.keys(getSearchRes.data.searchResults).map((key) =>
+        newArray.push(getSearchRes.data.searchResults[key])
+      );
+      console.log(newArray);
+      setPosts(
+        newArray.map(
           (key) => (
             console.log(key),
             (
               <PostDisplay
-                userRating={3}
-                title={key.postTitle}
-                description={key.postDescription}
-                postId={key.postId}
-                imageArray={key.imageList}
-                price={key.price}
-                quantity={key.quantity}
-                condition={key.productCondition}
-              ></PostDisplay>
+                imgStrings={key.post.imageList}
+                title={key.post.title}
+                description={key.post.description}
+                price={key.post.price}
+                condition={key.post.productCondition}
+                userRating={key.buyerRating}
+                postId={key.post.id}
+                buyerEmail={key.post.buyerEmail}
+                quantity={key.post.quantity}
+              />
             )
           )
         )
       );
-      console.log(mapPosts);
-      console.log(error);
+    } catch (error) {
+      Object.keys(mapPosts).map((key) => newArray.push(mapPosts[key]));
+      console.log(newArray);
+      // console.log(error);
+      console.log(posts);
     }
   };
   if (advSearchShow) {
     return (
-      <div className=" bg-slate-600 h-screen">
-        {mapPosts}
+      <div className=" bg-slate-600 h-screen overflow-auto">
         <NavBar />
         <div className="flex flex-col m-auto bg-slate-800 rounded-lg lg:w-2/5 lg:h-60 mt-4">
           <div className="flex justify-between">
@@ -150,7 +145,7 @@ const SearchResults = () => {
               <option value="toy">Toys & Games</option>
               <option value="vid">Video Games & Consoles</option>
             </select>
-            <span className=" ml-1 text-sm text-white align-top">
+            <span className=" ml-1 text-sm text-white align-top opacity-60">
               {" "}
               -optional
             </span>
@@ -171,7 +166,7 @@ const SearchResults = () => {
               }}
               placeholder="Min Price"
             />
-            <span className=" ml-1 text-sm text-white align-top">
+            <span className=" ml-1 text-sm text-white align-top opacity-60">
               {" "}
               -optional
             </span>
@@ -193,7 +188,7 @@ const SearchResults = () => {
                 }}
                 placeholder="Max Price"
               />
-              <span className=" ml-1 text-sm text-white align-top">
+              <span className=" ml-1 text-sm text-white align-top opacity-60">
                 {" "}
                 -optional
               </span>
@@ -216,6 +211,7 @@ const SearchResults = () => {
             </div>
           </div>
         </div>
+        {posts}
       </div>
     );
   } else {
@@ -240,7 +236,7 @@ const SearchResults = () => {
             </button>
           </div>
         </div>
-        {mapPosts}
+        {posts}
       </div>
     );
   }

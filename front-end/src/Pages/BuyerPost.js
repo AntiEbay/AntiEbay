@@ -235,11 +235,10 @@ const BuyerPost = () => {
   const [productCondition, setCondition] = useState("");
   const [description, setDescription] = useState("");
   const { state, update } = useContext(accountTypeContext);
-  console.log(state.accountEmail);
   //Post Request Fucntion
   async function buyerPostRequest(event) {
     const buyerPostValues = {
-      buyerEmail: "t",
+      buyerEmail: state.accountEmail,
       postPath: "",
       title: "",
       quantity: 100,
