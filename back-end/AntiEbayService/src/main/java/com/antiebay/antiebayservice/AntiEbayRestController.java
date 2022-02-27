@@ -22,6 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.PostRequest;
 
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import com.antiebay.antiebayservice.deleteservice.DeletePost;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import java.util.Set;
+//import org.springframework.http.ResponseEntity;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -56,6 +62,12 @@ public class AntiEbayRestController {
 
     @Autowired
     private SellerReviewRepository sellerReviewRepository;
+
+    /*
+    @Autowired
+    private DeletePost deletePost;
+    */
+
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -423,6 +435,24 @@ public class AntiEbayRestController {
             return StatusMessages.SELLER_REVIEW_CREATE_FAIL.toString();
         }
     }
+    /*
+    @GetMapping(value="/posts")
+    public ResponseEntity<Set<UserPosts>> all() {
+        return ok().body(deletePost.all());
+    }
+
+    @DeleteMapping(value = "/posts/{id}")
+    public ResponseEntity<Integer> deletePost(@PathVariable Integer postId) {
+
+        var isRemoved = deletePost.delete(postId);
+
+        if (!isRemoved) {
+            return new ResponseEntity<>(StatusMessages.POST_DELETE_FAIL);
+        }
+
+        return new ResponseEntity<>(postId, StatusMessages.POST_DELETE_SUCCESS);
+    }
+    */
 
     @GetMapping("/")
     private String getString() {
