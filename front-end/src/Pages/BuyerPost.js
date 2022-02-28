@@ -1,15 +1,10 @@
 import { useState } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-
+import SolidAlert from "../Components/Alerts/SolidAlert";
 import "../Components/UploadForm/UploadForm.css";
-//import { Route, useLocation } from "react-router-dom";
 
 var imageClassList = [];
-
-window.onload = function () {
-  console.log("Window");
-};
 
 const buyerPostValues = {
   buyerEmail: "",
@@ -33,10 +28,53 @@ class ImageObj {
   }
 }
 
-const gather = () => {
+
+
+const BuyerPost = () => {
+  //Variables to send to backend
+  const [title, setTitle] = useState(""); //Todo make this code more dry
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
+  const [category, setCategory] = useState("");
+  const [productCondition, setCondition] = useState("");
+  const [description, setDescription] = useState("");
+  const [alertValues, setAlertValues] = useState({
+    visible: false,
+    text: "",
+  });
+
+  //Post Request Function
+  async function buyerPostRequest(event) {
+    event.preventDefault();
+    buyerPostValues.title = title;
+    buyerPostValues.quantity = parseInt(quantity);
+    buyerPostValues.price = parseInt(price);
+    buyerPostValues.category = category;
+    buyerPostValues.productCondition = productCondition;
+    buyerPostValues.description = description;
+    buyerPostValues.imageList = imageClassList;
+    console.log(buyerPostValues);
+    const res = await axios.post(
+      "http://localhost:8080/user/post/writing",
+      JSON.stringify(buyerPostValues),
+      {
+        headers: {
+          // Overwrite Axioss automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log(res.data.data);
+    console.log(res.data.headers["Content-Type"]);
+  }
+
+  const gather = () => {
   let fileInput = document.getElementById("fileInput");
   var string = "fileDisplayArea";
   var fileDisplayArea;
+  
 
   console.log("call");
 
@@ -64,6 +102,12 @@ const gather = () => {
 
           // Max Images reached
           if (i === 4) {
+            setAlertValues({
+              visible: true, 
+              text: "Maximum Images Reached. 4/4",
+            });
+            setTimeout(function() {setAlertValues({visible: false});} , 7000)
+            
             return;
           }
         }
@@ -184,44 +228,6 @@ const gather = () => {
   );
 };
 
-const BuyerPost = () => {
-  //Variables to send to backend
-  const [title, setTitle] = useState(""); //Todo make this code more dry
-  const [quantity, setQuantity] = useState();
-  const [price, setPrice] = useState();
-  const [category, setCategory] = useState("");
-  const [productCondition, setCondition] = useState("");
-  const [description, setDescription] = useState("");
-
-  //Post Request Function
-  async function buyerPostRequest(event) {
-    event.preventDefault();
-    buyerPostValues.title = title;
-    buyerPostValues.quantity = parseInt(quantity);
-    buyerPostValues.price = parseInt(price);
-    buyerPostValues.category = category;
-    buyerPostValues.productCondition = productCondition;
-    buyerPostValues.description = description;
-    buyerPostValues.imageList = imageClassList;
-    console.log(buyerPostValues);
-    const res = await axios.post(
-      "http://localhost:8080/user/post/writing",
-      JSON.stringify(buyerPostValues),
-      {
-        headers: {
-          // Overwrite Axioss automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
-
-    console.log(res.data.data);
-    console.log(res.data.headers["Content-Type"]);
-  }
-
-  
-
   return (
     <div
       id="container"
@@ -234,6 +240,7 @@ const BuyerPost = () => {
       }}
     >
       <NavBar />
+      <SolidAlert alertValues={alertValues} />
 
       {/*Empty space*/}
       <div className="text-slate-600 h-24"></div>
