@@ -15,7 +15,7 @@ const NavBarButtons = (props) => {
               </button>
             </Link>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Manage Posts
+              View Posts
             </button>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
@@ -28,14 +28,19 @@ const NavBarButtons = (props) => {
               Create Post
             </button>
           </Link>
-          <Link to="/ManagePosts">
+          <Link to="/SignIn">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Manage Posts
+              View Post
             </button>
           </Link>
           <Link to="/SignUp">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
+            </button>
+          </Link>
+          <Link to="/">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Log Out
             </button>
           </Link>
         </div>
@@ -47,7 +52,10 @@ const NavBarButtons = (props) => {
         <div id="sideBar" className="flex lg:hidden">
           <Menu right outerContainerId="sideBar">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              ManageBids
+              Active Bids
+            </button>
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Orders
             </button>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
@@ -55,14 +63,22 @@ const NavBarButtons = (props) => {
           </Menu>
         </div>
         <div className=" mx-5 hidden lg:flex">
-          <Link to="/ManageBids">
+          <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+            Active Bids
+          </button>
+          <Link to="/SignIn">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Manage Bids
+              Orders
             </button>
           </Link>
           <Link to="/SignUp">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
+            </button>
+          </Link>
+          <Link to="/">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Log Out
             </button>
           </Link>
         </div>
