@@ -1,15 +1,44 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-import { accountTypeContext } from "../SessionVariables";
+
 import "../Components/UploadForm/UploadForm.css";
+//import { Route, useLocation } from "react-router-dom";
 
 var imageClassList = [];
 
 window.onload = function () {
+  console.log("Window");
+};
+
+const buyerPostValues = {
+  buyerEmail: "",
+  postPath: "",
+  title: "",
+  quantity: 100,
+  price: 100,
+  category: "",
+  productCondition: "",
+  description: "",
+  imageList: [],
+};
+
+class ImageObj {
+  fileName = "";
+  contents = "";
+  // maybe add type field
+  constructor(fileName, contents) {
+    this.fileName = fileName;
+    this.contents = contents;
+  }
+}
+
+const gather = () => {
   let fileInput = document.getElementById("fileInput");
   var string = "fileDisplayArea";
   var fileDisplayArea;
+
+  console.log("call");
 
   // Click event
   fileInput.addEventListener(
@@ -33,6 +62,7 @@ window.onload = function () {
             break;
           }
 
+          // Max Images reached
           if (i === 4) {
             return;
           }
@@ -40,6 +70,7 @@ window.onload = function () {
 
         var reader = new FileReader();
         reader.onload = function () {
+
           // Collect Image
           var img = new Image();
           img.src = reader.result;
@@ -49,51 +80,51 @@ window.onload = function () {
           imageClassList.push(new ImageObj("test.png", img.src.split(",")[1]));
           document.getElementById(string + i).style.cursor = "zoom-in";
 
-          document
-            .getElementById(string + i)
-            .addEventListener("click", function () {
-              document.getElementById(
-                "fileDisplayArea5"
-              ).style.backgroundImage = document.getElementById(
-                string + i
-              ).style.backgroundImage;
+          // Image click event
+          document.getElementById(string + i).addEventListener("click", function () {
+            // Set clicked image as 
+            document.getElementById("fileDisplayArea5").style.backgroundImage = document.getElementById(string + i).style.backgroundImage;
+            
+            // Iterate through images. 
+            for(var j = 1; j < 5; j++){
 
-              // for(var j = 1; j < 5; j++){
-              //   if(document.getElementById(string + j).style.backgroundImage !== "none"){
-              //     if(document.getElementById(string + j).style.filter === "brightness(.4)"){
-              //       console.log("call");
-              //       document.getElementById(string + j).style.filter = "none";
-              //     }
-              //   }
-              // }
+              // Collect Image
+              var check = document.getElementById(string + j).style.backgroundImage;
 
-              document.getElementById(string + i).style.filter =
-                "brightness(.4)";
-              document.getElementById("x" + i).style.filter = "none";
-            });
+              // Only alter image blocks
+              if(check !== ""){
+
+                // Remove filter on all images. 
+                document.getElementById(string + j).style.filter = "";
+
+                // Turn selected image, dark
+                if(j === i){
+                  document.getElementById(string + j).style.filter = "brightness(.4)";
+                }
+              }
+            } //End of loop
+          });
+
 
           // Update Photo Tally
           var count = 0;
           for (var j = 1; j < 5; j++) {
             // check value, false = no image, true = image
-            var check = document
-              .getElementById(string + j)
-              .getAttribute("value");
+            var check = document.getElementById(string + j).getAttribute("value");
 
             // If true, iterate count
             if (check === "true") {
               count++;
             }
           }
-
           document.getElementById("count").innerHTML = count;
-          console.log("count: " + count);
+
 
           // Add X button
-          fileDisplayArea.innerHTML =
-            fileDisplayArea.innerHTML +
-            "<div id='x" +
-            i +
+          fileDisplayArea.innerHTML = 
+            fileDisplayArea.innerHTML + 
+            "<div id='x" + 
+            i + 
             "' className=''>X</div>";
           document.getElementById("x" + i).style.position = "absolute";
 
@@ -112,6 +143,7 @@ window.onload = function () {
           document.getElementById("x" + i).style.width = "1.25rem"; // Width of box
           document.getElementById("x" + i).style.marginTop = "5px"; // Top margin
           document.getElementById("x" + i).style.cursor = "pointer"; // cursor (hand)
+          document.getElementById("x" + i).style.marginLeft = "80px"; // Left Margin
           // Hover
           document
             .getElementById("x" + i)
@@ -125,12 +157,7 @@ window.onload = function () {
               document.getElementById("x" + i).style.backgroundColor =
                 "rgb(248 113 113 / var(--tw-bg-opacity))";
             });
-          if (i !== 5) {
-            document.getElementById("x" + i).style.marginLeft = "80px"; // For x on small images
-          } else {
-            document.getElementById("x" + i).style.marginLeft = "400px"; // for x on large image
-          }
-
+          
           // X click function
           document
             .getElementById("x" + i)
@@ -144,67 +171,8 @@ window.onload = function () {
                 .getElementById(string + i)
                 .setAttribute("value", "false");
               document.getElementById(string + i).style.cursor = "default";
-
-              // IGNORE
-              //   if((document.getElementById("fileDisplayArea1").getAttribute("value") == "false" ||
-              //      document.getElementById("fileDisplayArea2").getAttribute("value") == "false" ||
-              //      document.getElementById("fileDisplayArea3").getAttribute("value") == "false" ||
-              //      document.getElementById("fileDisplayArea4").getAttribute("value") == "false") &&
-              //      document.getElementById("fileDisplayArea5").getAttribute("value") == "true")
-              //      {
-              //       for(var j = 1; j < 5; j++){
-              //         console.log("call");
-
-              //         // check value, false = no image, true = image
-              //         var check = document.getElementById(string + j).getAttribute("value");
-
-              //         // If false, set as image block, set value to true
-              //         if(check == "false"){
-              //           document.getElementById(string + j).style.backgroundImage = document.getElementById("fileDisplayArea5").style.backgroundImage;
-              //           document.getElementById(string + j).innerHTML += "<div id='x"+ j +"' className=''>X</div>";
-
-              //           // X button Attributes
-              //           document.getElementById("x"+j).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";// Intial Color
-              //           document.getElementById("x"+j).style.fontWeight = "700"; // Bold
-              //           document.getElementById("x"+j).style.paddingLeft = ".25rem"; // Padding
-              //           document.getElementById("x"+j).style.paddingRight = ".25rem"; // Padding
-              //           document.getElementById("x"+j).style.borderRadius = ".375rem"; // border rounding
-              //           document.getElementById("x"+j).style.borderWidth = "2px";  // border thickness
-              //           document.getElementById("x"+j).style.fontSize = ".75rem";  // text size
-              //           document.getElementById("x"+j).style.lineHeight = "1rem";   // line height
-              //           document.getElementById("x"+j).style.borderColor = "rgb(71 85 105 / var(--tw-border-opacity))"; //border color
-              //           document.getElementById("x"+j).style.width = "1.25rem"; // Width of box
-              //           document.getElementById("x"+j).style.marginTop = "5px"; // Top margin
-              //           // Hover
-              //           document.getElementById("x"+j).addEventListener("mouseover", function() { document.getElementById("x"+j).style.backgroundColor = "rgb(185 28 28 / var(--tw-bg-opacity))";});
-              //           document.getElementById("x"+j).addEventListener("mouseout", function() {document.getElementById("x"+j).style.backgroundColor = "rgb(248 113 113 / var(--tw-bg-opacity))";});
-              //           if(j != 5){
-              //             document.getElementById("x"+j).style.marginLeft = "80px"; // For x on small images
-              //           }else{
-              //             document.getElementById("x"+j).style.marginLeft = "400px"; // for x on large image
-              //           }
-
-              //           // X click function
-              //           document.getElementById("x"+j).addEventListener("click", function() {
-              //             document.getElementById(string+j).style.backgroundImage = "none";
-              //             document.getElementById("x"+j).remove();
-              //             document.getElementById("count").innerHTML = parseInt(document.getElementById("count").innerHTML) - 1;
-              //             document.getElementById(string+j).setAttribute("value", "false");
-              //           });
-
-              //           document.getElementById("fileDisplayArea5").style.backgroundImage = "none";
-              //           document.getElementById("x5").remove();
-
-              //           // Update bool values
-              //           document.getElementById(string + j).setAttribute("value", "true");
-              //           document.getElementById("fileDisplayArea5").setAttribute("value", "false");
-              //           break;
-              //         }
-              //       }// end of inner loop
-
-              //      }// end of inner if
             });
-        };
+        }; // End of Reader
         reader.readAsDataURL(file);
       } else {
         console.log("File not supported!");
@@ -216,38 +184,17 @@ window.onload = function () {
   );
 };
 
-class ImageObj {
-  fileName = "";
-  contents = "";
-  // maybe add type field
-  constructor(fileName, contents) {
-    this.fileName = fileName;
-    this.contents = contents;
-  }
-}
-
 const BuyerPost = () => {
   //Variables to send to backend
-  const [title, setTitle] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState(0);
+  const [title, setTitle] = useState(""); //Todo make this code more dry
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
   const [category, setCategory] = useState("");
   const [productCondition, setCondition] = useState("");
   const [description, setDescription] = useState("");
-  const { state, update } = useContext(accountTypeContext);
-  //Post Request Fucntion
+
+  //Post Request Function
   async function buyerPostRequest(event) {
-    const buyerPostValues = {
-      buyerEmail: state.accountEmail,
-      postPath: "",
-      title: "",
-      quantity: 100,
-      price: 100,
-      category: "",
-      productCondition: "",
-      description: "",
-      imageList: [],
-    };
     event.preventDefault();
     buyerPostValues.title = title;
     buyerPostValues.quantity = parseInt(quantity);
@@ -272,6 +219,8 @@ const BuyerPost = () => {
     console.log(res.data.data);
     console.log(res.data.headers["Content-Type"]);
   }
+
+  
 
   return (
     <div
@@ -310,7 +259,7 @@ const BuyerPost = () => {
             >
               <div id="addHide" className="mt-40">
                 <label className=" bg-slate-400  rounded-sm text-center hover:bg-sky-600 cursor-pointer">
-                  <input className="w-1 " type="file" id="fileInput" />
+                  <input className="w-1 " type="file" id="fileInput" onClick={gather}/>
                   <span className=" text-black">Add Photos Here</span>
                 </label>
               </div>
@@ -461,10 +410,10 @@ const BuyerPost = () => {
                 label="Condition"
               >
                 <option value="null" selcted="selected"></option>
-                <option value="new">New</option>
-                <option value="good">Used - Like New</option>
-                <option value="fair">Used - Good</option>
-                <option value="used">Used - Fair</option>
+                <option value="ant">New</option>
+                <option value="art">Used - Like New</option>
+                <option value="aut">Used - Good</option>
+                <option value="bab">Used - Fair</option>
               </select>
             </div>
 
@@ -498,7 +447,7 @@ const BuyerPost = () => {
         {/*End of 2nd black box*/}
       </form>
     </div>
-  );
-};
+  ); // end of return
+}; // end of BuyerPost
 
 export default BuyerPost;
