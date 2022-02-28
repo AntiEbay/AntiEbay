@@ -5,7 +5,7 @@ export const accountTypeContext = createContext();
 const reducer = (state, pair) => ({ ...state, ...pair });
 
 const initialState = {
-  accountType: "0",
+  accountType: "buyer",
   isLoggedIn: false,
   accountEmail: "",
 };
