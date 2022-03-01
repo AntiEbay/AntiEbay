@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
-import PostDisplay from "../Components/PostDisplay";
+import PostDisplay from "../Components/PostDisplays/PostDisplay";
 const SearchResults = () => {
   const location = useLocation();
   const [advSearchShow, setAdvSearchShow] = useState(true);
@@ -15,7 +15,6 @@ const SearchResults = () => {
   const [posts, setPosts] = useState(undefined);
   //Making a list of all the search Results
   const [imgString, setImgString] = useState("");
-  <span className="text-white">Test Test Test</span>;
 
   const startSearch = async (event) => {
     event.preventDefault();
@@ -87,8 +86,6 @@ const SearchResults = () => {
         )
       );
     } catch (error) {
-      Object.keys(mapPosts).map((key) => newArray.push(mapPosts[key]));
-      console.log(newArray);
       // console.log(error);
       console.log(posts);
     }

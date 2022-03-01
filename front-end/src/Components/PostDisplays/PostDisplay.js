@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
-import { accountTypeContext } from "../SessionVariables";
+import { accountTypeContext } from "../../SessionVariables";
 // import required modules
 const PostDisplay = (props) => {
   const { state, update } = useContext(accountTypeContext);
