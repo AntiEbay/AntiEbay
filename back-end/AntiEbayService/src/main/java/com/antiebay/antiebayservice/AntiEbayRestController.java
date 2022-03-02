@@ -299,32 +299,36 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-    // i got half way through then couldnt remember if i was supposed to do this lol...
-//    /**
-//     * REST API Endpoint that will retrieve all the posts for a logged in buyer.
-//     * @param request The HTTP request object that contains the user login data.
-//     * @return A JSON object containing all the posts a user has made.
-//     */
-//    @PostMapping(value = "/user/getallposts")
-//    private String getAllPostsForUser(HttpServletRequest request) {
-//        logger.info("Received request to retrieve all posts by logged in user.");
-//        HttpSession session = request.getSession();
-//
-//        if (!isUserLoggedIn(session)) {
-//            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
-//            return StatusMessages.USER_NOT_LOGGED_IN.toString();
-//        }
-//
-//        String email = session.getAttribute("email").toString();
-//        String userType = session.getAttribute("userType").toString();
-//
-//        if (!userType.equals("buyer")) {
-//            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
-//            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
-//        }
-//
-//        List<UserPosts> postList = postsRepository.findByBuyerEmail()
-//    }
+    // this is the end point to get retrieval all the posts that a buyer has posted
+    @PostMapping(value = "/user/getallposts", consumes = {"application/json"})
+    private String getAllPostsForUser(HttpServletRequest request) {
+        logger.info("Received request to retrieve all posts by logged in user.");
+        HttpSession session = request.getSession();
+
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
+        if (!userType.equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
+
+        List<UserPosts> postList = postsRepository.findByBuyerEmail(email);
+        String returnStr = "";
+
+        try {
+            returnStr = objectMapper.writeValueAsString(postList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+   }
 
     @PostMapping(value = "/user/interactions/getAcceptedUserbids")
     private String buyerAcceptsBid(BidID bidID, HttpServletRequest request) {
@@ -710,68 +714,6 @@ public class AntiEbayRestController {
             return StatusMessages.POST_DELETE_FAIL.toString();
         }
     }
-    //this is the endpoint to get retrieval of all the posts that a seller has bidded on
-    /*
-    @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})
-    private String postCreatedRetrieval(@RequestBody  UserAccountEntity userAccountEntity,
-                                        HttpServletRequest request) {
-        logger.info("Recieved a request to retrieve all posts Seller has bided on for: " + userAccountEntity.getId());
-        HttpSession session = request.getSession();
-
-        String allUserPosts = "";
-
-        try {
-            List<int> listOfPostIDS = bidRepository.findBySellerEmail(userAccountEntity.getEmailAddress());
-        }
-        catch (Exception e) {
-
-            return  StatusMessages.USER_NOT_EXIST.toString();
-        }
-
-        allSellerBidPosts
-        try {
-            for (int postID: listOfPostIDS) {
-                Optional<UserPosts> userPost = postsRepository.findById(requestPost.getId());
-                allSellerBidPosts += objectMapper.writeValueAsString(userPost);
-            }
-            return allSellerBidPosts;
-        }
-        catch (Exception ex){
-            return StatusMessages.USER_POST_RETRIEVAL_FAILED.toString();
-        }
-    }
-     */
-
-
-    // this is the end point to get retrieval all the posts that a buyer has posted
-    @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})
-    private String postCreatedRetrieval(@RequestBody  UserAccountEntity userAccountEntity,
-                                        HttpServletRequest request) {
-        logger.info("Recieved a request to retrieve all buyerposts for: " + userAccountEntity.getId());
-        HttpSession session = request.getSession();
-
-
-        List<UserPosts> userPost;
-        String allUserPosts = "";
-        try {
-            userPost = postsRepository.findByBuyerEmail(userAccountEntity.getEmailAddress());
-        }
-        catch (Exception e) {
-
-            return  StatusMessages.USER_NOT_EXIST.toString();
-        }
-
-        try {
-            for (UserPosts seperateUserPosts: userPost) {
-                allUserPosts += objectMapper.writeValueAsString(seperateUserPosts);
-            }
-            return allUserPosts;
-        }
-        catch (Exception ex){
-            return "notthign";//StatusMessages.USER_POST_RETRIEVAL_FAILED.toString();
-        }
-    }
-
 
     /**
      * A debug screen to test the deploy status of this service.
