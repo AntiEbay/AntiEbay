@@ -1,6 +1,7 @@
 package com.antiebay.antiebayservice.userposts;
 
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
+import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 
 import javax.persistence.*;
 import java.io.File;
@@ -37,10 +38,15 @@ public class UserPosts {
     private String description;
 
     @Transient
+    private List<SellerBidEntity> bidList;
+
+    @Transient
     private List<UserPostImage> imageList;
 
     public UserPosts() {
     }
+
+
 
     public void writeImages() {
         File userParentDir = new File("users/");
