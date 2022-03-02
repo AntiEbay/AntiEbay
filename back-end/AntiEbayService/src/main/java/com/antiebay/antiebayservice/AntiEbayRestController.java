@@ -6,10 +6,7 @@ import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
 import com.antiebay.antiebayservice.search.*;
-import com.antiebay.antiebayservice.sellerbids.BidRepository;
-import com.antiebay.antiebayservice.sellerbids.BidsFromPostRequest;
-import com.antiebay.antiebayservice.sellerbids.BidsFromPostResponse;
-import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
+import com.antiebay.antiebayservice.sellerbids.*;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.userposts.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -329,6 +326,51 @@ public class AntiEbayRestController {
 //        List<UserPosts> postList = postsRepository.findByBuyerEmail()
 //    }
 
+    @PostMapping(value = "/user/interactions/getAcceptedUserbids")
+    private String buyerAcceptsBid(BidID bidID, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        logger.info("Recieved request to accept a bid: " + session.getAttribute("email"));
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // check if user is a seller
+        if (!session.getAttribute("userType").equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
+
+        //check to see if bid is empty
+        Optional<SellerBidEntity> userBid = bidRepository.findById(bidID.getBidId());
+        if(userBid.isEmpty()){
+            logger.warn(StatusMessages.BID_RETRIEVAL_FAIL);
+            return StatusMessages.BID_RETRIEVAL_FAIL.toString();
+        }
+
+        Optional<UserPosts> userPost = postsRepository.findById(userBid.get().getBuyerPostId());
+
+        //check tos ee if post is empty
+        if(userPost.isEmpty()){
+            logger.warn(StatusMessages.POST_RETRIEVAL_FAIL);
+            return StatusMessages.POST_RETRIEVAL_FAIL.toString();
+        }
+
+        // check to see if the buyer matches the session email
+        else if(userPost.get().getBuyerEmail() != session.getAttribute("email")){
+            logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
+            return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
+        }
+
+        //change the bid status and return status message change
+        else{
+            userBid.get().setAcceptedStatus(true);
+            logger.warn(StatusMessages.BID_ACCEPTED);
+            return StatusMessages.BID_ACCEPTED.toString();
+        }
+    }
 
     @PostMapping(value = "/user/interactions/getAcceptedUserbids")
     private String retrieveAllPostsThatHaveAcceptedBidOn(HttpServletRequest request) {
@@ -427,7 +469,7 @@ public class AntiEbayRestController {
         }
     }
 
-    //A retrieval function that will send back whole post back to the front end with just the ID and email
+    /*//A retrieval function that will send back whole post back to the front end with just the ID and email
     @PostMapping(value = "/user/post/retrieval", consumes = {"application/json"})
     private String userPostRequest(@RequestBody PostRequest requestPost,
                                    HttpServletRequest request) throws JsonProcessingException {
@@ -445,7 +487,7 @@ public class AntiEbayRestController {
             e.printStackTrace();
         }
         return strToReturn;
-    }
+    }*/
 
 
     /**
