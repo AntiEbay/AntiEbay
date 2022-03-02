@@ -15,6 +15,7 @@ const BidDisplay = (props) => {
   const acceptBid = async () => {
     const bidInfo = {
       sellerEmail: props.sellerEmail,
+      postId: props.postId,
     };
     const postAcceptBid = await axios.post(
       "http://localhost:8080/user/interactions/acceptbid",
