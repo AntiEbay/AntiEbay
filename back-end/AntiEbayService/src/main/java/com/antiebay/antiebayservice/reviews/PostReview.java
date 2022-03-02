@@ -46,11 +46,11 @@ public class PostReview {
     }
 
     public Integer getBuyerPostId() {
-        return buyerPostId;
+        return postId;
     }
 
     public void setBuyerPostId(Integer buyerPostId) {
-        this.buyerPostId = buyerPostId;
+        this.postId = buyerPostId;
     }
 
     public String getComment() {
@@ -69,7 +69,7 @@ public class PostReview {
                 "postReviewId=" + postReviewId +
                 ", rating='" + rating + '\'' +
                 ", sellerEmail='" + sellerEmail + '\'' +
-                ", buyerPostId='" + buyerPostId + '\'' +
+                ", buyerPostId='" + postId + '\'' +
                 ", comment=" + comment + '\'' +
                 '}';
     }

@@ -7,18 +7,17 @@ import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
 import com.antiebay.antiebayservice.search.*;
 import com.antiebay.antiebayservice.sellerbids.BidRepository;
+import com.antiebay.antiebayservice.sellerbids.BidsFromPostRequest;
+import com.antiebay.antiebayservice.sellerbids.BidsFromPostResponse;
 import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 import com.antiebay.antiebayservice.useraccounts.*;
-import com.antiebay.antiebayservice.userposts.PostsRegistration;
-import com.antiebay.antiebayservice.userposts.PostsRepository;
-import com.antiebay.antiebayservice.userposts.UserPosts;
+import com.antiebay.antiebayservice.userposts.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.antiebay.antiebayservice.userposts.PostRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,19 +34,7 @@ public class AntiEbayRestController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserRegistrationService userRegistrationService;
-
-    @Autowired
-    private PostsRepository postsRepository; 
-
-    @Autowired
-    private PostsRegistration userPosts;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-	private SearchService searchService;
+    private PostsRepository postsRepository;
 
     @Autowired
     private PostReviewRepository postReviewRepository;
@@ -56,13 +43,24 @@ public class AntiEbayRestController {
     private SellerReviewRepository sellerReviewRepository;
 
     @Autowired
-    private FilterSearchResultsService filterSearchResultsService;
+    private BidRepository bidRepository;
 
     @Autowired
-    private BidRepository bidRepository;
+    private ObjectMapper objectMapper;
+
+    @Autowired
+	private SearchService searchService;
+
+    @Autowired
+    private FilterSearchResultsService filterSearchResultsService;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
+    /**
+     * REST API Endpoint that registers a user with our database
+     * @param userAccount A user account object that is mapped via a JSON object
+     * @return A status message indicating whether the registration was successful or not
+     */
     @PostMapping(value = "/user/registration", consumes = {"application/json"})
     private String registerUserAccount(@RequestBody UserAccountIntermediate userAccount) {
         logger.info("Received user registration request for: " + userAccount.getEmailAddress());
@@ -88,6 +86,13 @@ public class AntiEbayRestController {
         }
     }
 
+    /**
+     * REST API Endpoint that logs in a user via the HTTP Session
+     * @param userLoginRequest A request object that contains the user's login information
+     * @param request The HTTP request object being sent to this endpoint
+     * @return A JSON object indicating the login state
+     * @throws JsonProcessingException Due to possible object mapping exceptions
+     */
     @PostMapping(value = "/user/login", consumes = {"application/json"})
     private String loginUserAccount(@RequestBody UserLoginRequest userLoginRequest,
                                     HttpServletRequest request) throws JsonProcessingException {
@@ -141,11 +146,52 @@ public class AntiEbayRestController {
         return responseStr;
     }
 
+    /**
+     * Helper method to test if a user is logged in
+     * @param session The HTTP session containing user information
+     * @return A boolean value denoting whether the user is logged in or not
+     */
     private boolean isUserLoggedIn(HttpSession session) {
         return session.getAttribute("email") != null && session.getAttribute("userType") != null;
     }
 
+    /**
+     * REST API Endpoint that gets all the bids on a given post.
+     * @param bidsFromPostRequest Request object containing the postId that is to be searched for.
+     * @return Returns the JSON of an object containing a list of bids
+     */
+    @PostMapping(value = "/post/getbidsforpost")
+    private String getBidsForPost(@RequestBody BidsFromPostRequest bidsFromPostRequest) {
+        logger.info("Received Get Bids From Post Request for postId: " + bidsFromPostRequest.getPostId());
 
+        // Empty response
+        BidsFromPostResponse response = new BidsFromPostResponse();
+
+        // get list of bids for postId
+        List<SellerBidEntity> bids = bidRepository.findByBuyerPostId(bidsFromPostRequest.getPostId());
+
+        // load images for postId
+        for (SellerBidEntity bid : bids) {
+            bid.loadImageFromStorage();
+            response.addBid(bid);
+        }
+
+        String strToReturn = "";
+        try {
+            strToReturn = objectMapper.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return strToReturn;
+    }
+
+    /**
+     * REST API Endpoint that writes a seller's bid to our database.
+     * @param sellerBid An object mapped from JSON representing the bid that's being made.
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating the status of the bid creation.
+     */
     @PostMapping(value = "/user/interactions/makebid", consumes = {"application/json"})
     private String sellerMakeBid(@RequestBody SellerBidEntity sellerBid,
                                  HttpServletRequest request) {
@@ -171,6 +217,7 @@ public class AntiEbayRestController {
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.warn(StatusMessages.BID_SAVE_FAIL);
+            return StatusMessages.BID_SAVE_FAIL.toString();
         }
 
         logger.info(StatusMessages.BID_SAVE_SUCCESS);
@@ -216,7 +263,7 @@ public class AntiEbayRestController {
      * @param request The http request object that is being sent to the endpoint
      * @return A list of posts that a user has made bids on
      */
-    @PostMapping(value = "/user/interactions/getuserbids")
+    @PostMapping(value = "/user/interactions/getbidposts")
     private String retrieveAllPostsUserHasBidOn(HttpServletRequest request) {
         HttpSession session = request.getSession();
         logger.info("Recieved request to get all bids for user: " + session.getAttribute("email"));
@@ -255,9 +302,34 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-
+    // i got half way through then couldnt remember if i was supposed to do this lol...
+//    /**
+//     * REST API Endpoint that will retrieve all the posts for a logged in buyer.
+//     * @param request The HTTP request object that contains the user login data.
+//     * @return A JSON object containing all the posts a user has made.
+//     */
+//    @PostMapping(value = "/user/getallposts")
+//    private String getAllPostsForUser(HttpServletRequest request) {
+//        logger.info("Received request to retrieve all posts by logged in user.");
+//        HttpSession session = request.getSession();
+//
+//        if (!isUserLoggedIn(session)) {
+//            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+//            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+//        }
+//
+//        String email = session.getAttribute("email").toString();
+//        String userType = session.getAttribute("userType").toString();
+//
+//        if (!userType.equals("buyer")) {
+//            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+//            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+//        }
+//
+//        List<UserPosts> postList = postsRepository.findByBuyerEmail()
+//    }
     
-    //PostMapping for writing a post to the databse
+    //PostMapping for writing a post to the database
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
     private String userPostWriting(@RequestBody UserPosts userPosts, 
                                     HttpServletRequest request) {
@@ -334,6 +406,11 @@ public class AntiEbayRestController {
     }
 
 
+    /**
+     * Helper function that gets the average review rating from a user's email
+     * @param email The email that is to be used to determine a user's average review
+     * @return The average review for the given user
+     */
     private double getUserAverageReviewFromEmail(String email) {
         double reviewSum = 0;
         double reviewCount = 0;
@@ -484,6 +561,11 @@ public class AntiEbayRestController {
         }
     }
 
+    /**
+     * REST API Endpoint that gets all the bids that a user has made.
+     * @param request The HTTP Request that contains the user's login data.
+     * @return A JSON object representing the bids that this user has made.
+     */
     @PostMapping(value = "/interactions/getuserbids")
     public String getAllUserBids(HttpServletRequest request) {
         logger.info("Received retrieve all bid request.");
@@ -502,9 +584,8 @@ public class AntiEbayRestController {
 
         List<SellerBidEntity> userBids = bidRepository.findBySellerEmail(loggedInUserEmail);
         for (SellerBidEntity bid : userBids) {
-            // TODO: !
+            bid.loadImageFromStorage();
         }
-
 
         String returnStr = null;
         try {
@@ -608,10 +689,15 @@ public class AntiEbayRestController {
     }
 
 
+    /**
+     * A debug screen to test the deploy status of this service.
+     * @return HTML containing ascii art of an object too big to be a space station...
+     */
     @GetMapping("/")
     private String getString() {
         System.out.println("Hello received");
         String msg = "<h1>That's no endpoint......its a debug page</h1><br>";
+        msg += "<pre>";
         msg += "<pre>";
         msg += "            .          .\n" +
                 "  .          .                  .          .              .\n" +

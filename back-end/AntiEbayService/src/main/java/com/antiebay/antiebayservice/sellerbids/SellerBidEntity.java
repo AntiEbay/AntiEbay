@@ -4,6 +4,10 @@ import com.antiebay.antiebayservice.userposts.UserPostImage;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
 
 @Entity
 @Table(name = "bid")
@@ -27,6 +31,28 @@ public class SellerBidEntity {
 
     public void assignBidPath() {
         bidPath = "bids/" + sellerEmail + '/' + buyerPostId + '/' + bidId + '/';
+    }
+
+    public void loadImageFromStorage() {
+        String imagePath = bidPath + 0; // TODO check
+        bidImage = getImageFromPath(imagePath);
+    }
+
+    private UserPostImage getImageFromPath(String path) {
+        UserPostImage img = new UserPostImage();
+        File f = new File(path);
+        try {
+            if (!f.exists()) {
+                return img;
+            }
+            byte[] decoded = Files.readAllBytes(Path.of(path));
+            String encoded  = Base64.getEncoder().encodeToString(decoded);
+            img.setContents(encoded);
+            img.setFileName(path + img.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 
     public void writeBidImage() {
