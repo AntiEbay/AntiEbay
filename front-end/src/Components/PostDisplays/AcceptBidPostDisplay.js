@@ -15,7 +15,21 @@ const AcceptBidPostDisplay = (props) => {
     </SwiperSlide>
   ));
   console.log(imageArray);
-
+  const postDelete = async (e) => {
+    e.preventDefault();
+    const postInfo = {
+      postId: props.postId,
+    };
+    const postDelete = await axios
+      .delete("http://localhost:8080/", JSON.stringify(postInfo), {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then(navigate("/ManagePosts"));
+  };
   return (
     <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
       <Swiper
@@ -33,9 +47,14 @@ const AcceptBidPostDisplay = (props) => {
             {props.quantity}
           </h1>
           <div>
-            <span className=" block hover:invisible text-amber-300 text-3xl">
-              &#9733;
-            </span>
+            <div>
+              <Span
+                className=" text-red-600 text-lg hover:text-red-900"
+                onClick={postDelete(e)}
+              >
+                X
+              </Span>
+            </div>
             <span className=" invisible hover:flex text-3xl text-white">
               Buyer Rating:{props.userRating}
             </span>
