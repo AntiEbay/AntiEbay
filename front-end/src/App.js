@@ -5,11 +5,11 @@ import SignIn from "./Pages/SignIn";
 import BuyerPost from "./Pages/BuyerPost";
 import SearchResults from "./Pages/SearchResults";
 import BiddingPage from "./Pages/BiddingPage";
-import PostDisplay from "./Components/PostDisplay";
 import ManageBids from "./Pages/ManageBids";
 import ActiveOrders from "./Pages/ActiveOrders";
 import CompletedPosts from "./Pages/CompletedPosts";
 import ManagePosts from "./Pages/ManagePosts";
+import ViewBids from "./Pages/ViewBids";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccountProvider } from "./SessionVariables";
 
@@ -28,6 +28,7 @@ function App() {
           <Route path="/ActiveOrders" element={<ActiveOrders />} />
           <Route path="/ManagePosts" element={<ManagePosts />} />
           <Route path="/CompletedPosts" element={<CompletedPosts />} />
+          <Route path="/ViewBids" element={<ViewBids />} />
         </Routes>
       </BrowserRouter>
     </AccountProvider>

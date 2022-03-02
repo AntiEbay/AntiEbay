@@ -4,9 +4,7 @@ import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 
 const NavBarButtons = (props) => {
-  const logout = (e) => {
-
-  }
+  const logout = (e) => {};
 
   if (props.accountType === "buyer") {
     return (
@@ -43,7 +41,8 @@ const NavBarButtons = (props) => {
             </button>
           </Link>
           <Link to="/">
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded" 
+            <button
+              className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
               onClick={logout(e)}
             >
               Log Out
@@ -83,7 +82,8 @@ const NavBarButtons = (props) => {
             </button>
           </Link>
           <Link to="/">
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
+            <button
+              className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
               onClick={logout(e)}
             >
               Log Out
