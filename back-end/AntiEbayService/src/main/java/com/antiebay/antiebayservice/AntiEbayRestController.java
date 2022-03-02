@@ -18,6 +18,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.antiebay.antiebayservice.userposts.DeletePostRequest;
 import com.antiebay.antiebayservice.userposts.PostRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -519,24 +521,11 @@ public class AntiEbayRestController {
 
     //PostMapping for deleting a post from the databse
     @PostMapping(value = "post/delete", consumes = {"application/json"})
-    private String postDelete(@RequestBody UserPosts userPosts, 
-                                    HttpServletRequest request) {
-        logger.info("Received user post request for: " + userPosts.getId());
-        HttpSession session = request.getSession();
+    private String postDelete(@RequestBody DeletePostRequest deletePost) {
 
-
-        // Check if user is logged in
-        if (!isUserLoggedIn(session)) {
-            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
-            return StatusMessages.USER_NOT_LOGGED_IN.toString();
-        }
-
-        // set email from session
-        userPosts.setBuyerEmail(String.valueOf(session.getAttribute("email")));
-
-        // Try writing user to database
+        // Try deleting post from database
         try {
-            postsRepository.deleteById(userPosts.getId());
+            postsRepository.deleteById(deletePost.getId());
             logger.info(StatusMessages.POST_DELETE_SUCCESS);
             return StatusMessages.POST_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
