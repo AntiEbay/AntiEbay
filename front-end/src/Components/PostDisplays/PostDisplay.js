@@ -1,6 +1,7 @@
 import react, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
+import { Link } from "react-router-dom";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
@@ -52,9 +53,21 @@ const PostDisplay = (props) => {
               </h1>
             </div>
             {state.accountType === seller ? (
-              <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
-                Fill this Order
-              </button>
+              <Link
+                to={{
+                  pathname: "/Bidding",
+                  state: {
+                    postId: props.postId,
+                    title: props.title,
+                    description: props.description,
+                    price: props.price,
+                  },
+                }}
+              >
+                <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
+                  Place A Bid
+                </button>
+              </Link>
             ) : (
               <div></div>
             )}

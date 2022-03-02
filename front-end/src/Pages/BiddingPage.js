@@ -3,7 +3,9 @@ import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
-const BiddingPage = (props) => {
+import { useLocation } from "react-router-dom";
+const BiddingPage = () => {
+  const location = useLocation();
   const { state, update } = useContext(accountTypeContext);
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
@@ -12,7 +14,7 @@ const BiddingPage = (props) => {
   const sendBid = async () => {
     const bidInfo = {
       sellerEmail: state.accountEmail,
-      postId: props.postId,
+      postId: location.state.postId,
     };
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
@@ -41,9 +43,9 @@ const BiddingPage = (props) => {
           </div>
         </div>
         <div className=" flex flex-col">
-          {props.itemName !== undefined ? (
+          {location.state.title !== undefined ? (
             <span className=" text-white text-center mt-20 mr-3 text-3xl rounded-md my-2">
-              {props.itemName}
+              {location.state.title}
             </span>
           ) : (
             <span className=" text-white text-center mt-20 mr-3 text-3xl rounded-md my-2">
@@ -54,7 +56,7 @@ const BiddingPage = (props) => {
           <div className="flex flex-col bg-slate-600 rounded-lg mr-3 mt-1">
             {props.description !== undefined ? (
               <span className="text-white text-center  bg-slate-600 mr-3 text-lg rounded-md my-3">
-                {props.description}
+                {location.state.description}
               </span>
             ) : (
               <span className=" text-white text-center bg-slate-600 mr-3 text-lg rounded-md my-3">
@@ -63,14 +65,14 @@ const BiddingPage = (props) => {
             )}
             <hr />
             <div className=" bg-slate-600 mr-3 text-center rounded-md text-lg my-3">
-              <span className="mr-2 text-white">Current Bid:</span>
-              {props.offer !== undefined ? (
+              <span className="mr-2 text-white">buyer asking price:</span>
+              {location.state.price !== undefined ? (
                 <span className="text-white text-centermr-3 text-lg rounded-md">
-                  {props.description}
+                  {location.state.price}
                 </span>
               ) : (
                 <span className=" text-white text-center mr-3 text-lg rounded-md">
-                  No Current Bids
+                  No Price
                 </span>
               )}
             </div>
