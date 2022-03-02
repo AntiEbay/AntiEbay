@@ -6,6 +6,7 @@ import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import RatingPopup from "../RatingPopup";
 // import required modules
+//Used in the Completed Post page.
 const PostCompleted = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const [review, setReview] = useState(false);

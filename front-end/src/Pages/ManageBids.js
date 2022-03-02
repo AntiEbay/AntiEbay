@@ -3,6 +3,8 @@ import NavBar from "../Components/NavBar";
 import { Link } from "react-router-dom";
 import PostDisplay from "../Components/PostDisplays/PostDisplay";
 const ManageBids = async () => {
+  //Page for a seller to view all their personal bids
+  //Uses normal post display
   try {
     const getSearchRes = await axios.post(
       "http://localhost:8080/getpostsuserhadbidon",

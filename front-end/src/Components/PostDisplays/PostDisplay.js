@@ -5,6 +5,7 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 // import required modules
+// Post Display used in ManageBids and Search Results
 const PostDisplay = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const imageArray = Object.keys(props.imgStrings).map((key) => (

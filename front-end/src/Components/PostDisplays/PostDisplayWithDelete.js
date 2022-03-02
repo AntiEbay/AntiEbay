@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 // import required modules
 const PostDisplayWithDelete = (props) => {
+  //Keep for now this component is not being used.
   const navigate = useNavigate();
   const { state, update } = useContext(accountTypeContext);
   const postDelete = async () => {
@@ -50,8 +51,8 @@ const PostDisplayWithDelete = (props) => {
           </h1>
           <div>
             <Span
-              onClick={postDelete}
               className=" text-red-600 text-lg hover:text-red-900"
+              onClick={postDelete}
             >
               X
             </Span>

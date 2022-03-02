@@ -1,10 +1,9 @@
-import react, { useState } from "react";
+import react, { useState, useContext } from "react";
 import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
 const BiddingPage = (props) => {
-  const eventHandler = (data) => console.log(data);
   const { state, update } = useContext(accountTypeContext);
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
@@ -12,7 +11,7 @@ const BiddingPage = (props) => {
 
   const sendBid = async () => {
     const bidInfo = {
-      sellerEmail: props.sellerEmail,
+      sellerEmail: state.accountEmail,
       postId: props.postId,
     };
     const sendBidInfo = await axios.post(
@@ -112,7 +111,7 @@ const BiddingPage = (props) => {
             )}
             <button
               className=" text-white text-lg hover:bg-slate-400 rounded-md p-2 ring-2 ring-white mr-3"
-              onClick={sendBidInfo}
+              onClick={sendBid}
             >
               Place your bid
             </button>
