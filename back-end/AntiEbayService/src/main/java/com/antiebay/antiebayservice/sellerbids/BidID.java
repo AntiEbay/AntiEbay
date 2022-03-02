@@ -9,12 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
-@Entity
-@Table(name = "bid")
 public class BidID {
-    @Column(name = "bid_id")
     private Integer bidId;
-
 
     public Integer getBidId() {
         return bidId;
