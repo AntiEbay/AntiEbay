@@ -256,7 +256,47 @@ public class AntiEbayRestController {
     }
 
 
-    
+    @PostMapping(value = "/user/interactions/getAcceptedUserbids")
+    private String retrieveAllPostsThatHaveAcceptedBidOn(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        logger.info("Recieved request to get all bids that have been accepted for user: " + session.getAttribute("email"));
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // check if user is a seller
+        if (!session.getAttribute("userType").equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        List<SellerBidEntity> userBids = bidRepository.findBySellerEmail(String.valueOf(session.getAttribute("email")));
+
+        HashSet<Integer> seenPosts = new HashSet<>();
+        List<UserPosts> userPosts = new ArrayList<>();
+        String returnStr = "";
+
+        for (SellerBidEntity bid : userBids) {
+            UserPosts post = postsRepository.getOne(bid.getBuyerPostId());
+            boolean accepted = bid.getAcceptedBid();
+            if (!seenPosts.contains(post.getPostId()) && accepted) {
+                seenPosts.add(post.getPostId());
+                userPosts.add(post);
+            }
+        }
+
+        try {
+            returnStr = objectMapper.writeValueAsString(userPosts);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
     //PostMapping for writing a post to the databse
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
     private String userPostWriting(@RequestBody UserPosts userPosts, 
