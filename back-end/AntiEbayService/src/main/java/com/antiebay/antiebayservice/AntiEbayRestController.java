@@ -552,6 +552,28 @@ public class AntiEbayRestController {
         }
     }
 
+    
+    //PostMapping for deleting an account from the databse
+    @PostMapping(value = "account/delete", consumes = {"application/json"})
+    private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount) {
+
+        // Try deleting bid from database
+        try {
+            bidRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            userRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            postsRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            postReviewRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            sellerReviewRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            logger.info(StatusMessages.ACCOUNT_DELETE_SUCCESS);
+            return StatusMessages.ACCOUNT_DELETE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.ACCOUNT_DELETE_FAIL);
+            return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
+        }
+    }
+    
+
     //this is the endpoint to get retrieval of all the posts that a seller has bidded on
     /*
     @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})

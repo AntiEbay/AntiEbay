@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface PostReviewRepository extends JpaRepository<PostReview, Integer> {
     List<PostReview> findByBuyerPostId(int postId);
+    List<PostReview> findBySeller(int postId);
+    List<PostReview> findBySellerEmail(String sellerEmail);
+    void deleteByEmail(String sellerEmail);
 }

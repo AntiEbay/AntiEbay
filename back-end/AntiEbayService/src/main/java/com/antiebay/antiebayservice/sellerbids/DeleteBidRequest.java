@@ -8,7 +8,7 @@ public class DeleteBidRequest {
         return bidId;
     }
 
-    public void seBidtId(Integer bidId) {
+    public void setBidtId(Integer bidId) {
         this.bidId = bidId;
     }
     

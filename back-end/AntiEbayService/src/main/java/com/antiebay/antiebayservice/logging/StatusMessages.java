@@ -25,7 +25,9 @@ public enum StatusMessages {
     BID_SAVE_SUCCESS("Bid Successfully Created."),
     BID_SAVE_FAIL("Bid Creation Failed."),
     BID_DELETE_SUCCESS("Bid Successfully Deleted."),
-    BID_DELETE_FAIL("Bid Delete Failed.");
+    BID_DELETE_FAIL("Bid Delete Failed."),
+    ACCOUNT_DELETE_SUCCESS("Account Successfully Deleted."),
+    ACCOUNT_DELETE_FAIL("Account Delete Failed.");
 
     private final String message;
 

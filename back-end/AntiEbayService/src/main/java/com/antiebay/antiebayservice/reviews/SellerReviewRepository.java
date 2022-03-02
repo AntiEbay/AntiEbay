@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface SellerReviewRepository extends JpaRepository<SellerReview, Integer> {
     List<SellerReview> findBySellerId(Integer sellerId);
+    List<SellerReview> findByBuyerEmail(String buyerEmail);
+    List<SellerReview> deleteByEmail(String buyerEmail);
 }

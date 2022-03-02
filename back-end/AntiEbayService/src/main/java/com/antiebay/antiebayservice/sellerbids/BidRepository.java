@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BidRepository extends JpaRepository<SellerBidEntity, Integer> {
     List<SellerBidEntity> findBySellerEmail(String sellerEmail);
+    void deleteByEmail(String sellerEmail);
 }
