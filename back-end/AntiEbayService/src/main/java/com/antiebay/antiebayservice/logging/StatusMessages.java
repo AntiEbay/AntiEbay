@@ -21,8 +21,9 @@ public enum StatusMessages {
     SELLER_REVIEW_CREATE_SUCCESS("Seller Review Successfully Created."),
     SELLER_REVIEW_CREATE_FAIL("Seller Review Creation Failed."),
     POST_DELETE_SUCCESS("Post Successfully Deleted."),
-    POST_DELETE_FAIL("Post Delete Failed.");
-
+    POST_DELETE_FAIL("Post Delete Failed."),
+    BID_SAVE_SUCCESS("Bid Successfully Created."),
+    BID_SAVE_FAIL("Bid Creation Failed.");
 
     private final String message;
 

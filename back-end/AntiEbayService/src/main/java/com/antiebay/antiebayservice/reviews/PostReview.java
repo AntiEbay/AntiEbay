@@ -16,7 +16,7 @@ public class PostReview {
     @Column(name = "seller_email")
     private String sellerEmail;
     @Column(name = "buyer_post_id")
-    private Integer buyerPostId;
+    private Integer postId;
     @Column(name = "comment")
     private String comment;
     

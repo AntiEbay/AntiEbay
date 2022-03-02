@@ -5,12 +5,10 @@ import com.antiebay.antiebayservice.reviews.PostReview;
 import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
-import com.antiebay.antiebayservice.search.SearchRequest;
-import com.antiebay.antiebayservice.search.SearchResponse;
-import com.antiebay.antiebayservice.search.SearchResult;
-import com.antiebay.antiebayservice.search.SearchService;
+import com.antiebay.antiebayservice.search.*;
+import com.antiebay.antiebayservice.sellerbids.BidRepository;
+import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 import com.antiebay.antiebayservice.useraccounts.*;
-import com.antiebay.antiebayservice.useroffers.UserOffer;
 import com.antiebay.antiebayservice.userposts.PostsRegistration;
 import com.antiebay.antiebayservice.userposts.PostsRepository;
 import com.antiebay.antiebayservice.userposts.UserPosts;
@@ -25,6 +23,7 @@ import com.antiebay.antiebayservice.userposts.PostRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +55,11 @@ public class AntiEbayRestController {
     @Autowired
     private SellerReviewRepository sellerReviewRepository;
 
-    
+    @Autowired
+    private FilterSearchResultsService filterSearchResultsService;
 
+    @Autowired
+    private BidRepository bidRepository;
 
     private static final Logger logger = LogManager.getLogger(AntiEbayRestController.class);
 
@@ -144,11 +146,10 @@ public class AntiEbayRestController {
     }
 
 
-    // TODO: Idea for security: introduce integrity hash check for requests?
-    @PostMapping(value = "/user/interactions/makeoffer", consumes = {"application/json"})
-    private String userSellerMakeOffer(@RequestBody UserOffer userOffer,
-                                       HttpServletRequest request) {
-        logger.info("Received Make Offer Request From: " + userOffer.getSellerId());
+    @PostMapping(value = "/user/interactions/makebid", consumes = {"application/json"})
+    private String sellerMakeBid(@RequestBody SellerBidEntity sellerBid,
+                                 HttpServletRequest request) {
+        logger.info("Received Make Offer Request From: " + sellerBid.getSellerEmail());
         HttpSession session = request.getSession();
 
         // Check if user is logged in
@@ -157,30 +158,32 @@ public class AntiEbayRestController {
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
-        // Check if user logged in is user in userOffer
-        if (!userOffer.getSellerId().equals(session.getAttribute("email"))) {
-            logger.warn(StatusMessages.INTERACTION_SELLER_ID_NOT_MATCH_SESSION_ID);
-            return StatusMessages.INTERACTION_SELLER_ID_NOT_MATCH_SESSION_ID.toString();
-        }
-
-        // Check if user logged in is of seller type
+        // Check if user logged in is user in sellerBid
         if (!session.getAttribute("userType").equals("seller")) {
             logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
-            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
         }
 
-        logger.info("Debug: User Make Offer Success.");
+        try {
+            bidRepository.save(sellerBid);
+            sellerBid.assignBidPath();
+            sellerBid.writeBidImage();
+            bidRepository.save(sellerBid);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.warn(StatusMessages.BID_SAVE_FAIL);
+        }
 
-        // make write request to db
+        logger.info(StatusMessages.BID_SAVE_SUCCESS);
 
-        return "";
+        return StatusMessages.BID_SAVE_SUCCESS.toString();
     }
 
-    @PostMapping(value = "/user/interactions/acceptoffer", consumes = {"application/json"})
-    private String userBuyerAcceptOffer(@RequestBody UserOffer userOffer,
-                                        HttpServletRequest request) {
-        logger.info("Received Accept Offer From: " + userOffer.getBuyerId());
+    @PostMapping(value = "/user/interactions/acceptbid", consumes = {"application/json"})
+    private String buyerAcceptBid(@RequestBody SellerBidEntity sellerBid,
+                                  HttpServletRequest request) {
         HttpSession session = request.getSession();
+        logger.info("Received Accept Offer From: " + session.getAttribute("email") +
+                " for post: " + sellerBid.getBuyerPostId());
 
         // Check if user is logged in
         if (!isUserLoggedIn(session)) {
@@ -188,8 +191,8 @@ public class AntiEbayRestController {
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
-        // Check if user logged in is user in userOffer
-        if (!userOffer.getSellerId().equals(session.getAttribute("email"))) {
+        // Check if user logged in is user in sellerBid
+        if (!sellerBid.getSellerEmail().equals(session.getAttribute("email"))) {
             logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
             return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
         }
@@ -207,6 +210,51 @@ public class AntiEbayRestController {
 
         return "";
     }
+
+    /**
+     * Rest Endpoint that retrieves all the posts that a seller user has made bids for
+     * @param request The http request object that is being sent to the endpoint
+     * @return A list of posts that a user has made bids on
+     */
+    @PostMapping(value = "/user/interactions/getuserbids")
+    private String retrieveAllPostsUserHasBidOn(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        logger.info("Recieved request to get all bids for user: " + session.getAttribute("email"));
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        // check if user is a seller
+        if (!session.getAttribute("userType").equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        List<SellerBidEntity> userBids = bidRepository.findBySellerEmail(String.valueOf(session.getAttribute("email")));
+
+        HashSet<Integer> seenPosts = new HashSet<>();
+        List<UserPosts> userPosts = new ArrayList<>();
+        String returnStr = "";
+        for (SellerBidEntity bid : userBids) {
+            UserPosts post = postsRepository.getOne(bid.getBuyerPostId());
+            if (!seenPosts.contains(post.getPostId())) {
+                seenPosts.add(post.getPostId());
+                userPosts.add(post);
+            }
+        }
+
+        try {
+            returnStr = objectMapper.writeValueAsString(userPosts);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
 
     
     //PostMapping for writing a post to the databse
@@ -320,6 +368,11 @@ public class AntiEbayRestController {
 
     //Read keyword
 
+    /**
+     * A REST API endpoint that handles the search functions
+     * @param searchRequest The search request object that is being sent to the service
+     * @return An object containing the list of user posts that match the search query and options
+     */
     @PostMapping(value = "/search", consumes = {"application/json"})
     public String searchFunction(@RequestBody SearchRequest searchRequest) {
         SearchResponse response = new SearchResponse();
@@ -331,6 +384,11 @@ public class AntiEbayRestController {
         }
         for (UserPosts post : returnedPosts) {
             post.loadImages();
+        }
+
+        // if options are set, filter search results
+        if (searchRequest.getOptions() != null) {
+            returnedPosts = filterSearchResultsService.filterSearchBasedOnOptions(returnedPosts, searchRequest.getOptions());
         }
 
         // calculate average review score for user
@@ -426,6 +484,39 @@ public class AntiEbayRestController {
         }
     }
 
+    @PostMapping(value = "/interactions/getuserbids")
+    public String getAllUserBids(HttpServletRequest request) {
+        logger.info("Received retrieve all bid request.");
+        HttpSession session = request.getSession();
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+        String loggedInUserEmail = String.valueOf(session.getAttribute("email"));
+        String userType = String.valueOf(session.getAttribute("userType"));
+
+        if (!userType.equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        List<SellerBidEntity> userBids = bidRepository.findBySellerEmail(loggedInUserEmail);
+        for (SellerBidEntity bid : userBids) {
+            // TODO: !
+        }
+
+
+        String returnStr = null;
+        try {
+            returnStr = objectMapper.writeValueAsString(userBids);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
+
     //PostMapping for deleting a post from the databse
     @PostMapping(value = "post/delete", consumes = {"application/json"})
     private String postDelete(@RequestBody UserPosts userPosts, 
@@ -454,36 +545,68 @@ public class AntiEbayRestController {
             return StatusMessages.POST_DELETE_FAIL.toString();
         }
     }
-
+    //this is the endpoint to get retrieval of all the posts that a seller has bidded on
     /*
-    //PostMapping for deleting a bid from the databse
-    @PostMapping(value = "bid/delete", consumes = {"application/json"})
-    private String postDelete(@RequestBody UserOffer userOffer, 
-                                    HttpServletRequest request) {
-        logger.info("Received user post request for: " + userOffer.getId());//change this
+    @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})
+    private String postCreatedRetrieval(@RequestBody  UserAccountEntity userAccountEntity,
+                                        HttpServletRequest request) {
+        logger.info("Recieved a request to retrieve all posts Seller has bided on for: " + userAccountEntity.getId());
+        HttpSession session = request.getSession();
+
+        String allUserPosts = "";
+
+        try {
+            List<int> listOfPostIDS = bidRepository.findBySellerEmail(userAccountEntity.getEmailAddress());
+        }
+        catch (Exception e) {
+
+            return  StatusMessages.USER_NOT_EXIST.toString();
+        }
+
+        allSellerBidPosts
+        try {
+            for (int postID: listOfPostIDS) {
+                Optional<UserPosts> userPost = postsRepository.findById(requestPost.getId());
+                allSellerBidPosts += objectMapper.writeValueAsString(userPost);
+            }
+            return allSellerBidPosts;
+        }
+        catch (Exception ex){
+            return StatusMessages.USER_POST_RETRIEVAL_FAILED.toString();
+        }
+    }
+     */
+
+
+    // this is the end point to get retrieval all the posts that a buyer has posted
+    @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})
+    private String postCreatedRetrieval(@RequestBody  UserAccountEntity userAccountEntity,
+                                        HttpServletRequest request) {
+        logger.info("Recieved a request to retrieve all buyerposts for: " + userAccountEntity.getId());
         HttpSession session = request.getSession();
 
 
-        // Check if user is logged in
-        if (!isUserLoggedIn(session)) {
-            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
-            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        List<UserPosts> userPost;
+        String allUserPosts = "";
+        try {
+            userPost = postsRepository.findByBuyerEmail(userAccountEntity.getEmailAddress());
+        }
+        catch (Exception e) {
+
+            return  StatusMessages.USER_NOT_EXIST.toString();
         }
 
-
-        // Try deleting bid from database
         try {
-            postsRepository.deleteById(userPosts.getId());
-            logger.info(StatusMessages.POST_DELETE_SUCCESS);
-            return StatusMessages.POST_DELETE_SUCCESS.toString();
-        } catch (Exception ex) {
-            logger.warn(ex.getMessage());
-            logger.warn(StatusMessages.POST_DELETE_FAIL);
-            return StatusMessages.POST_DELETE_FAIL.toString();
+            for (UserPosts seperateUserPosts: userPost) {
+                allUserPosts += objectMapper.writeValueAsString(seperateUserPosts);
+            }
+            return allUserPosts;
+        }
+        catch (Exception ex){
+            return "notthign";//StatusMessages.USER_POST_RETRIEVAL_FAILED.toString();
         }
     }
-    */
-    
+
 
     @GetMapping("/")
     private String getString() {
