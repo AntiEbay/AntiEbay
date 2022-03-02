@@ -454,6 +454,35 @@ public class AntiEbayRestController {
             return StatusMessages.POST_DELETE_FAIL.toString();
         }
     }
+
+    /*
+    //PostMapping for deleting a bid from the databse
+    @PostMapping(value = "bid/delete", consumes = {"application/json"})
+    private String postDelete(@RequestBody UserOffer userOffer, 
+                                    HttpServletRequest request) {
+        logger.info("Received user post request for: " + userOffer.getId());//change this
+        HttpSession session = request.getSession();
+
+
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+
+        // Try deleting bid from database
+        try {
+            postsRepository.deleteById(userPosts.getId());
+            logger.info(StatusMessages.POST_DELETE_SUCCESS);
+            return StatusMessages.POST_DELETE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.POST_DELETE_FAIL);
+            return StatusMessages.POST_DELETE_FAIL.toString();
+        }
+    }
+    */
     
 
     @GetMapping("/")
