@@ -20,7 +20,8 @@ public class SellerBidEntity {
     private Integer buyerPostId;
     @Column(name = "bid_path")
     private String bidPath;
-
+    @Column(name = "accepted")
+    private boolean accepted;
     @Transient
     private UserPostImage bidImage;
 
@@ -97,4 +98,8 @@ public class SellerBidEntity {
     public void setBidImage(UserPostImage bidImage) {
         this.bidImage = bidImage;
     }
+
+    public boolean getAcceptedBid() { return accepted; }
+
+    public void setAcceptedStatus(boolean accepted) { this.accepted = accepted; }
 }
