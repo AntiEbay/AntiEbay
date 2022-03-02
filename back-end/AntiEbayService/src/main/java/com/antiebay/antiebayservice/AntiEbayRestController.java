@@ -484,6 +484,39 @@ public class AntiEbayRestController {
         }
     }
 
+    @PostMapping(value = "/interactions/getuserbids")
+    public String getAllUserBids(HttpServletRequest request) {
+        logger.info("Received retrieve all bid request.");
+        HttpSession session = request.getSession();
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+        String loggedInUserEmail = String.valueOf(session.getAttribute("email"));
+        String userType = String.valueOf(session.getAttribute("userType"));
+
+        if (!userType.equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        List<SellerBidEntity> userBids = bidRepository.findBySellerEmail(loggedInUserEmail);
+        for (SellerBidEntity bid : userBids) {
+            // TODO: !
+        }
+
+
+        String returnStr = null;
+        try {
+            returnStr = objectMapper.writeValueAsString(userBids);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
+
     //PostMapping for deleting a post from the databse
     @PostMapping(value = "post/delete", consumes = {"application/json"})
     private String postDelete(@RequestBody UserPosts userPosts, 
