@@ -10,10 +10,10 @@ import java.nio.file.Path;
 import java.util.Base64;
 
 public class UserPostImage {
-    private String fileName;
-    private String contents;
+    protected String fileName;
+    protected String contents;
     @Transient
-    private String type; // use later
+    protected String type; // use later
 
     public UserPostImage() {
         fileName = "";

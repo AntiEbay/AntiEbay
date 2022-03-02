@@ -31,13 +31,14 @@ CREATE TABLE IF NOT EXISTS posts (
 );
 
 -- Table containing bidding information
-CREATE TABLE IF NOT EXISTS offer (
-    offer_id int AUTO_INCREMENT PRIMARY KEY ,
-    offer_amount int,
-    seller_id VARCHAR(225),
+CREATE TABLE IF NOT EXISTS bid (
+    bid_id int AUTO_INCREMENT PRIMARY KEY ,
+    bid_amount float,
+    seller_email VARCHAR(225),
     buyer_id VARCHAR(225),
-    buyer_postId VARCHAR(225),
-    accepted VARCHAR(225)
+    buyer_post_id VARCHAR(225),
+    accepted VARCHAR(225),
+    bid_path VARCHAR(225)
 );
 
 -- Table containing information about a review on a post made by a seller
