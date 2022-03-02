@@ -10,7 +10,6 @@ const SearchResults = () => {
   const [category, setCategory] = useState("null");
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
-  const [mapPosts, setMapPosts] = useState([]);
   const newArray = [];
   const [posts, setPosts] = useState(undefined);
   //Making a list of all the search Results

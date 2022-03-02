@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 
 const ManagePosts = async () => {
+  const { state, update } = useContext(accountTypeContext);
+  const [posts, setPosts] = useState(undefined);
   try {
-    const getSearchRes = await axios.post(
+    const accountInfo = {
+      accountEmail: state.accountEmail,
+      accountType: state.accountType,
+    };
+    const getAccountPosts = await axios.get(
       "http://localhost:8080/search",
-      JSON.stringify(search),
+      JSON.stringify(accountInfo),
       {
         headers: {
           // Overwrite Axios's automatically set Content-Type
@@ -15,9 +21,9 @@ const ManagePosts = async () => {
         withCredentials: true,
       }
     );
-    console.log(getSearchRes);
-    Object.keys(getSearchRes.data.searchResults).map((key) =>
-      newArray.push(getSearchRes.data.searchResults[key])
+    console.log(getAccountPosts);
+    Object.keys(getAccountPosts.data.searchResults).map((key) =>
+      newArray.push(getAccountPosts.data.searchResults[key])
     );
     console.log(newArray);
     setPosts(
@@ -61,6 +67,7 @@ const ManagePosts = async () => {
           </Link>
         </div>
       </div>
+      {posts}
     </div>
   );
 };
