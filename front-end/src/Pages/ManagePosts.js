@@ -31,7 +31,7 @@ const ManagePosts = async () => {
         (key) => (
           console.log(key),
           (
-            <PostDisplay
+            <AcceptBidPostDisplay
               imgStrings={key.post.imageList}
               bids={key.post.bids}
               title={key.post.title}
