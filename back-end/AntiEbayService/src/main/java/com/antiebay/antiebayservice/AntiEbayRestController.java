@@ -7,6 +7,7 @@ import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
 import com.antiebay.antiebayservice.search.*;
 import com.antiebay.antiebayservice.sellerbids.BidRepository;
+import com.antiebay.antiebayservice.sellerbids.DeleteBidRequest;
 import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 import com.antiebay.antiebayservice.useraccounts.*;
 import com.antiebay.antiebayservice.userposts.PostsRegistration;
@@ -534,6 +535,23 @@ public class AntiEbayRestController {
             return StatusMessages.POST_DELETE_FAIL.toString();
         }
     }
+
+    //PostMapping for deleting a bid from the databse
+    @PostMapping(value = "bid/delete", consumes = {"application/json"})
+    private String bidDelete(@RequestBody DeleteBidRequest deleteBid) {
+
+        // Try deleting bid from database
+        try {
+            bidRepository.deleteById(deleteBid.getBidId());
+            logger.info(StatusMessages.BID_DELETE_SUCCESS);
+            return StatusMessages.BID_DELETE_SUCCESS.toString();
+        } catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            logger.warn(StatusMessages.BID_DELETE_FAIL);
+            return StatusMessages.BID_DELETE_FAIL.toString();
+        }
+    }
+
     //this is the endpoint to get retrieval of all the posts that a seller has bidded on
     /*
     @PostMapping(value = "user/post/retrieval/", consumes = {"application/json"})
