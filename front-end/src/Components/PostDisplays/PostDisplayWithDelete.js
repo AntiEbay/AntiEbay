@@ -7,16 +7,14 @@ import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import { useNavigate } from "react-router-dom";
 
-const postInfo = {
-  postId: 0,
-};
-
 // import required modules
 const PostDisplayWithDelete = (props) => {
   const navigate = useNavigate();
   const { state, update } = useContext(accountTypeContext);
   const postDelete = async () => {
-    postInfo.postId = props.postId;
+    const postInfo = {
+      postId: props.postId,
+    };
     const postDelete = await axios
       .delete("http://localhost:8080/", JSON.stringify(postInfo), {
         headers: {

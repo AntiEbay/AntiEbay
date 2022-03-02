@@ -11,8 +11,8 @@ const StarRating = (props) => {
       rating: rating,
       comment: comment,
       //Email to send review about
-      email: "test@test",
-      postId: 1,
+      sellerEmail: state.accountEmail,
+      postId: props.postId,
     };
     console.log(review);
     const postReviewRes = await axios.post(
@@ -74,7 +74,7 @@ const StarRating = (props) => {
                   Leave a message, if you want
                 </textarea>
                 <button
-                  className="py-3 my-8 text-lg bg-gradient-to-r from-slate-400 to-slate-600 rounded-xl text-white"
+                  className="py-3 my-8 text-lg bg-gradient-to-r from-slate-400 to-slate-600 rounded-xl text-white hover:bg-slate-400"
                   onClick={postReview}
                 >
                   Rate now

@@ -1,7 +1,7 @@
 import react from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
-
+import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
 const ManagePosts = async () => {
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);
@@ -10,7 +10,7 @@ const ManagePosts = async () => {
       accountEmail: state.accountEmail,
       accountType: state.accountType,
     };
-    const getAccountPosts = await axios.get(
+    const getAccountPosts = await axios.post(
       "http://localhost:8080/search",
       JSON.stringify(accountInfo),
       {
@@ -31,8 +31,9 @@ const ManagePosts = async () => {
         (key) => (
           console.log(key),
           (
-            <PostDisplay
+            <AcceptBidPostDisplay
               imgStrings={key.post.imageList}
+              bids={key.post.bids}
               title={key.post.title}
               description={key.post.description}
               price={key.post.price}

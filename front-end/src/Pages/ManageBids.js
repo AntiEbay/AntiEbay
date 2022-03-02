@@ -5,8 +5,7 @@ import PostDisplay from "../Components/PostDisplays/PostDisplay";
 const ManageBids = async () => {
   try {
     const getSearchRes = await axios.post(
-      "http://localhost:8080/search",
-      JSON.stringify(search),
+      "http://localhost:8080/getpostsuserhadbidon",
       {
         headers: {
           // Overwrite Axios's automatically set Content-Type

@@ -2,13 +2,31 @@ import react, { useState } from "react";
 import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";
+import { accountTypeContext } from "../SessionVariables";
 const BiddingPage = (props) => {
   const eventHandler = (data) => console.log(data);
+  const { state, update } = useContext(accountTypeContext);
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
   const [reviewScreen, setReviewScreen] = useState(false);
 
-  const sendBid = () => {};
+  const sendBid = async () => {
+    const bidInfo = {
+      sellerEmail: props.sellerEmail,
+      postId: props.postId,
+    };
+    const sendBidInfo = await axios.post(
+      "http://localhost:8080/user/interactions/makebid",
+      JSON.stringify(bidInfo),
+      {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+  };
   return (
     <div className="flex flex-col items-center bg-slate-600 h-screen">
       <NavBar />
@@ -92,7 +110,10 @@ const BiddingPage = (props) => {
                 Review Sent!
               </button>
             )}
-            <button className=" text-white text-lg hover:bg-slate-400 rounded-md p-2 ring-2 ring-white mr-3">
+            <button
+              className=" text-white text-lg hover:bg-slate-400 rounded-md p-2 ring-2 ring-white mr-3"
+              onClick={sendBidInfo}
+            >
               Place your bid
             </button>
           </div>

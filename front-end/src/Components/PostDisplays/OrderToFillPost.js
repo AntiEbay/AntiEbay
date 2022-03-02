@@ -3,20 +3,34 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
+import axios from "axios";
 import { accountTypeContext } from "../../SessionVariables";
-import RatingPopup from "../RatingPopup";
 // import required modules
-const PostCompleted = (props) => {
+const OrderToFillPost = (props) => {
   const { state, update } = useContext(accountTypeContext);
-  const [review, setReview] = useState(false);
-  const [reviewScreen, setReviewScreen] = useState(false);
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
     </SwiperSlide>
   ));
   console.log(imageArray);
-
+  const postCompleteBid = async (e) => {
+    e.preventDefault();
+    const postValues = {
+      postId: props.postId,
+    };
+    const completedBid = await axios.post(
+      "http://localhost:8080/user/interaction",
+      JSON.stringify(postValues),
+      {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+  };
   return (
     <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
       <Swiper
@@ -33,11 +47,6 @@ const PostCompleted = (props) => {
             <span className=" text-sm">x</span>
             {props.quantity}
           </h1>
-          <RatingPopup
-            trigger={reviewScreen}
-            triggerOff={setReviewScreen}
-            review={setReview}
-          />
         </div>
         <hr />
         <p className="mt-2 text-white text-sm">{props.description}</p>
@@ -52,9 +61,9 @@ const PostCompleted = (props) => {
             </div>
             <button
               className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3"
-              onClick={() => setReviewScreen(true)}
+              onClick={postCompleteBid(e)}
             >
-              Rate The Seller
+              Complete Order
             </button>
           </div>
         </div>
@@ -63,4 +72,4 @@ const PostCompleted = (props) => {
   );
 };
 
-export default PostCompleted;
+export default OrderToFillPost;
