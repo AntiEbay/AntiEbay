@@ -1,6 +1,5 @@
 package com.antiebay.antiebayservice.userposts;
 
-import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
 import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 
 import javax.persistence.*;
@@ -45,8 +44,6 @@ public class UserPosts {
 
     public UserPosts() {
     }
-
-
 
     public void writeImages() {
         File userParentDir = new File("users/");
@@ -94,19 +91,26 @@ public class UserPosts {
         return img;
     }
 
-    public List<UserPostImage> getImageList() {
-        return imageList;
+    @Override
+    public String toString() {
+        return "UserPosts{" +
+                "postId=" + postId +
+                ", buyerEmail='" + buyerEmail + '\'' +
+                ", postPath='" + postPath + '\'' +
+                ", title='" + title + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", productCondition='" + productCondition + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 
-    public void setImageList(List<UserPostImage> imageList) {
-        this.imageList = imageList;
-    }
-
-    public Integer getId() {
+    public Integer getPostId() {
         return postId;
     }
 
-    public void setId(Integer postId) {
+    public void setPostId(Integer postId) {
         this.postId = postId;
     }
 
@@ -134,6 +138,14 @@ public class UserPosts {
         this.title = title;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public Integer getPrice() {
         return price;
     }
@@ -150,51 +162,35 @@ public class UserPosts {
         this.category = category;
     }
 
-    public String getProductCondition(){
+    public String getProductCondition() {
         return productCondition;
     }
 
-    public void setProductCondition(String productCondition){
+    public void setProductCondition(String productCondition) {
         this.productCondition = productCondition;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
-
-    public Integer getPostId() {
-        return postId;
+    public List<SellerBidEntity> getBidList() {
+        return bidList;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setBidList(List<SellerBidEntity> bidList) {
+        this.bidList = bidList;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public List<UserPostImage> getImageList() {
+        return imageList;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "UserPosts{" +
-                "postId=" + postId +
-                ", buyerEmail='" + buyerEmail + '\'' +
-                ", postPath='" + postPath + '\'' +
-                ", title='" + title + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                ", productCondition='" + productCondition + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public void setImageList(List<UserPostImage> imageList) {
+        this.imageList = imageList;
     }
 }

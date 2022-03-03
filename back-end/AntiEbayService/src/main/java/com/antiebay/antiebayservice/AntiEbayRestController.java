@@ -338,7 +338,8 @@ public class AntiEbayRestController {
    }
 
     @PostMapping(value = "/user/interactions/acceptbid")
-    private String buyerAcceptsBid(BidID bidID, HttpServletRequest request) {
+    private String buyerAcceptsBid(@RequestBody BidID bidID,
+                                   HttpServletRequest request) {
         HttpSession session = request.getSession();
         logger.info("Recieved request to accept a bid: " + session.getAttribute("email"));
 
@@ -370,7 +371,7 @@ public class AntiEbayRestController {
         }
 
         // check to see if the buyer matches the session email
-        else if (userPost.get().getBuyerEmail() != session.getAttribute("email")) {
+        else if (!userPost.get().getBuyerEmail().equals(session.getAttribute("email").toString())) {
             logger.warn(StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID);
             return StatusMessages.INTERACTION_BUYER_ID_NOT_MATCH_SESSION_ID.toString();
         }
@@ -408,10 +409,14 @@ public class AntiEbayRestController {
         String returnStr = "";
 
         for (SellerBidEntity bid : userBids) {
-            UserPosts post = postsRepository.getOne(bid.getBuyerPostId());
+            Optional<UserPosts> postOpt = postsRepository.findById(bid.getBuyerPostId());
+            if (postOpt.isEmpty()) {
+                continue;
+            }
+            UserPosts post = postOpt.get();
             boolean accepted = bid.getAcceptedBid();
             if (!seenPosts.contains(post.getPostId()) && accepted) {
-                bid.loadImageFromStorage();
+                post.loadImages();
                 seenPosts.add(post.getPostId());
                 userPosts.add(post);
             }
@@ -430,7 +435,7 @@ public class AntiEbayRestController {
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
     private String userPostWriting(@RequestBody UserPosts userPosts, 
                                     HttpServletRequest request) {
-        logger.info("Received user post request for: " + userPosts.getId());
+        logger.info("Received user post request for: " + userPosts.getPostId());
         HttpSession session = request.getSession();
 
         // debug
@@ -525,7 +530,7 @@ public class AntiEbayRestController {
         }
 
         // if options are set, filter search results
-        if (searchRequest.getOptions() != null) {
+        if (searchRequest.getOptions() != null && searchRequest.getOptions().getCategory() != null) {
             returnedPosts = filterSearchResultsService.filterSearchBasedOnOptions(returnedPosts, searchRequest.getOptions());
         }
 
@@ -663,7 +668,7 @@ public class AntiEbayRestController {
     @PostMapping(value = "post/delete", consumes = {"application/json"})
     private String postDelete(@RequestBody UserPosts userPosts, 
                                     HttpServletRequest request) {
-        logger.info("Received user post request for: " + userPosts.getId());
+        logger.info("Received user post request for: " + userPosts.getPostId());
         HttpSession session = request.getSession();
 
 
@@ -678,7 +683,7 @@ public class AntiEbayRestController {
 
         // Try writing user to database
         try {
-            postsRepository.deleteById(userPosts.getId());
+            postsRepository.deleteById(userPosts.getPostId());
             logger.info(StatusMessages.POST_DELETE_SUCCESS);
             return StatusMessages.POST_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
@@ -741,7 +746,12 @@ public class AntiEbayRestController {
         double reviewCount = 0;
         double averageReivew = 0;
         try {
-            UserAccountEntity user = userRepository.getOne(email);
+            Optional<UserAccountEntity> userOpt = userRepository.findById(email);
+            if (userOpt.isEmpty()) {
+                return 0;
+            }
+
+            UserAccountEntity user = userOpt.get();
 
             if (user.getUserType().equals("buyer")) {
                 List<UserPosts> userPosts = postsRepository.findByBuyerEmail(user.getEmailAddress());
