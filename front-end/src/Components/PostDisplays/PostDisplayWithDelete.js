@@ -14,8 +14,7 @@ const PostDisplayWithDelete = (props) => {
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
     </SwiperSlide>
   ));
-  const bidDelete = async (e) => {
-    e.preventDefault();
+  const bidDelete = async () => {
     const bidInfo = {
       postId: props.postId,
     };
@@ -53,7 +52,7 @@ const PostDisplayWithDelete = (props) => {
             </span>
             <Span
               className=" text-red-600 text-lg hover:text-red-900"
-              onClick={postDelete(e)}
+              onClick={postDelete}
             >
               X
             </Span>

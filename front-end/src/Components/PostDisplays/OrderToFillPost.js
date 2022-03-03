@@ -14,8 +14,7 @@ const OrderToFillPost = (props) => {
     </SwiperSlide>
   ));
   console.log(imageArray);
-  const postCompleteBid = async (e) => {
-    e.preventDefault();
+  const postCompleteBid = async () => {
     const postValues = {
       postId: props.postId,
     };
@@ -61,7 +60,7 @@ const OrderToFillPost = (props) => {
             </div>
             <button
               className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3"
-              onClick={postCompleteBid(e)}
+              onClick={postCompleteBid}
             >
               Complete Order
             </button>

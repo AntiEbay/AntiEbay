@@ -15,8 +15,7 @@ const AcceptBidPostDisplay = (props) => {
     </SwiperSlide>
   ));
   console.log(imageArray);
-  const postDelete = async (e) => {
-    e.preventDefault();
+  const postDelete = async () => {
     const postInfo = {
       postId: props.postId,
     };
@@ -50,7 +49,7 @@ const AcceptBidPostDisplay = (props) => {
             <div>
               <Span
                 className=" text-red-600 text-lg hover:text-red-900"
-                onClick={postDelete(e)}
+                onClick={postDelete}
               >
                 X
               </Span>
