@@ -34,3 +34,5 @@ build/
 
 ### Users Folder ###
 users/
+bids/
+.DS_Store
