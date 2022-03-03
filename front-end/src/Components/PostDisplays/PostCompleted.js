@@ -3,10 +3,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
-import { accountTypeContext } from "../SessionVariables";
+import { accountTypeContext } from "../../SessionVariables";
+import RatingPopup from "../RatingPopup";
 // import required modules
-const PostDisplay = (props) => {
+//Used in the Completed Post page.
+const PostCompleted = (props) => {
   const { state, update } = useContext(accountTypeContext);
+  const [review, setReview] = useState(false);
+  const [reviewScreen, setReviewScreen] = useState(false);
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
@@ -30,14 +34,11 @@ const PostDisplay = (props) => {
             <span className=" text-sm">x</span>
             {props.quantity}
           </h1>
-          <div>
-            <span className=" block hover:invisible text-amber-300 text-3xl">
-              &#9733;
-            </span>
-            <span className=" invisible hover:flex text-3xl text-white">
-              Buyer Rating:{props.userRating}
-            </span>
-          </div>
+          <RatingPopup
+            trigger={reviewScreen}
+            triggerOff={setReviewScreen}
+            review={setReview}
+          />
         </div>
         <hr />
         <p className="mt-2 text-white text-sm">{props.description}</p>
@@ -50,13 +51,12 @@ const PostDisplay = (props) => {
                 Condition: {props.Condition}
               </h1>
             </div>
-            {state.accountType === seller ? (
-              <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
-                Fill this Order
-              </button>
-            ) : (
-              <div></div>
-            )}
+            <button
+              className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3"
+              onClick={() => setReviewScreen(true)}
+            >
+              Rate The Seller
+            </button>
           </div>
         </div>
       </div>
@@ -64,4 +64,4 @@ const PostDisplay = (props) => {
   );
 };
 
-export default PostDisplay;
+export default PostCompleted;

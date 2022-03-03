@@ -1,7 +1,57 @@
 import react from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
-const ManagePosts = () => {
+import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
+const ManagePosts = async () => {
+  //Page for a buyer to view all their personal posts
+  //Uses AcceptBidPostDisplay
+  const { state, update } = useContext(accountTypeContext);
+  const [posts, setPosts] = useState(undefined);
+  try {
+    const accountInfo = {
+      accountEmail: state.accountEmail,
+      accountType: state.accountType,
+    };
+    const getAccountPosts = await axios.post(
+      "http://localhost:8080/search",
+      JSON.stringify(accountInfo),
+      {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    console.log(getAccountPosts);
+    Object.keys(getAccountPosts.data.searchResults).map((key) =>
+      newArray.push(getAccountPosts.data.searchResults[key])
+    );
+    console.log(newArray);
+    setPosts(
+      newArray.map(
+        (key) => (
+          console.log(key),
+          (
+            <AcceptBidPostDisplay
+              imgStrings={key.post.imageList}
+              bids={key.post.bids}
+              title={key.post.title}
+              description={key.post.description}
+              price={key.post.price}
+              condition={key.post.productCondition}
+              userRating={key.buyerRating}
+              postId={key.post.id}
+              buyerEmail={key.post.buyerEmail}
+              quantity={key.post.quantity}
+            />
+          )
+        )
+      )
+    );
+  } catch (error) {
+    console.log("error");
+  }
   return (
     <div className=" bg-slate-600 h-screen">
       <NavBar />
@@ -20,6 +70,7 @@ const ManagePosts = () => {
           </Link>
         </div>
       </div>
+      {posts}
     </div>
   );
 };
