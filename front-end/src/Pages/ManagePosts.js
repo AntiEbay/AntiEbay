@@ -2,6 +2,7 @@ import react, { useContext } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
+import { accountTypeContext } from "../SessionVariables";
 const ManagePosts = async () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
