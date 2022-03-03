@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.DeletePostRequest;
-import com.antiebay.antiebayservice.userposts.PostRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -707,11 +706,11 @@ public class AntiEbayRestController {
 
         // Try deleting bid from database
         try {
-            bidRepository.deleteByEmail(deleteAccount.getEmailAddress());
-            userRepository.deleteByEmail(deleteAccount.getEmailAddress());
-            postsRepository.deleteByEmail(deleteAccount.getEmailAddress());
-            postReviewRepository.deleteByEmail(deleteAccount.getEmailAddress());
-            sellerReviewRepository.deleteByEmail(deleteAccount.getEmailAddress());
+            bidRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
+            userRepository.deleteByEmailAddress(deleteAccount.getEmailAddress());
+            postsRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
+            postReviewRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
+            sellerReviewRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
             logger.info(StatusMessages.ACCOUNT_DELETE_SUCCESS);
             return StatusMessages.ACCOUNT_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
