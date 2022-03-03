@@ -30,7 +30,7 @@ const NavBarButtons = (props) => {
               Create Post
             </button>
           </Link>
-          <Link to="/SignIn">
+          <Link to="/ManagePosts">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               View Post
             </button>
