@@ -5,6 +5,7 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import BidDisplay from "./BidDisplay";
+import { Link } from "react-router-dom";
 // import required modules
 // This is the post com that is used in ManagePosts.js
 // The button leads to ViewBids.js and the com BidDisplay
@@ -30,7 +31,7 @@ const AcceptBidPostDisplay = (props) => {
       .then(navigate("/ManagePosts"));
   };
   return (
-    <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
+    <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
         navigation={true}
         modules={[Navigation]}
@@ -39,23 +40,18 @@ const AcceptBidPostDisplay = (props) => {
         {imageArray}
       </Swiper>
       <div className="w-2/3 p-4">
-        <div className="flex justify-between">
+        <div className="flex justify-between w-full">
           <h1 className="text-white font-bold text-2xl">
             {props.title}
             <span className=" text-sm">x</span>
             {props.quantity}
           </h1>
           <div>
-            <div>
-              <Span
-                className=" text-red-600 text-lg hover:text-red-900"
-                onClick={postDelete}
-              >
-                X
-              </Span>
-            </div>
-            <span className=" invisible hover:flex text-3xl text-white">
-              Buyer Rating:{props.userRating}
+            <span
+              className=" text-red-600 text-lg hover:text-red-900"
+              onClick={postDelete}
+            >
+              X
             </span>
           </div>
         </div>
@@ -67,16 +63,19 @@ const AcceptBidPostDisplay = (props) => {
             <div>
               <h1 className="text-white font-bold text-xl">${props.price}</h1>
               <h1 className="text-white text-sm">
-                Condition: {props.Condition}
+                Condition: {props.condition}
               </h1>
             </div>
             <Link
               to={{
                 pathname: "/ViewBids",
-                state: (bids = props.bids),
+                state: {
+                  bids: props.bids,
+                },
               }}
             >
-              <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
+              {" "}
+              <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 lg:px-3 lg:py-2">
                 See Active Bids
               </button>
             </Link>
