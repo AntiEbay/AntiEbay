@@ -16,9 +16,11 @@ const NavBarButtons = (props) => {
                 Create Post
               </button>
             </Link>
-            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              View Posts
-            </button>
+            <Link to="/ManagePosts">
+              <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+                View Posts
+              </button>
+            </Link>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
             </button>
@@ -60,7 +62,7 @@ const NavBarButtons = (props) => {
               Active Bids
             </button>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Orders
+              Fill Orders
             </button>
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Account
@@ -68,12 +70,14 @@ const NavBarButtons = (props) => {
           </Menu>
         </div>
         <div className=" mx-5 hidden lg:flex">
-          <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-            Active Bids
-          </button>
-          <Link to="/SignIn">
+          <Link to="/ManageBids">
             <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              Orders
+              Active Bids
+            </button>
+          </Link>
+          <Link to="/ActiveOrders">
+            <button className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded">
+              Fill Orders
             </button>
           </Link>
           <Link to="/SignUp">

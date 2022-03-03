@@ -3,15 +3,19 @@ import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
 import { accountTypeContext } from "../SessionVariables";
+import axios from "axios";
 const ManagePosts = async () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);
+  const accountEmailFromState = state.accountEmail;
+  const accountTypeFromState = state.accountType;
+  const newArray = [];
   try {
     const accountInfo = {
-      accountEmail: state.accountEmail,
-      accountType: state.accountType,
+      accountEmail: accountEmail,
+      accountType: accountType,
     };
     const getAccountPosts = await axios.post(
       "http://localhost:8080/search",
