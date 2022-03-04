@@ -10,6 +10,7 @@ import CompletedPosts from "./Pages/CompletedPosts";
 import ActiveOrders from "./Pages/ActiveOrders";
 import ManagePosts from "./Pages/ManagePosts";
 import ViewBids from "./Pages/ViewBids";
+import AccountInfo from "./Pages/AccountInfo";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccountProvider } from "./SessionVariables";
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/ManagePosts" element={<ManagePosts />} />
           <Route path="/CompletedPosts" element={<CompletedPosts />} />
           <Route path="/ViewBids" element={<ViewBids />} />
+          <Route path="/AccountInfo" element={<AccountInfo />} />
         </Routes>
       </BrowserRouter>
     </AccountProvider>

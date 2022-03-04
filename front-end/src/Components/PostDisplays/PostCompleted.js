@@ -14,9 +14,9 @@ const PostCompleted = (props) => {
   const [reviewScreen, setReviewScreen] = useState(false);
   let mainBid = undefined;
   for (const index in props.bids) {
-    const bid = props.bids[index]
+    const bid = props.bids[index];
     if (bid.accepted) {
-        mainBid = bid;
+      mainBid = bid;
     }
   }
   const imageArray = Object.keys(props.imgStrings).map((key) => (
@@ -25,7 +25,7 @@ const PostCompleted = (props) => {
     </SwiperSlide>
   ));
   console.log(imageArray);
-  console.log(mainBid)
+  console.log(mainBid);
   return (
     <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
