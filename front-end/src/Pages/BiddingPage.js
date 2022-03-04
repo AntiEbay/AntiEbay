@@ -6,6 +6,7 @@ import { accountTypeContext } from "../SessionVariables";
 import { useLocation } from "react-router-dom";
 const BiddingPage = () => {
   const location = useLocation();
+  console.log(location);
   const { state, update } = useContext(accountTypeContext);
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
@@ -14,7 +15,7 @@ const BiddingPage = () => {
   const sendBid = async () => {
     const bidInfo = {
       sellerEmail: state.accountEmail,
-      postId: location.state.postId,
+      postId: location.state.biddingInfo.postId,
     };
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
@@ -43,9 +44,9 @@ const BiddingPage = () => {
           </div>
         </div>
         <div className=" flex flex-col">
-          {location.state.title !== undefined ? (
+          {location.state.biddingInfo.title !== undefined ? (
             <span className=" text-white text-center mt-20 mr-3 text-3xl rounded-md my-2">
-              {location.state.title}
+              {location.state.biddingInfo.title}
             </span>
           ) : (
             <span className=" text-white text-center mt-20 mr-3 text-3xl rounded-md my-2">
@@ -54,9 +55,9 @@ const BiddingPage = () => {
           )}
           <hr />
           <div className="flex flex-col bg-slate-600 rounded-lg mr-3 mt-1">
-            {props.description !== undefined ? (
+            {location.state.biddingInfo.description !== undefined ? (
               <span className="text-white text-center  bg-slate-600 mr-3 text-lg rounded-md my-3">
-                {location.state.description}
+                {location.state.biddingInfo.description}
               </span>
             ) : (
               <span className=" text-white text-center bg-slate-600 mr-3 text-lg rounded-md my-3">
@@ -65,10 +66,10 @@ const BiddingPage = () => {
             )}
             <hr />
             <div className=" bg-slate-600 mr-3 text-center rounded-md text-lg my-3">
-              <span className="mr-2 text-white">buyer asking price:</span>
-              {location.state.price !== undefined ? (
+              <span className="mr-2 text-white">buyer asking price: </span>
+              {location.state.biddingInfo.price !== undefined ? (
                 <span className="text-white text-centermr-3 text-lg rounded-md">
-                  {location.state.price}
+                  ${location.state.biddingInfo.price}
                 </span>
               ) : (
                 <span className=" text-white text-center mr-3 text-lg rounded-md">

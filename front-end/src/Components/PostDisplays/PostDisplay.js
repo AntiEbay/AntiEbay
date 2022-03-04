@@ -5,10 +5,17 @@ import { Link } from "react-router-dom";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
+import BiddingPage from "../../Pages/BiddingPage";
 // import required modules
 // Post Display used in ManageBids and Search Results
 const PostDisplay = (props) => {
   const { state, update } = useContext(accountTypeContext);
+  const bidPageInfo = {
+    postId: props.postId,
+    title: props.title,
+    description: props.description,
+    price: props.price,
+  };
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
@@ -17,7 +24,7 @@ const PostDisplay = (props) => {
   console.log(imageArray);
 
   return (
-    <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
+    <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
         navigation={true}
         modules={[Navigation]}
@@ -26,19 +33,15 @@ const PostDisplay = (props) => {
         {imageArray}
       </Swiper>
       <div className="w-2/3 p-4">
-        <div className="flex justify-between">
+        <div className="flex w-full justify-between">
           <h1 className="text-white font-bold text-2xl">
             {props.title}
             <span className=" text-sm">x</span>
             {props.quantity}
           </h1>
           <div>
-            <span className=" block hover:invisible text-amber-300 text-3xl">
-              &#9733;
-            </span>
-            <span className=" invisible hover:flex text-3xl text-white">
-              Buyer Rating:{props.userRating}
-            </span>
+            <span className="text-lg text-white">{props.userRating}</span>
+            <span className=" text-amber-300 text-3xl">&#9733;</span>
           </div>
         </div>
         <hr />
@@ -52,18 +55,8 @@ const PostDisplay = (props) => {
                 Condition: {props.Condition}
               </h1>
             </div>
-            {state.accountType === seller ? (
-              <Link
-                to={{
-                  pathname: "/Bidding",
-                  state: {
-                    postId: props.postId,
-                    title: props.title,
-                    description: props.description,
-                    price: props.price,
-                  },
-                }}
-              >
+            {state.accountType === "seller" ? (
+              <Link to={"/Bidding"} state={{ biddingInfo: bidPageInfo }}>
                 <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
                   Place A Bid
                 </button>

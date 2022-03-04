@@ -1,55 +1,68 @@
-import react, { useContext } from "react";
+import react, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
+import PostCompleted from "../Components/PostDisplays/PostCompleted";
 import { accountTypeContext } from "../SessionVariables";
-const CompletedPosts = async () => {
+import axios from "axios";
+const ManagePosts = () => {
+  //Page for a buyer to view all their personal posts
+  //Uses AcceptBidPostDisplay
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);
-  try {
-    const accountInfo = {
-      accountEmail: state.accountEmail,
-      accountType: state.accountType,
-    };
-    const getCompletedPosts = await axios.get(
-      "http://localhost:8080/search",
-      JSON.stringify(accountInfo),
-      {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+  const accountEmailFromState = state.accountEmail;
+  const accountTypeFromState = state.accountType;
+  const newArray = [];
+  useEffect(() => {
+    const retrieveAccountposts = async () => {
+      try {
+        const accountInfo = {
+          accountEmail: accountEmailFromState,
+          accountType: accountTypeFromState,
+        };
+        const getAccountPosts = await axios.post(
+          "http://localhost:8080/user/interactions/getuserbids",
+          JSON.stringify(accountInfo),
+          {
+            headers: {
+              // Overwrite Axios's automatically set Content-Type
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        console.log(getAccountPosts);
+        Object.keys(getAccountPosts.data.searchResults).map((key) =>
+          newArray.push(getAccountPosts.data.searchResults[key])
+        );
+      } catch (error) {
+        console.log("error");
       }
-    );
-    console.log(getCompletedPosts);
-    Object.keys(getCompletedPosts.data.searchResults).map((key) =>
-      newArray.push(getCompletedPosts.data.searchResults[key])
-    );
-    console.log(newArray);
-    setPosts(
-      newArray.map(
-        (key) => (
-          console.log(key),
-          (
-            <PostDisplay
-              imgStrings={key.post.imageList}
-              title={key.post.title}
-              description={key.post.description}
-              price={key.post.price}
-              condition={key.post.productCondition}
-              userRating={key.buyerRating}
-              postId={key.post.id}
-              buyerEmail={key.post.buyerEmail}
-              quantity={key.post.quantity}
-            />
+      console.log(newArray);
+      setPosts(
+        newArray.map(
+          (key) => (
+            console.log(key),
+            (
+              <CompletedPosts
+                imgStrings={key.post.imageList}
+                bids={key.post.bidList}
+                title={key.post.title}
+                description={key.post.description}
+                price={key.post.price}
+                condition={key.post.productCondition}
+                userRating={key.buyerRating}
+                postId={key.post.id}
+                buyerEmail={key.post.buyerEmail}
+                quantity={key.post.quantity}
+              />
+            )
           )
         )
-      )
-    );
-  } catch (error) {
-    console.log("error");
-  }
-
+      );
+    };
+    retrieveAccountposts();
+    console.log(posts);
+  }, [accountEmailFromState]);
   return (
     <div className=" bg-slate-600 h-screen">
       <NavBar />
@@ -68,9 +81,9 @@ const CompletedPosts = async () => {
           </Link>
         </div>
       </div>
-      {posts}
+      <div className="flex flex-col w-full items-center">{posts}</div>
     </div>
   );
 };
 
-export default CompletedPosts;
+export default ManagePosts;

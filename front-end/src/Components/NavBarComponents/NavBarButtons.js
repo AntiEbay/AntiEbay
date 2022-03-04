@@ -2,9 +2,12 @@ import React from "react";
 import "../Elements/hamburgerMenuStyles.css";
 import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NavBarButtons = (props) => {
-  const logout = () => {};
+  const logout = () => {
+    window.location.reload(false);
+  };
 
   if (props.accountType === "buyer") {
     return (
@@ -42,14 +45,12 @@ const NavBarButtons = (props) => {
               Account
             </button>
           </Link>
-          <Link to="/">
-            <button
-              className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
-              onClick={logout}
-            >
-              Log Out
-            </button>
-          </Link>
+          <button
+            className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
+            onClick={logout}
+          >
+            Log Out
+          </button>
         </div>
       </div>
     );
@@ -85,14 +86,12 @@ const NavBarButtons = (props) => {
               Account
             </button>
           </Link>
-          <Link to="/">
-            <button
-              className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
-              onClick={logout}
-            >
-              Log Out
-            </button>
-          </Link>
+          <button
+            className="hover:bg-slate-400 cursor-pointer text-white font-bold py-2 px-2 rounded"
+            onClick={logout}
+          >
+            Log Out
+          </button>
         </div>
       </div>
     );

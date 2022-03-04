@@ -20,8 +20,7 @@ const ManagePosts = () => {
           accountType: accountTypeFromState,
         };
         const getAccountPosts = await axios.post(
-          "http://localhost:8080/search",
-          JSON.stringify(accountInfo),
+          "http://localhost:8080/user/getallposts",
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type

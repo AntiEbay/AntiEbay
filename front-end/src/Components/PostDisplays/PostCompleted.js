@@ -19,7 +19,7 @@ const PostCompleted = (props) => {
   console.log(imageArray);
 
   return (
-    <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
+    <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
         navigation={true}
         modules={[Navigation]}
@@ -28,7 +28,7 @@ const PostCompleted = (props) => {
         {imageArray}
       </Swiper>
       <div className="w-2/3 p-4">
-        <div className="flex justify-between">
+        <div className="flex justify-between w-full">
           <h1 className="text-white font-bold text-2xl">
             {props.title}
             <span className=" text-sm">x</span>
