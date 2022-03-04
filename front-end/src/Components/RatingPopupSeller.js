@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
-const RatingPopup = (props) => {
+const RatingPopupSeller = (props) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hover, setHover] = useState(0);
@@ -11,7 +11,7 @@ const RatingPopup = (props) => {
       rating: rating,
       comment: comment,
       //Email to send review about
-      sellerEmail: state.accountEmail,
+      //sellerEmail: props.sellerEmail,
       postId: props.postId,
     };
     console.log(review);
@@ -97,4 +97,4 @@ const RatingPopup = (props) => {
   }
 };
 
-export default RatingPopup;
+export default RatingPopupSeller;

@@ -4,7 +4,7 @@ import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
-import RatingPopup from "../RatingPopup";
+import RatingPopupSeller from "../RatingPopupSeller";
 import axios from "axios";
 // import required modules
 //Used in the Completed Post page.
@@ -35,7 +35,7 @@ const PostCompleted = (props) => {
             <span className=" text-sm">x</span>
             {props.quantity}
           </h1>
-          <RatingPopup
+          <RatingPopupSeller
             trigger={reviewScreen}
             triggerOff={setReviewScreen}
             review={setReview}
