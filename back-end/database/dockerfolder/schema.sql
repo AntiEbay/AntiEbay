@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS posts (
     price int,
     category VARCHAR(225),
     product_condition VARCHAR(225),
-    product_description VARCHAR(225)
+    product_description VARCHAR(225),
+    post_is_complete VARCHAR(255)
 );
 
 -- Table containing bidding information
@@ -55,7 +56,7 @@ CREATE TABLE IF NOT EXISTS seller_review (
     seller_review_id int AUTO_INCREMENT PRIMARY KEY ,
     rating int,
     buyer_email VARCHAR(225),
-    seller_id VARCHAR(225),
+    seller_email VARCHAR(225),
     comment VARCHAR(225)
 );
 

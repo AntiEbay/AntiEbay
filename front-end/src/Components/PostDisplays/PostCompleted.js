@@ -1,10 +1,11 @@
-import react, { useContext } from "react";
+import react, { useContext, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import RatingPopup from "../RatingPopup";
+import axios from "axios";
 // import required modules
 //Used in the Completed Post page.
 const PostCompleted = (props) => {
@@ -16,6 +17,23 @@ const PostCompleted = (props) => {
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
     </SwiperSlide>
   ));
+  console.log(imageArray);
+
+  const bidDelete = async () => {
+    const bidInfo = {
+      postId: props.postId,
+    };
+    const sendpostDelete = await axios
+      .post("http://localhost:8080/user/interactions/getcompletedposts", 
+      JSON.stringify(bidInfo), {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+    //   .then(navigate("/ManageBids"));
+  };
   console.log(imageArray);
 
   return (

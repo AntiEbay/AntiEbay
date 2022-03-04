@@ -17,9 +17,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import com.antiebay.antiebayservice.userposts.DeletePostRequest;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -199,6 +201,7 @@ public class AntiEbayRestController {
         // Check if user logged in is user in sellerBid
         if (!session.getAttribute("userType").equals("seller")) {
             logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
         }
 
         try {
@@ -249,6 +252,12 @@ public class AntiEbayRestController {
 //
 //        return "";
 //    }
+
+//    get all completed posts for buyer user
+
+
+
+
 
     /**
      * Rest Endpoint that retrieves all the posts that a seller user has made bids for
@@ -306,7 +315,7 @@ public class AntiEbayRestController {
     }
 
     // this is the end point to get retrieval all the posts that a buyer has posted
-    @PostMapping(value = "/user/getallposts", consumes = {"application/json"})
+    @PostMapping(value = "/user/getallposts")
     private String getAllPostsForUser(HttpServletRequest request) {
         logger.info("Received request to retrieve all posts by logged in user.");
         HttpSession session = request.getSession();
@@ -327,7 +336,17 @@ public class AntiEbayRestController {
         List<UserPosts> postList = postsRepository.findByBuyerEmail(email);
 
         for (UserPosts post : postList) {
+            // load images
             post.loadImages();
+            // get all bids for post
+            List<SellerBidEntity> postBids = bidRepository.findByBuyerPostId(post.getPostId());
+            for (SellerBidEntity bid : postBids) {
+                bid.loadImageFromStorage();
+                double avgUserReview = getAverageSellerReviewByEmail(bid.getSellerEmail());
+                bid.setAverageSellerReview(avgUserReview);
+            }
+            post.setBidList(postBids);
+
         }
 
         String returnStr = "";
@@ -389,7 +408,94 @@ public class AntiEbayRestController {
         }
     }
 
-    @PostMapping(value = "/user/interactions/getAcceptedUserbids")
+    @PostMapping(value = "/user/interaction/completepost")
+    private String markPostAsComplete(@RequestBody MarkCompleteRequest markCompleteRequest,
+                                      HttpServletRequest request) {
+        Integer postId = markCompleteRequest.getPostId();
+        logger.info("Received complete post request for: " + postId);
+        HttpSession session = request.getSession();
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
+        // check if user is seller
+        if (!userType.equals("seller")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
+            return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
+        }
+
+        // check if user is accepted bidder
+        Optional<SellerBidEntity> bidOpt = bidRepository.findByBuyerPostIdAndSellerEmailAndAccepted(postId, email, true);
+        if (bidOpt.isEmpty()) {
+            logger.warn("Could not find bid in repository");
+            return "Could not find bid in repository";
+        }
+        SellerBidEntity bid = bidOpt.get();
+        Optional<UserPosts> postOpt = postsRepository.findById(bid.getBuyerPostId());
+        if (postOpt.isEmpty()) {
+            logger.warn("Could not find post in repository");
+            return "Could not find post in repository";
+        }
+        UserPosts post = postOpt.get();
+        if (!email.equals(bid.getSellerEmail())) {
+            logger.warn("Seller email and accepted bid email do not match.");
+            return "Seller email and accepted bid email do not match.";
+        }
+
+        post.setPostIsComplete(String.valueOf(true));
+        postsRepository.save(post);
+
+        logger.info("Successfully marked post: " + post.getPostId() + " as complete.");
+
+        return "success";
+    }
+
+    @PostMapping(value = "/user/interactions/getcompletedposts")
+    private String retrieveAllCompletedPosts(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        logger.info("Received request to get all completed posts for user: " + session.getId());
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
+        // Check if logged in user is buyer
+        if (!userType.equals("buyer")) {
+            logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
+            return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
+        }
+
+        // get all user posts that are completed
+        List<UserPosts> postList = postsRepository.findByBuyerEmailAndPostIsComplete(email, String.valueOf(true));
+        for (UserPosts post : postList) {
+            List<SellerBidEntity> postBids = bidRepository.findByBuyerPostId(post.getPostId());
+            post.setBidList(postBids);
+            post.loadImages();
+        }
+
+        String returnStr = "";
+        try {
+            returnStr = objectMapper.writeValueAsString(postList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
+
+    @PostMapping(value = "/user/interactions/getAcceptedUserBids")
     private String retrieveAllPostsThatHaveAcceptedBidOn(HttpServletRequest request) {
         HttpSession session = request.getSession();
         logger.info("Recieved request to get all bids that have been accepted for user: " + session.getAttribute("email"));
@@ -541,7 +647,7 @@ public class AntiEbayRestController {
         // calculate average review score for user
         for (UserPosts post : returnedPosts) {
             SearchResult searchRes = new SearchResult(post);
-            double averageReviewScore = getUserAverageReviewFromEmail(post.getBuyerEmail());
+            double averageReviewScore = getBuyerAverageReviewFromEmail(post.getBuyerEmail());
             searchRes.setBuyerRating(averageReviewScore);
             response.addSearchResult(searchRes);
         }
@@ -636,7 +742,7 @@ public class AntiEbayRestController {
      * @param request The HTTP Request that contains the user's login data.
      * @return A JSON object representing the bids that this user has made.
      */
-    @PostMapping(value = "/interactions/getuserbids")
+    @PostMapping(value = "/user/interactions/getuserbids", consumes = {"application/json"})
     public String getAllUserBids(HttpServletRequest request) {
         logger.info("Received retrieve all bid request.");
         HttpSession session = request.getSession();
@@ -772,15 +878,36 @@ public class AntiEbayRestController {
         return session.getAttribute("email") != null && session.getAttribute("userType") != null;
     }
 
+
+    private double getAverageSellerReviewByEmail(String email) {
+        double reviewSum = 0;
+        double reviewCount = 0;
+        double averageReview = 0;
+        try {
+            List<SellerReview> sellerReviews = sellerReviewRepository.findBySellerEmail(email);
+            reviewCount += sellerReviews.size();
+            for (SellerReview sReview : sellerReviews) {
+                reviewSum += sReview.getRating();
+            }
+            if (reviewCount != 0) {
+                averageReview = reviewSum / reviewCount;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return averageReview;
+    }
+
+
     /**
      * Helper function that gets the average review rating from a user's email
      * @param email The email that is to be used to determine a user's average review
      * @return The average review for the given user
      */
-    private double getUserAverageReviewFromEmail(String email) {
+    private double getBuyerAverageReviewFromEmail(String email) {
         double reviewSum = 0;
         double reviewCount = 0;
-        double averageReivew = 0;
+        double averageReview = 0;
         try {
             Optional<UserAccountEntity> userOpt = userRepository.findById(email);
             if (userOpt.isEmpty()) {
@@ -799,18 +926,18 @@ public class AntiEbayRestController {
                     }
                 }
             } else {
-                List<SellerReview> sellerReviews = sellerReviewRepository.findBySellerId(user.getId());
-                reviewCount += sellerReviews.size();
-                for (SellerReview review : sellerReviews) {
-                    reviewSum += review.getRating();
-                }
+//                List<SellerReview> sellerReviews = sellerReviewRepository.findBySellerId(user.getId());
+//                reviewCount += sellerReviews.size();
+//                for (SellerReview review : sellerReviews) {
+//                    reviewSum += review.getRating();
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (reviewCount != 0) {
-            averageReivew = reviewSum / reviewCount;
+            averageReview = reviewSum / reviewCount;
         }
-        return averageReivew;
+        return averageReview;
     }
 }

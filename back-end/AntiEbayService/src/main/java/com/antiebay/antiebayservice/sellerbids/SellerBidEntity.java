@@ -28,6 +28,18 @@ public class SellerBidEntity {
     private boolean accepted;
     @Transient
     private UserPostImage bidImage;
+    @Transient
+    private double averageSellerReview;
+
+
+    public double getAverageSellerReview() {
+        return averageSellerReview;
+    }
+
+    public void setAverageSellerReview(double averageSellerReview) {
+        this.averageSellerReview = averageSellerReview;
+    }
+
 
     public void assignBidPath() {
         bidPath = "bids/" + sellerEmail + '/' + buyerPostId + '/' + bidId + '/';
@@ -56,6 +68,9 @@ public class SellerBidEntity {
     }
 
     public void writeBidImage() {
+        if (bidImage == null) {
+            return;
+        }
         String topDir = "bids/";
         File bidParentDir = new File(topDir);
         if (!bidParentDir.exists()) {

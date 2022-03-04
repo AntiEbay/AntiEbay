@@ -15,8 +15,9 @@ const BidDisplay = (props) => {
   ));
   const acceptBid = async () => {
     const bidInfo = {
-      sellerEmail: props.sellerEmail,
-      postId: props.postId,
+    //   sellerEmail: props.sellerEmail,
+    //   postId: props.postId,
+      bidId: props.bidId,
     };
     const postAcceptBid = await axios.post(
       "http://localhost:8080/user/interactions/acceptbid",
@@ -55,9 +56,10 @@ const BidDisplay = (props) => {
         <hr />
         <div className="flex item-center mt-2"></div>
         <div className="flex flex-grow justify-end">
-          <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
-            Accept Bid
-          </button>
+        <button
+            className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3"
+            onClick={acceptBid}
+          > Accept Bid </button>
         </div>
       </div>
     </div>

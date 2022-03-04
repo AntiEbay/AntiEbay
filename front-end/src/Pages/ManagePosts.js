@@ -21,6 +21,7 @@ const ManagePosts = () => {
         };
         const getAccountPosts = await axios.post(
           "http://localhost:8080/user/getallposts",
+          {"empty": 0},
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -30,8 +31,8 @@ const ManagePosts = () => {
           }
         );
         console.log(getAccountPosts);
-        Object.keys(getAccountPosts.data.searchResults).map((key) =>
-          newArray.push(getAccountPosts.data.searchResults[key])
+        Object.keys(getAccountPosts.data).map((key) =>
+          newArray.push(getAccountPosts.data[key])
         );
       } catch (error) {
         console.log("error");
@@ -43,16 +44,16 @@ const ManagePosts = () => {
             console.log(key),
             (
               <AcceptBidPostDisplay
-                imgStrings={key.post.imageList}
-                bids={key.post.bidList}
-                title={key.post.title}
-                description={key.post.description}
-                price={key.post.price}
-                condition={key.post.productCondition}
+                imgStrings={key.imageList}
+                bids={key.bidList}
+                title={key.title}
+                description={key.description}
+                price={key.price}
+                condition={key.productCondition}
                 userRating={key.buyerRating}
-                postId={key.post.id}
-                buyerEmail={key.post.buyerEmail}
-                quantity={key.post.quantity}
+                postId={key.id}
+                buyerEmail={key.buyerEmail}
+                quantity={key.quantity}
               />
             )
           )
@@ -73,7 +74,7 @@ const ManagePosts = () => {
               Active Posts
             </button>
           </Link>
-          <Link to="/CompletedPosts">
+          <Link to="/ActiveOrders">
             <button className="text-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
               Completed Posts
             </button>

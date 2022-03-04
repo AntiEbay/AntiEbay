@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SellerReviewRepository extends JpaRepository<SellerReview, Integer> {
-    List<SellerReview> findBySellerId(Integer sellerId);
+public interface SellerReviewRepository extends JpaRepository<SellerReview, String> {
+    List<SellerReview> findBySellerEmail(String sellerEmail);
     List<SellerReview> findByBuyerEmail(String buyerEmail);
-    List<SellerReview> deleteByBuyerEmail(String buyerEmail);
+    void deleteByBuyerEmail(String buyerEmail);
 }

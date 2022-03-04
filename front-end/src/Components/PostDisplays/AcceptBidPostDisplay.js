@@ -6,6 +6,8 @@ import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import BidDisplay from "./BidDisplay";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 // import required modules
 // This is the post com that is used in ManagePosts.js
 // The button leads to ViewBids.js and the com BidDisplay
@@ -28,7 +30,7 @@ const AcceptBidPostDisplay = (props) => {
         },
         withCredentials: true,
       })
-      .then(navigate("/ManagePosts"));
+    //   .then(navigate("/ManagePosts"));
   };
   return (
     <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
@@ -66,14 +68,7 @@ const AcceptBidPostDisplay = (props) => {
                 Condition: {props.condition}
               </h1>
             </div>
-            <Link
-              to={{
-                pathname: "/ViewBids",
-                state: {
-                  bids: props.bids,
-                },
-              }}
-            >
+            <Link to={"/ViewBids"} state={{ bids: props.bids }}>
               {" "}
               <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 lg:px-3 lg:py-2">
                 See Active Bids

@@ -4,6 +4,7 @@ import NavBar from "../Components/NavBar";
 import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
+import PostCompleted from "../Components/PostDisplays/PostCompleted";
 //Seller page to fill orders
 const ActiveOrders = () => {
   const { state, update } = useContext(accountTypeContext);
@@ -19,7 +20,8 @@ const ActiveOrders = () => {
           accountType: accountTypeFromState,
         };
         const getAccountPosts = await axios.post(
-          "http://localhost:8080/user/interactions/getAcceptedUserBids",
+          "http://localhost:8080/user/interactions/getcompletedposts",
+          {"empty" : 0},
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -29,8 +31,8 @@ const ActiveOrders = () => {
           }
         );
         console.log(getAccountPosts);
-        Object.keys(getAccountPosts.data.searchResults).map((key) =>
-          newArray.push(getAccountPosts.data.searchResults[key])
+        Object.keys(getAccountPosts.data).map((key) =>
+          newArray.push(getAccountPosts.data[key])
         );
       } catch (error) {
         console.log("error");
@@ -39,19 +41,19 @@ const ActiveOrders = () => {
       setPosts(
         newArray.map(
           (key) => (
-            console.log(key),
+            // console.log(key),
             (
-              <AcceptBidPostDisplay
-                imgStrings={key.post.imageList}
-                bids={key.post.bidList}
-                title={key.post.title}
-                description={key.post.description}
-                price={key.post.price}
-                condition={key.post.productCondition}
+              <PostCompleted
+                imgStrings={key.imageList}
+                bids={key.bidList}
+                title={key.title}
+                description={key.description}
+                price={key.price}
+                condition={key.productCondition}
                 userRating={key.buyerRating}
-                postId={key.post.id}
-                buyerEmail={key.post.buyerEmail}
-                quantity={key.post.quantity}
+                postId={key.id}
+                buyerEmail={key.buyerEmail}
+                quantity={key.quantity}
               />
             )
           )

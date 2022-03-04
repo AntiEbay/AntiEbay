@@ -35,12 +35,23 @@ public class UserPosts {
     private String productCondition;
     @Column(name = "product_description")
     private String description;
+    @Column(name = "post_is_complete")
+    private String postIsComplete;
 
     @Transient
     private List<SellerBidEntity> bidList;
 
     @Transient
     private List<UserPostImage> imageList;
+
+    public String getPostIsComplete() {
+        return postIsComplete;
+    }
+
+    public void setPostIsComplete(String postIsComplete) {
+        this.postIsComplete = postIsComplete;
+    }
+
 
     public UserPosts() {
     }

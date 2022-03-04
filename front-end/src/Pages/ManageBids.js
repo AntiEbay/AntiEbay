@@ -2,6 +2,7 @@ import react, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import PostDisplay from "../Components/PostDisplays/PostDisplay";
+import PostCompleted from "../Components/PostDisplays/PostCompleted";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 const ManageBids = () => {
@@ -30,8 +31,8 @@ const ManageBids = () => {
           }
         );
         console.log(getAccountPosts);
-        Object.keys(getAccountPosts.data.searchResults).map((key) =>
-          newArray.push(getAccountPosts.data.searchResults[key])
+        Object.keys(getAccountPosts.data).map((key) =>
+          newArray.push(getAccountPosts.data[key])
         );
       } catch (error) {
         console.log("error");
@@ -42,17 +43,17 @@ const ManageBids = () => {
           (key) => (
             console.log(key),
             (
-              <PostDisplay
-                imgStrings={key.post.imageList}
-                bids={key.post.bidList}
-                title={key.post.title}
-                description={key.post.description}
-                price={key.post.price}
-                condition={key.post.productCondition}
+              <PostCompleted
+                imgStrings={key.imageList}
+                bids={key.bidList}
+                title={key.title}
+                description={key.description}
+                price={key.price}
+                condition={key.productCondition}
                 userRating={key.buyerRating}
-                postId={key.post.id}
-                buyerEmail={key.post.buyerEmail}
-                quantity={key.post.quantity}
+                postId={key.id}
+                buyerEmail={key.buyerEmail}
+                quantity={key.quantity}
               />
             )
           )

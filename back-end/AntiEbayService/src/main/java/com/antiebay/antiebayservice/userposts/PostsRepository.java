@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface PostsRepository extends JpaRepository<UserPosts, Integer> {
     List<UserPosts> findByBuyerEmail(String buyerEmail);
+    List<UserPosts> findByBuyerEmailAndPostIsComplete(String buyerEmail, String state);
     void deleteByBuyerEmail(String buyerEmail);
 }

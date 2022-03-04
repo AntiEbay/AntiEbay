@@ -1,8 +1,6 @@
 package com.antiebay.antiebayservice.reviews;
 
 import javax.persistence.*;
-import java.io.File;
-import java.util.List;
 
 @Entity
 @Table(name = "seller_review")
@@ -15,8 +13,8 @@ public class SellerReview {
     private Integer rating ;
     @Column(name = "buyer_email")
     private String buyerEmail;
-    @Column(name = "seller_Id")
-    private Integer sellerId;
+    @Column(name = "seller_email")
+    private String sellerEmail;
     @Column(name = "comment")
     private String comment;
     
@@ -45,12 +43,12 @@ public class SellerReview {
         this.buyerEmail = buyerEmail;
     }
 
-    public Integer getBuyerPostId() {
-        return sellerId;
+    public String getBuyerPostId() {
+        return sellerEmail;
     }
 
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setSellerEmail(String sellerId) {
+        this.sellerEmail = sellerId;
     }
 
     public String getComment() {
@@ -69,7 +67,7 @@ public class SellerReview {
                 "sellerReviewId=" + sellerReviewId +
                 ", rating='" + rating + '\'' +
                 ", buyerEmail='" + buyerEmail + '\'' +
-                ", sellerId='" + sellerId + '\'' +
+                ", sellerId='" + sellerEmail + '\'' +
                 ", comment=" + comment + '\'' +
                 '}';
     }
