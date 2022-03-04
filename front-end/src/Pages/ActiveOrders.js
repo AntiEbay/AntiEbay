@@ -1,12 +1,13 @@
 import react, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
-import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
+// import PostCompleted from "../Components/PostDisplays/PostCompleted";
+import OrderToFillPost from "../Components/PostDisplays/OrderToFillPost";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
-import PostCompleted from "../Components/PostDisplays/PostCompleted";
-//Seller page to fill orders
 const ActiveOrders = () => {
+  //Page for a buyer to view all their personal posts
+  //Uses AcceptBidPostDisplay
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);
   const accountEmailFromState = state.accountEmail;
@@ -20,8 +21,8 @@ const ActiveOrders = () => {
           accountType: accountTypeFromState,
         };
         const getAccountPosts = await axios.post(
-          "http://localhost:8080/user/interactions/getcompletedposts",
-          {"empty" : 0},
+          "http://localhost:8080/user/interactions/getAcceptedUserBids",
+          JSON.stringify(accountInfo),
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -41,9 +42,9 @@ const ActiveOrders = () => {
       setPosts(
         newArray.map(
           (key) => (
-            // console.log(key),
+            console.log(key),
             (
-              <PostCompleted
+              <OrderToFillPost
                 imgStrings={key.imageList}
                 bids={key.bidList}
                 title={key.title}
@@ -51,7 +52,7 @@ const ActiveOrders = () => {
                 price={key.price}
                 condition={key.productCondition}
                 userRating={key.buyerRating}
-                postId={key.id}
+                postId={key.postId}
                 buyerEmail={key.buyerEmail}
                 quantity={key.quantity}
               />
@@ -69,14 +70,14 @@ const ActiveOrders = () => {
       <hr />
       <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
         <div className="p-1.5 space-x-12">
-          <Link to="/ManagePosts">
-            <button className="text-white border-b border-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
-              Active Posts
+          <Link to="/ManageBids">
+            <button className="text-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
+              Manage Bids
             </button>
           </Link>
-          <Link to="/CompletedPosts">
-            <button className="text-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
-              Completed Posts
+          <Link to="/ActiveOrders">
+            <button className="text-white border-b border-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
+              Orders To Fill
             </button>
           </Link>
         </div>

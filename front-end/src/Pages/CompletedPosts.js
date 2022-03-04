@@ -1,13 +1,12 @@
 import react, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
-// import PostCompleted from "../Components/PostDisplays/PostCompleted";
-import OrderToFillPost from "../Components/PostDisplays/OrderToFillPost";
+import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
+import PostCompleted from "../Components/PostDisplays/PostCompleted";
+//Seller page to fill orders
 const CompletedPosts = () => {
-  //Page for a buyer to view all their personal posts
-  //Uses AcceptBidPostDisplay
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);
   const accountEmailFromState = state.accountEmail;
@@ -21,8 +20,8 @@ const CompletedPosts = () => {
           accountType: accountTypeFromState,
         };
         const getAccountPosts = await axios.post(
-          "http://localhost:8080/user/interactions/getAcceptedUserBids",
-          JSON.stringify(accountInfo),
+          "http://localhost:8080/user/interactions/getcompletedposts",
+          { empty: 0 },
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -40,25 +39,21 @@ const CompletedPosts = () => {
       }
       console.log(newArray);
       setPosts(
-        newArray.map(
-          (key) => (
-            console.log(key),
-            (
-              <OrderToFillPost
-                imgStrings={key.imageList}
-                bids={key.bidList}
-                title={key.title}
-                description={key.description}
-                price={key.price}
-                condition={key.productCondition}
-                userRating={key.buyerRating}
-                postId={key.postId}
-                buyerEmail={key.buyerEmail}
-                quantity={key.quantity}
-              />
-            )
-          )
-        )
+        newArray.map((key) => (
+          // console.log(key),
+          <PostCompleted
+            imgStrings={key.imageList}
+            bids={key.bidList}
+            title={key.title}
+            description={key.description}
+            price={key.price}
+            condition={key.productCondition}
+            userRating={key.buyerRating}
+            postId={key.id}
+            buyerEmail={key.buyerEmail}
+            quantity={key.quantity}
+          />
+        ))
       );
     };
     retrieveAccountposts();

@@ -21,7 +21,7 @@ const ManagePosts = () => {
         };
         const getAccountPosts = await axios.post(
           "http://localhost:8080/user/getallposts",
-          {"empty": 0},
+          { empty: 0 },
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -74,7 +74,7 @@ const ManagePosts = () => {
               Active Posts
             </button>
           </Link>
-          <Link to="/ActiveOrders">
+          <Link to="/CompletedPosts">
             <button className="text-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
               Completed Posts
             </button>

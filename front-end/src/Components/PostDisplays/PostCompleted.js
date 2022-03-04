@@ -19,23 +19,6 @@ const PostCompleted = (props) => {
   ));
   console.log(imageArray);
 
-  const bidDelete = async () => {
-    const bidInfo = {
-      postId: props.postId,
-    };
-    const sendpostDelete = await axios
-      .post("http://localhost:8080/user/interactions/getcompletedposts", 
-      JSON.stringify(bidInfo), {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-    //   .then(navigate("/ManageBids"));
-  };
-  console.log(imageArray);
-
   return (
     <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper

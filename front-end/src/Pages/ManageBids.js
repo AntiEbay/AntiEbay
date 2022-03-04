@@ -2,7 +2,6 @@ import react, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import PostDisplay from "../Components/PostDisplays/PostDisplay";
-import PostCompleted from "../Components/PostDisplays/PostCompleted";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 const ManageBids = () => {
@@ -22,6 +21,7 @@ const ManageBids = () => {
         };
         const getAccountPosts = await axios.post(
           "http://localhost:8080/user/interactions/allpostswithuserbids",
+          { empty: 0 },
           {
             headers: {
               // Overwrite Axios's automatically set Content-Type
@@ -43,7 +43,7 @@ const ManageBids = () => {
           (key) => (
             console.log(key),
             (
-              <PostCompleted
+              <PostDisplay
                 imgStrings={key.imageList}
                 bids={key.bidList}
                 title={key.title}
@@ -69,14 +69,14 @@ const ManageBids = () => {
       <hr />
       <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
         <div className="p-1.5 space-x-12">
-          <Link to="/ManagePosts">
+          <Link to="/ManageBids">
             <button className="text-white border-b border-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
-              Active Posts
+              Manage Bids
             </button>
           </Link>
-          <Link to="/CompletedPosts">
+          <Link to="/ActiveOrders">
             <button className="text-white text-xl hover:bg-slate-400 hover:rounded-lg p-1">
-              Completed Posts
+              Orders To Fill
             </button>
           </Link>
         </div>

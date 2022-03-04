@@ -18,7 +18,7 @@ const OrderToFillPost = (props) => {
     const postValues = {
       postId: props.postId,
     };
-    console.log(props)
+    console.log(props);
     console.log(postValues);
     const completedBid = await axios.post(
       "http://localhost:8080/user/interaction/completepost",

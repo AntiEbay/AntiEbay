@@ -22,14 +22,17 @@ const AcceptBidPostDisplay = (props) => {
     const postInfo = {
       postId: props.postId,
     };
-    const sendpostDelete = await axios
-      .post("http://localhost:8080/post/delete", JSON.stringify(postInfo), {
+    const sendpostDelete = await axios.post(
+      "http://localhost:8080/post/delete",
+      JSON.stringify(postInfo),
+      {
         headers: {
           // Overwrite Axios's automatically set Content-Type
           "Content-Type": "application/json",
         },
         withCredentials: true,
-      })
+      }
+    );
     //   .then(navigate("/ManagePosts"));
   };
   return (
