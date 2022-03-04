@@ -778,6 +778,14 @@ public class AntiEbayRestController {
     @PostMapping(value = "post/delete", consumes = {"application/json"})
     private String postDelete(@RequestBody DeletePostRequest deletePost) {
 
+        /*
+        HttpSession session = deletePost.getSession();
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+        */
+
         // Try deleting post from database
         try {
             postsRepository.deleteById(deletePost.getPostId());
