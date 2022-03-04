@@ -51,7 +51,7 @@ const ManagePosts = () => {
                 price={key.price}
                 condition={key.productCondition}
                 userRating={key.buyerRating}
-                postId={key.id}
+                postId={key.postId}
                 buyerEmail={key.buyerEmail}
                 quantity={key.quantity}
               />

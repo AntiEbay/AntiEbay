@@ -780,7 +780,7 @@ public class AntiEbayRestController {
 
         // Try deleting post from database
         try {
-            postsRepository.deleteById(deletePost.getId());
+            postsRepository.deleteById(deletePost.getPostId());
             logger.info(StatusMessages.POST_DELETE_SUCCESS);
             return StatusMessages.POST_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
@@ -866,8 +866,7 @@ public class AntiEbayRestController {
     }
 
 
-    // helper methods
-
+    /* ************ HELPER METHODS ************ */
 
     /**
      * Helper method to test if a user is logged in

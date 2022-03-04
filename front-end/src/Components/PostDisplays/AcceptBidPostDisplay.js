@@ -12,6 +12,7 @@ import { Navigate } from "react-router-dom";
 // This is the post com that is used in ManagePosts.js
 // The button leads to ViewBids.js and the com BidDisplay
 const AcceptBidPostDisplay = (props) => {
+    console.log(props);
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
@@ -20,8 +21,9 @@ const AcceptBidPostDisplay = (props) => {
   console.log(imageArray);
   const postDelete = async () => {
     const postInfo = {
-      postId: props.postId,
+      postId: parseInt(props.postId),
     };
+    console.log(postInfo);
     const sendpostDelete = await axios.post(
       "http://localhost:8080/post/delete",
       JSON.stringify(postInfo),

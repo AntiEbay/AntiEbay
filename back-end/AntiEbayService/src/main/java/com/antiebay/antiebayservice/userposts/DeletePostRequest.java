@@ -3,13 +3,11 @@ package com.antiebay.antiebayservice.userposts;
 public class DeletePostRequest {
     private Integer postId;
 
-    public Integer getId() {
+    public Integer getPostId() {
         return postId;
     }
 
-    public void setId(Integer postId) {
+    public void setPostId(Integer postId) {
         this.postId = postId;
     }
-
-    
 }
