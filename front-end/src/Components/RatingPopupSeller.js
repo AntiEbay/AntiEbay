@@ -11,7 +11,7 @@ const RatingPopupSeller = (props) => {
       rating: rating,
       comment: comment,
       //Email to send review about
-      //sellerEmail: props.sellerEmail,
+      sellerEmail: props.sellerEmail,
       postId: props.postId,
     };
     console.log(review);
