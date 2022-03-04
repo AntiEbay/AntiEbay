@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Entity
 @Table(name = "bid")
@@ -27,7 +29,7 @@ public class SellerBidEntity {
     @Column(name = "accepted")
     private boolean accepted;
     @Transient
-    private UserPostImage bidImage;
+    private List<UserPostImage> bidImage;
     @Transient
     private double averageSellerReview;
 
@@ -47,7 +49,10 @@ public class SellerBidEntity {
 
     public void loadImageFromStorage() {
         String imagePath = bidPath + 0; // TODO check
-        bidImage = getImageFromPath(imagePath);
+        if (bidImage == null) {
+            bidImage = new ArrayList<>();
+        }
+        bidImage.add(getImageFromPath(imagePath));
     }
 
     private UserPostImage getImageFromPath(String path) {
@@ -88,8 +93,8 @@ public class SellerBidEntity {
         if (!bidDir.exists()) {
             bidDir.mkdirs();
         }
-        bidImage.setFileName(topDir + sellerEmail + '/' + buyerPostId + '/' + bidId + '/');
-        bidImage.writeFile();
+        bidImage.get(0).setFileName(topDir + sellerEmail + '/' + buyerPostId + '/' + bidId + '/');
+        bidImage.get(0).writeFile();
     }
 
     public Integer getBidId() {
@@ -132,13 +137,6 @@ public class SellerBidEntity {
         this.bidPath = bidPath;
     }
 
-    public UserPostImage getBidImage() {
-        return bidImage;
-    }
-
-    public void setBidImage(UserPostImage bidImage) {
-        this.bidImage = bidImage;
-    }
 
     public boolean getAcceptedBid() { return accepted; }
 
@@ -154,5 +152,17 @@ public class SellerBidEntity {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public List<UserPostImage> getBidImage() {
+        return bidImage;
+    }
+
+    public void setBidImage(List<UserPostImage> bidImage) {
+        this.bidImage = bidImage;
+    }
+
+    public void addToBidImageList(UserPostImage img) {
+        bidImage.add(img);
     }
 }

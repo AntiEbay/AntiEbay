@@ -12,13 +12,20 @@ const PostCompleted = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const [review, setReview] = useState(false);
   const [reviewScreen, setReviewScreen] = useState(false);
+  let mainBid = undefined;
+  for (const index in props.bids) {
+    const bid = props.bids[index]
+    if (bid.accepted) {
+        mainBid = bid;
+    }
+  }
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
     </SwiperSlide>
   ));
   console.log(imageArray);
-
+  console.log(mainBid)
   return (
     <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
@@ -39,6 +46,7 @@ const PostCompleted = (props) => {
             trigger={reviewScreen}
             triggerOff={setReviewScreen}
             review={setReview}
+            sellerEmail={mainBid.sellerEmail}
           />
         </div>
         <hr />

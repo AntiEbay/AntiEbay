@@ -8,11 +8,18 @@ import ".//swiperArrow.css";
 // Final component to display bids
 const BidDisplay = (props) => {
   //Used for a buyer to accept a bid, under the viewBids tab
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
+  const imageArray = Object.keys(props.imgStrings).map(
+    (key) => (
+      console.log(props.imgStrings[key].contents),
+      (
+        <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
+          <img
+            src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`}
+          />
+        </SwiperSlide>
+      )
+    )
+  );
   const acceptBid = async () => {
     const bidInfo = {
       //   sellerEmail: props.sellerEmail,

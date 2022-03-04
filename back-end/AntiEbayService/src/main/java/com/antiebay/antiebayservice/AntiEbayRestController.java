@@ -198,8 +198,11 @@ public class AntiEbayRestController {
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
         // Check if user logged in is user in sellerBid
-        if (!session.getAttribute("userType").equals("seller")) {
+        if (!userType.equals("seller")) {
             logger.warn(StatusMessages.USER_LOGGED_IN_NOT_SELLER);
             return StatusMessages.USER_LOGGED_IN_NOT_SELLER.toString();
         }
@@ -346,7 +349,6 @@ public class AntiEbayRestController {
                 bid.setAverageSellerReview(avgUserReview);
             }
             post.setBidList(postBids);
-
         }
 
         String returnStr = "";
@@ -717,13 +719,16 @@ public class AntiEbayRestController {
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
 
         // Check if user logged in is of buyer type
-        if (!session.getAttribute("userType").equals("buyer")) {
+        if (!userType.equals("buyer")) {
             logger.warn(StatusMessages.USER_LOGGED_IN_NOT_BUYER);
             return StatusMessages.USER_LOGGED_IN_NOT_BUYER.toString();
         }
 
+        sellerReview.setBuyerEmail(email);
 
         // Try writing user to database
         try {

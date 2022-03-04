@@ -4,6 +4,19 @@ import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
 import { useLocation } from "react-router-dom";
+
+var imageClassList = [];
+
+class ImageObj {
+  fileName = "";
+  contents = "";
+  // maybe add type field
+  constructor(fileName, contents) {
+    this.fileName = fileName;
+    this.contents = contents;
+  }
+}
+
 const BiddingPage = () => {
   const location = useLocation();
   console.log(location);
@@ -11,12 +24,17 @@ const BiddingPage = () => {
   const [sellerOffer, setSelleroffer] = useState(Number);
   const [review, setReview] = useState(false);
   const [reviewScreen, setReviewScreen] = useState(false);
+  const [alertValues, setAlertValues] = useState({
+    visible: false,
+    text: "",
+  });
 
   const sendBid = async () => {
     const bidInfo = {
       sellerEmail: state.accountEmail,
       buyerPostId: location.state.biddingInfo.postId,
       bidAmount: sellerOffer,
+      bidImage: imageClassList[0],
     };
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
@@ -30,6 +48,43 @@ const BiddingPage = () => {
       }
     );
   };
+
+  const gather = () => {
+    let fileInput = document.getElementById("fileInput");
+
+    // Click event
+    fileInput.addEventListener(
+      "change",
+      function start() {
+        var file = fileInput.files[0];
+        var imageType = /image.*/;
+
+        // Check if Valid
+        if (file.type.match(imageType)) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            // Collect Image
+            var img = new Image();
+            img.src = reader.result;
+
+            // Place image as background image
+            document.getElementById("fileDisplayArea").style.backgroundImage =
+              "url(" + img.src + ")";
+            imageClassList.push(
+              new ImageObj("test.png", img.src.split(",")[1])
+            );
+          }; // End of Reader
+          reader.readAsDataURL(file);
+        } else {
+          console.log("File not supported!");
+          alert("File Type not supported.");
+        }
+        fileInput.value = "";
+      },
+      false
+    );
+  };
+
   return (
     <div className="flex flex-col items-center bg-slate-600 h-screen">
       <NavBar />
@@ -39,9 +94,20 @@ const BiddingPage = () => {
         review={setReview}
       />
       <div className=" grid lg:grid-cols-2 bg-slate-800 lg:w-3/4 lg:h-2/3 mt-20">
-        <div className=" flex items-start justify-center">
-          <div className="flex h-1/2 w-1/2 bg-slate-400 items-center justify-center mt-20 rounded-lg">
-            No Image Available
+        <div id="x" className=" flex items-start justify-center">
+          <div
+            id="fileDisplayArea"
+            className="flex items-start justify-center flex h-1/2 w-1/2 bg-slate-400 items-center justify-center mt-20 rounded-lg bg-cover"
+          >
+            <label className=" bg-slate-400  rounded-sm text-center hover:bg-sky-600 cursor-pointer">
+              <input
+                className="w-1 "
+                type="file"
+                id="fileInput"
+                onClick={gather}
+              />
+              <span className=" text-black">Add Photos Here</span>
+            </label>
           </div>
         </div>
         <div className=" flex flex-col">

@@ -11,12 +11,12 @@ const RatingPopupSeller = (props) => {
       rating: rating,
       comment: comment,
       //Email to send review about
-      //sellerEmail: props.sellerEmail,
+      sellerEmail: props.sellerEmail,
       postId: props.postId,
     };
     console.log(review);
     const postReviewRes = await axios.post(
-      "http://localhost:8080/post/review/writing",
+      "http://localhost:8080/seller/review/writing",
       JSON.stringify(review),
       {
         headers: {
