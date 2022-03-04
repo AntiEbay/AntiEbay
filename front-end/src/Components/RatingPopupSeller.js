@@ -16,7 +16,7 @@ const RatingPopupSeller = (props) => {
     };
     console.log(review);
     const postReviewRes = await axios.post(
-      "http://localhost:8080/post/review/writing",
+      "http://localhost:8080/seller/review/writing",
       JSON.stringify(review),
       {
         headers: {

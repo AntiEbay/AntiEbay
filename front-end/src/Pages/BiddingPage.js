@@ -34,6 +34,7 @@ const BiddingPage = () => {
       sellerEmail: state.accountEmail,
       buyerPostId: location.state.biddingInfo.postId,
       bidAmount: sellerOffer,
+      bidImage: imageClassList[0],
     };
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
