@@ -780,6 +780,37 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
+    // end point that retrieves the user's review rating
+    @PostMapping( value = "user/review/retrieve", consumes = {"application/json"})
+    private String getUserReview(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        logger.info("Recieved request to get all bids for user: " + session.getAttribute("email"));
+
+        // check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
+
+        double userReview;
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
+        // Check if logged in user is buyer
+        if (userType.equals("buyer")) {
+            userReview = getBuyerAverageReviewFromEmail(email);
+            return String.valueOf(userReview);
+        }
+        else if (userType.equals("seller")) {
+            userReview = getAverageSellerReviewByEmail(email);
+            return String.valueOf(userReview);
+        }
+        else {
+            logger.warn(StatusMessages.USER_NOT_EXIST);
+            return StatusMessages.USER_NOT_EXIST.toString();
+        }
+    }
 
     //PostMapping for deleting a post from the databse
     @PostMapping(value = "post/delete", consumes = {"application/json"})
