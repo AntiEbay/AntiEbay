@@ -266,17 +266,20 @@ const BuyerPost = () => {
       {/* Everything below NavBar */}
       <form className="h-screen">
         {/* Box Around actual form */}
-        <div className="m-auto bg-slate-800 rounded-t-lg w-3/4 h-fit">
+        <div className="m-auto bg-slate-800 rounded-t-lg lg:w-3/4 h-fit">
           {/*logo*/}
           <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
             Anti-eBay
           </h1>
           {/* "Create new listing" */}
-          <h2 className=" text-white text-4xl text-center pb-10 pt-4">
-            Create new Listing
+          <h2 className="text-center pb-10 pt-4">
+            <span className="text-white text-4xl text-center mb-2">
+              Create new Listing
+            </span>
+            <hr className="mt-2" />
           </h2>
           {/*Image grid*/}
-          <div className="m-auto flex grid-cols-2 bg-slate-600 w-2/5 h-96 rounded-3xl border-slate-600 border-8">
+          <div className="m-auto flex grid-cols-2 bg-slate-600 w-4/5 lg:w-2/5 h-96 rounded-3xl border-slate-600 border-8">
             {/* Large image */}
             <div
               className="relative flex flex-col bg-slate-400 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 items-center text-xl text-slate-600"
@@ -334,7 +337,7 @@ const BuyerPost = () => {
           {/* Input Boxes */}
           <div className="flex flex-col items-center pt-4 space-y-6">
             {/* title */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Title
               </label>
@@ -350,7 +353,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Prefered Quantity */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Prefered Quantity
               </label>
@@ -367,14 +370,10 @@ const BuyerPost = () => {
             </div>
           </div>{" "}
           {/*end of Input boxes*/}
-        </div>{" "}
-        {/*end of dark grey box*/}
-        {/*2nd dark grey box*/}
-        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 h-3/5">
           {/* 2nd set of Input Boxes */}
           <div className="flex flex-col items-center pt-6 space-y-6">
             {/* Price */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Price
               </label>
@@ -391,7 +390,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Category */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Category
               </label>
@@ -429,7 +428,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Condition */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600 ">
+            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600 ">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Condition
               </label>
@@ -449,7 +448,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Description */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Description
               </label>
@@ -466,12 +465,14 @@ const BuyerPost = () => {
 
             {/*Submit button*/}
             <button
-              className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
+              className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700 mb-2"
               type="submit"
               onClick={buyerPostRequest}
             >
               Next
             </button>
+            {/*This empty div is needed for the h-fit for the main box*/}
+            <div></div>
           </div>{" "}
           {/*End of 2nd set of input boxes*/}
         </div>{" "}
