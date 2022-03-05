@@ -24,6 +24,8 @@ import com.antiebay.antiebayservice.userposts.DeletePostRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -818,7 +820,7 @@ public class AntiEbayRestController {
         }
     }
 
-    
+    @Transactional//might work?
     //PostMapping for deleting an account from the databse
     @PostMapping(value = "account/delete", consumes = {"application/json"})
     private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount) {
