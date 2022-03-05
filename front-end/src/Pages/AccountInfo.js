@@ -3,10 +3,11 @@ import NavBar from "../Components/NavBar";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 const AccountInfo = () => {
+  const { state, update } = useContext(accountTypeContext);
   const accountDelete = async () => {
     const sendAccountDelete = await axios.post(
-      "http://localhost:8080/user/delete",
-      { empty: 0 },
+      "http://localhost:8080/account/delete",
+      { emailAddress: state.accountEmail },
       {
         headers: {
           "Content-Type": "application/json",
