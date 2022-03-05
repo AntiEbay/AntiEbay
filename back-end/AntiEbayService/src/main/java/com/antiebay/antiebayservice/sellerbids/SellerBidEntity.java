@@ -73,7 +73,7 @@ public class SellerBidEntity {
     }
 
     public void writeBidImage() {
-        if (bidImage == null) {
+        if (bidImage == null || bidImage.isEmpty()) {
             return;
         }
         String topDir = "bids/";
