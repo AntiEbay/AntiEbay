@@ -851,18 +851,18 @@ public class AntiEbayRestController {
         }
     }
 
-    //@Transactional might work?
+    
     //PostMapping for deleting an account from the databse
     @PostMapping(value = "account/delete", consumes = {"application/json"})
     private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount) {
 
         // Try deleting bid from database
         try {
-            //bidRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
+             bidRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
              userRepository.deleteByEmailAddress(deleteAccount.getEmailAddress());
-            // postsRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
-            // postReviewRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
-            // sellerReviewRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
+             postsRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
+             postReviewRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
+             sellerReviewRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
             logger.info(StatusMessages.ACCOUNT_DELETE_SUCCESS);
             return StatusMessages.ACCOUNT_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
