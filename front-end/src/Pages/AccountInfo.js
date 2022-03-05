@@ -1,8 +1,9 @@
-import react, { useContext, useEffect } from "react";
+import react, { useContext, useEffect, useState } from "react";
 import NavBar from "../Components/NavBar";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 const AccountInfo = () => {
+    const [rating, setRating] = useState();
   const { state, update } = useContext(accountTypeContext);
   const accountDelete = async () => {
     const sendAccountDelete = await axios.post(
@@ -16,10 +17,9 @@ const AccountInfo = () => {
       }
     );
   };
-  let rating = 0;
   const getSpecificUserRating = async () => {
     const getRating = await axios.post(
-      "http://localhost:8080/user/",
+      "http://localhost:8080/user/review/retrieve",
       { empty: 0 },
       {
         headers: {
@@ -28,7 +28,9 @@ const AccountInfo = () => {
         withCredentials: true,
       }
     );
-    rating = getRating.data.userRating;
+    setRating(getRating.data);
+    console.log(getRating)
+    console.log(rating);
   };
   getSpecificUserRating();
 

@@ -45,14 +45,6 @@ public class PostReview {
         this.sellerEmail = sellerEmail;
     }
 
-    public Integer getBuyerPostId() {
-        return postId;
-    }
-
-    public void setBuyerPostId(Integer buyerPostId) {
-        this.postId = buyerPostId;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -72,5 +64,13 @@ public class PostReview {
                 ", buyerPostId='" + postId + '\'' +
                 ", comment=" + comment + '\'' +
                 '}';
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
     }
 }

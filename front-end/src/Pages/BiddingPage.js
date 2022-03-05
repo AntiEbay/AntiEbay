@@ -92,6 +92,7 @@ const BiddingPage = () => {
         trigger={reviewScreen}
         triggerOff={setReviewScreen}
         review={setReview}
+        postId={location.state.biddingInfo.postId}
       />
       <div className=" grid lg:grid-cols-2 bg-slate-800 lg:w-3/4 lg:h-2/3 mt-20">
         <div id="x" className=" flex items-start justify-center">
