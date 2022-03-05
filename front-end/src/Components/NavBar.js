@@ -21,7 +21,7 @@ const NavBar = () => {
             }}
             label="searchQuery"
             name="searchQuery"
-            placeholder="Serach"
+            placeholder="Search"
             type="search"
           />
           <Link
