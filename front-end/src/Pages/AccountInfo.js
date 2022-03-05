@@ -1,21 +1,26 @@
-import react, { useContext, useEffect, useState } from "react";
+import react, { useContext, useState } from "react";
 import NavBar from "../Components/NavBar";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 const AccountInfo = () => {
   const [rating, setRating] = useState();
   const { state, update } = useContext(accountTypeContext);
+  const navigate = useNavigate();
   const accountDelete = async () => {
-    const sendAccountDelete = await axios.post(
-      "http://localhost:8080/account/delete",
-      { emailAddress: state.accountEmail },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+    const sendAccountDelete = await axios
+      .post(
+        "http://localhost:8080/account/delete",
+        { emailAddress: state.accountEmail },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then(navigate("/"));
+    window.location.reload(false);
   };
   const getSpecificUserRating = async () => {
     const getRating = await axios.post(
@@ -46,15 +51,17 @@ const AccountInfo = () => {
         </h1>
         {/* "Account INfo" */}
         <h2 className=" text-white text-4xl text-center pt-4">Account Info</h2>
-
         {/* "User Rating" */}
         <div className="flex my-3 h-screen flex-col items-center mt-20">
-          <span className=" text-3xl text-white mr-2 text-center">
-            User Rating:
-          </span>
-          <span className=" text-3xl text-white text-center">{rating}</span>
-          <span className=" text-amber-300 text-3xl text-center">&#9733;</span>
-
+          <div>
+            <span className=" text-3xl text-white mr-2 text-center">
+              User Rating:
+            </span>
+            <span className=" text-3xl text-white text-center">{rating}</span>
+            <span className=" text-amber-300 text-3xl text-center">
+              &#9733;
+            </span>
+          </div>
           {/* "Delete account button" */}
           <button
             className=" w-36 bg-slate-600 text-white p-2 font-bold rounded-lg hover:bg-sky-700 mt-20"

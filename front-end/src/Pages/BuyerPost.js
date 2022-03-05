@@ -353,7 +353,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Prefered Quantity */}
-            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Prefered Quantity
               </label>
@@ -373,7 +373,7 @@ const BuyerPost = () => {
           {/* 2nd set of Input Boxes */}
           <div className="flex flex-col items-center pt-6 space-y-6">
             {/* Price */}
-            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Price
               </label>
@@ -390,7 +390,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Category */}
-            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Category
               </label>
@@ -428,7 +428,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Condition */}
-            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600 ">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600 ">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Condition
               </label>
@@ -448,7 +448,7 @@ const BuyerPost = () => {
             </div>
 
             {/* Description */}
-            <div className="flex flex-col bg-slate-50 w-full md:w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Description
               </label>

@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
@@ -6,7 +6,7 @@ import PostDisplay from "../Components/PostDisplays/PostDisplay";
 const SearchResults = () => {
   const location = useLocation();
   const [advSearchShow, setAdvSearchShow] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("test");
+  const [searchQuery, setSearchQuery] = useState(location.search.substring(1));
   const [category, setCategory] = useState("null");
   const [minPrice, setMinPrice] = useState(Number.MIN_VALUE);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
@@ -89,6 +89,10 @@ const SearchResults = () => {
       console.log(posts);
     }
   };
+  useEffect(() => {
+    console.log();
+    startSearch(event);
+  }, [searchQuery]);
   if (advSearchShow) {
     return (
       <div className=" bg-slate-600 h-screen overflow-auto">
@@ -106,7 +110,7 @@ const SearchResults = () => {
           {/* Input Boxes */}
           <div className="flex flex-col items-center pt-4 space-y-6">
             {/* Search */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Item Name
               </label>
@@ -117,7 +121,7 @@ const SearchResults = () => {
             </div>
 
             {/* Category */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Category (Optional)
               </label>
@@ -154,7 +158,7 @@ const SearchResults = () => {
             </div>
 
             {/* Min Price */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Min Price (Optional)
               </label>
@@ -172,7 +176,7 @@ const SearchResults = () => {
             </div>
 
             {/* Max Price */}
-            <div className="flex flex-col bg-slate-50 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Max Price (Optional)
               </label>
@@ -211,7 +215,7 @@ const SearchResults = () => {
         </div>
 
         {posts !== undefined ? (
-          <div className=" flex flex-col justify-center">{posts}</div>
+          <div className=" flex flex-col items-center">{posts}</div>
         ) : (
           <div></div>
         )}
@@ -239,7 +243,7 @@ const SearchResults = () => {
             </button>*/}
         </div>
         {posts !== undefined ? (
-          <div className=" flex flex-col justify-center">{posts}</div>
+          <div className=" flex flex-col items-center">{posts}</div>
         ) : (
           <div></div>
         )}
