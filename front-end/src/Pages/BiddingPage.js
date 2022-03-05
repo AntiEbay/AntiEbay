@@ -49,10 +49,12 @@ const BiddingPage = () => {
       }
     );
     setAlertValues({
-      visible: true, 
+      visible: true,
       text: "Bid Has Been Placed.",
     });
-    setTimeout(function() {setAlertValues({visible: false});} , 7000);
+    setTimeout(function () {
+      setAlertValues({ visible: false });
+    }, 7000);
   };
 
   const gather = () => {
@@ -69,7 +71,6 @@ const BiddingPage = () => {
         if (file.type.match(imageType)) {
           var reader = new FileReader();
           reader.onload = function () {
-
             // Collect Image
             var img = new Image();
             img.src = reader.result;
@@ -110,104 +111,106 @@ const BiddingPage = () => {
           Anti-eBay
         </h1>
         {/* "Bid on Post" */}
-        <h2 className=" text-white text-4xl text-center pt-4">
-          Bidding
-        </h2>
+        <h2 className=" text-white text-4xl text-center pt-4">Bidding</h2>
 
         {/*Bid Page info*/}
         <div className="grid grid-cols-2 w-full lg:h-2/3 ">
-
           {/* photo uploader */}
-          <div id="x"className=" flex items-start justify-center">
-            <div id="fileDisplayArea"
-                className="flex justify-center h-3/5 w-3/5 bg-slate-400 items-center mt-20 rounded-lg bg-cover">
+          <div id="x" className=" flex items-start justify-center">
+            <div
+              id="fileDisplayArea"
+              className="flex justify-center h-3/5 w-3/5 bg-slate-400 items-center mt-20 rounded-lg bg-cover"
+            >
               <label className=" bg-slate-400  rounded-sm text-center hover:bg-sky-600 cursor-pointer">
-                <input className="w-1 " type="file" id="fileInput" onClick={gather}/>
+                <input
+                  className="w-1 "
+                  type="file"
+                  id="fileInput"
+                  onClick={gather}
+                />
                 <span className=" text-black">Add Photo Here</span>
               </label>
             </div>
-          </div> {/* end of photo uploader */}
-
+          </div>{" "}
+          {/* end of photo uploader */}
           {/* Bid info */}
           <div className="flex flex-col w-4/5 ml-5">
-        {location.state.biddingInfo.title !== undefined ? (
-          <span className=" text-white text-center mt-20 text-3xl rounded-md my-2">
-            {location.state.biddingInfo.title}
-          </span>
-        ) : (
-          <span className=" text-white text-center mt-20 text-3xl rounded-md my-2">
-            Item Name Undefined 
-          </span>
-          )}
-        {/*<hr />*/}
-        <div className="flex flex-col rounded-lg py-3">
-          {location.state.biddingInfo.description !== undefined ? (
-            <span className="text-white text-center text-lg rounded-t-md bg-slate-700 py-3 border-t-4 border-l-4 border-r-4">
-              {location.state.biddingInfo.description}
-            </span>
-          ) : (
-            <span className="text-white text-center text-lg rounded-t-md bg-slate-700 py-3 border-t-4 border-l-4 border-r-4">
-              Item Description Undefined
-            </span>
-            )}
-          <div className=" bg-slate-700 text-center text-lg py-3 border-4">
-            <span className="mr-2 text-white">Buyer's Asking Price: </span>
-            {location.state.biddingInfo.price !== undefined ? (
-              <span className="text-white text-center mr-3 text-lg rounded-md">
-                ${location.state.biddingInfo.price}
+            {location.state.biddingInfo.title !== undefined ? (
+              <span className=" text-white text-center mt-20 text-3xl rounded-md my-2">
+                {location.state.biddingInfo.title}
               </span>
             ) : (
-              <span className="text-white text-center mr-3 text-lg rounded-md">
-                No Price
+              <span className=" text-white text-center mt-20 text-3xl rounded-md my-2">
+                Item Name Undefined
               </span>
             )}
+            {/*<hr />*/}
+            <div className="flex flex-col rounded-lg py-3">
+              {location.state.biddingInfo.description !== undefined ? (
+                <span className="text-white text-center text-lg rounded-t-md bg-slate-700 py-3 border-t-4 border-l-4 border-r-4">
+                  {location.state.biddingInfo.description}
+                </span>
+              ) : (
+                <span className="text-white text-center text-lg rounded-t-md bg-slate-700 py-3 border-t-4 border-l-4 border-r-4">
+                  Item Description Undefined
+                </span>
+              )}
+              <div className=" bg-slate-700 text-center text-lg py-3 border-4">
+                <span className="mr-2 text-white">Buyer's Asking Price: </span>
+                {location.state.biddingInfo.price !== undefined ? (
+                  <span className="text-white text-center mr-3 text-lg rounded-md">
+                    ${location.state.biddingInfo.price}
+                  </span>
+                ) : (
+                  <span className="text-white text-center mr-3 text-lg rounded-md">
+                    No Price
+                  </span>
+                )}
+              </div>
+              <div className="flex justify-center rounded-b-md py-3 bg-slate-700 border-b-4 border-l-4 border-r-4">
+                <span className="text-white text-center text-lg rounded-md hidden lg:block">
+                  Your Offer: $
+                </span>
+                <input
+                  className="focus:outline-none rounded-md pl-2 text-lg h-8 w-48 flex bg-slate-200"
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  onChange={(event) => {
+                    setSelleroffer(event.target.value);
+                  }}
+                  placeholder="Your Bid"
+                />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="space-x-0 pb-6 mt-6 lg:text-center md:text-left sm:text-left md:space-y-3 sm:space-y-3">
+              {!review ? (
+                <button
+                  className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                  onClick={() => setReviewScreen(true)}
+                >
+                  Rate This Post
+                </button>
+              ) : (
+                <button
+                  disabled={true}
+                  className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                >
+                  Review Sent!
+                </button>
+              )}
+              <button
+                className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                onClick={sendBid}
+              >
+                Place Your Bid
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center rounded-b-md py-3 bg-slate-700 border-b-4 border-l-4 border-r-4">
-            <span className="text-white text-center text-lg rounded-md hidden lg:block">
-              Your Offer: $ 
-            </span>
-            <input
-              className="focus:outline-none rounded-md pl-2 text-lg h-8 w-48 flex bg-slate-200"
-              onKeyPress={(event) => {
-                if (!/[0-9]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-              onChange={(event) => {
-                setSelleroffer(event.target.value);
-              }}
-              placeholder="Your Bid"
-            />
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="space-x-0 pb-6 mt-6 lg:text-center md:text-left sm:text-left md:space-y-3 sm:space-y-3">
-          {!review ? (
-            <button
-              className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
-              onClick={() => setReviewScreen(true)}
-            >
-              Rate This Post
-            </button>
-          ) : (
-            <button
-              disabled={true}
-              className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
-            >
-              Review Sent!
-            </button>
-          )}
-          <button
-            className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
-            onClick={sendBid}
-          >
-            Place Your Bid
-          </button>
-        </div>
-      </div>
-
-
         </div>
       </div>
     </div>

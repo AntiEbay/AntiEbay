@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import NavBar from "../Components/NavBar";
 import SolidAlert from "../Components/Alerts/SolidAlert";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const signUpValues = {
   userName: "",
   firstName: "",
@@ -14,6 +14,7 @@ const signUpValues = {
 
 const SignUp = () => {
   //Variables to send to backend
+  const navigate = useNavigate();
   const [userName, setUserName] = useState(""); //Todo make this code more dry
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -35,25 +36,22 @@ const SignUp = () => {
       signUpValues.emailAddress = emailAddress;
       signUpValues.password = password;
       signUpValues.userType = userType ? "buyer" : "seller";
-      const res = await axios.post(
-        "http://localhost:8080/user/registration",
-        JSON.stringify(signUpValues),
-        {
-          headers: {
-            // Overwrite Axios's automatically set Content-Type
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await axios
+        .post(
+          "http://localhost:8080/user/registration",
+          JSON.stringify(signUpValues),
+          {
+            headers: {
+              // Overwrite Axios's automatically set Content-Type
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(navigate("/SignIn"));
       //Will update the solid alert to show
       //If status === 200 then the sign up request was sucessfuly processed.
       //Else there was an error.
-      if (res.status === 200) {
-        setAlertValues({
-          visible: true,
-          text: "Your sign up request was successful! Please click the Log In button.",
-        });
-      } else {
+      if (res.status !== 200) {
         setAlertValues({
           visible: true,
           text: "Your sign up request was unsuccessful. Please try again.",

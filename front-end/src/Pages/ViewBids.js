@@ -8,18 +8,17 @@ const ViewBids = () => {
   const location = useLocation();
   console.log(location);
   const bids = Object.keys(location.state.bids).map((key) => (
-     <BidDisplay
-       bidAmount={location.state.bids[key].bidAmount}
-       userRating={location.state.bids[key].averageSellerReview}
-       imgStrings={location.state.bids[key].bidImage}
-       email={location.state.bids[key].sellerEmail}
-       bidId={location.state.bids[key].bidId}
-     ></BidDisplay>
-   ));
+    <BidDisplay
+      bidAmount={location.state.bids[key].bidAmount}
+      userRating={location.state.bids[key].averageSellerReview}
+      imgStrings={location.state.bids[key].bidImage}
+      email={location.state.bids[key].sellerEmail}
+      bidId={location.state.bids[key].bidId}
+    ></BidDisplay>
+  ));
   return (
     <div className="bg-slate-600 h-screen overflow-auto">
       <NavBar />
-      
 
       <div className="text-slate-600 bg-slate-600 h-24"></div>
       <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5 ">
@@ -28,18 +27,11 @@ const ViewBids = () => {
           Anti-eBay
         </h1>
         {/* "Account INfo" */}
-        <h2 className=" text-white text-4xl text-center pt-4">
-          View Bids
-        </h2>
-
-
-        
+        <h2 className=" text-white text-4xl text-center pt-4">View Bids</h2>
       </div>
 
       <div className="flex flex-col justify-center">{bids}</div>
     </div>
-      
-    
   );
 };
 

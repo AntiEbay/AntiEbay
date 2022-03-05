@@ -68,7 +68,6 @@ const ActiveOrders = () => {
     <div className="bg-slate-600 h-screen overflow-auto">
       <NavBar />
 
-
       <div className="text-slate-600 bg-slate-600 h-24"></div>
       <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5 ">
         {/*logo*/}
@@ -78,10 +77,10 @@ const ActiveOrders = () => {
         {/* Links */}
         <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
           <Link to="/ManageBids">
-              <button className="text-white text-xl hover:bg-sky-700 rounded-lg p-1">
-                Manage Bids
-              </button>
-            </Link>
+            <button className="text-white text-xl hover:bg-sky-700 rounded-lg p-1">
+              Manage Bids
+            </button>
+          </Link>
           <Link to="/ActiveOrders">
             <button className="text-white border-b border-white text-xl hover:bg-sky-700 rounded-t-lg p-1">
               Orders To Fill

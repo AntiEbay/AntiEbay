@@ -70,7 +70,6 @@ const BuyerPost = () => {
       visible: true,
       text: "Post Successfully Created",
     });
-
   }
 
   const gather = () => {
@@ -235,10 +234,12 @@ const BuyerPost = () => {
           console.log("File not supported!");
           alert("File Type not supported.");
           setAlertValues({
-            visible: true, 
+            visible: true,
             text: "Maximum Images Reached. 4/4",
           });
-          setTimeout(function() {setAlertValues({visible: false});} , 7000);
+          setTimeout(function () {
+            setAlertValues({ visible: false });
+          }, 7000);
         }
         fileInput.value = "";
       },

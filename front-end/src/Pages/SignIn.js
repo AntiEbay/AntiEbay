@@ -3,12 +3,14 @@ import NavBar from "../Components/NavBar";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
 import SolidAlert from "../Components/Alerts/SolidAlert";
+import { useNavigate } from "react-router-dom";
 const signInValues = {
   emailAddress: "",
   password: "",
 };
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [alertValues, setAlertValues] = useState({
@@ -23,17 +25,19 @@ const SignIn = () => {
       event.preventDefault();
       signInValues.emailAddress = emailAddress;
       signInValues.password = password;
-      const signInResults = await axios.post(
-        "http://localhost:8080/user/login",
-        JSON.stringify(signInValues),
-        {
-          headers: {
-            // Overwrite Axios's automatically set Content-Type
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const signInResults = await axios
+        .post(
+          "http://localhost:8080/user/login",
+          JSON.stringify(signInValues),
+          {
+            headers: {
+              // Overwrite Axios's automatically set Content-Type
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        )
+        .then(navigate("/"));
       console.log(signInResults);
       update({
         accountType: signInResults.data.userType,
