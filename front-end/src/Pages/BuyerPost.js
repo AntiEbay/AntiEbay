@@ -66,6 +66,11 @@ const BuyerPost = () => {
 
     console.log(res.data.data);
     console.log(res.data.headers["Content-Type"]);
+    setAlertValues({
+      visible: true,
+      text: "Post Successfully Created",
+    });
+
   }
 
   const gather = () => {
@@ -229,6 +234,11 @@ const BuyerPost = () => {
         } else {
           console.log("File not supported!");
           alert("File Type not supported.");
+          setAlertValues({
+            visible: true, 
+            text: "Maximum Images Reached. 4/4",
+          });
+          setTimeout(function() {setAlertValues({visible: false});} , 7000);
         }
         fileInput.value = "";
       },
@@ -268,7 +278,7 @@ const BuyerPost = () => {
           <div className="m-auto flex grid-cols-2 bg-slate-600 w-2/5 h-96 rounded-3xl border-slate-600 border-8">
             {/* Large image */}
             <div
-              className="relative flex flex-col bg-slate-50 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 items-center text-xl font-bold text-slate-600"
+              className="relative flex flex-col bg-slate-400 w-4/5 bg-cover rounded-l-3xl border-r-4 border-slate-600 items-center text-xl text-slate-600"
               id="fileDisplayArea5"
               value="false"
             >

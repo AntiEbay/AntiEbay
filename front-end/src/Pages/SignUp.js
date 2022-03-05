@@ -76,7 +76,7 @@ const SignUp = () => {
       {/* Everything below NavBar */}
       <form className=" bg-slate-600 h-screen">
         {/* Box Around actual form */}
-        <div className="m-auto bg-slate-800 xl:rounded-lg lg:rounded-t-lg md:rounded-t-lg sm:rounded-t-lg w-3/4 h-4/5">
+        <div className="m-auto bg-slate-800 rounded-t-lg w-3/4 h-4/5">
           {/*logo*/}
           <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
             Anti-eBay
@@ -166,7 +166,7 @@ const SignUp = () => {
                 />
                 <label
                   for="buyer"
-                  className="flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none
+                  className="hover:bg-sky-500 flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none
                             text-white text-4xl text-center border-transparent
                             peer-checked:bg-sky-700"
                 >
@@ -197,7 +197,7 @@ const SignUp = () => {
                   />
                   <label
                     for="seller"
-                    className="flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none 
+                    className="hover:bg-sky-500 flex flex-col bg-slate-600 rounded-lg cursor-pointer focus:outline-none 
                           text-white text-4xl text-center border-transparent
                           peer-checked:bg-sky-700"
                   >
@@ -234,7 +234,7 @@ const SignUp = () => {
             </button>
           </div>
         </div>
-        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 xl:h-0 lg:h-20 md:h-20 sm:h-20"></div>
+        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 h-20"></div>
       </form>
     </div>
   );
