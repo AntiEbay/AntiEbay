@@ -26,7 +26,7 @@ const HomePageInfo = () => {
           />
         </div>
         <div className=" flex text-3xl">
-          <Link to={"./BuyerPost"}>
+          <Link to="./BuyerPost">
             <button
               className="hover:bg-slate-400 cursor-pointer text-white text-3xl
                                         font-bold py-2 px-2 rounded bg-slate-800 mt-10"
@@ -59,12 +59,14 @@ const HomePageInfo = () => {
           />
         </div>
         <div className=" flex text-3xl">
-          <button
-            className="hover:bg-slate-400 cursor-pointer text-white text-3xl
+          <Link to="ManageBids">
+            <button
+              className="hover:bg-slate-400 cursor-pointer text-white text-3xl
                                       font-bold py-2 px-2 rounded bg-slate-800 mt-10"
-          >
-            View Bids
-          </button>
+            >
+              View Bids
+            </button>
+          </Link>
         </div>
       </div>
     );
@@ -90,7 +92,7 @@ const HomePageInfo = () => {
           />
         </div>
         <div className=" flex text-3xl">
-          <Link to={"./SignUp"}>
+          <Link to="./SignUp">
             <button
               className="hover:bg-slate-400 cursor-pointer text-white text-3xl
                                       font-bold py-2 px-2 rounded bg-slate-800 mt-10"
