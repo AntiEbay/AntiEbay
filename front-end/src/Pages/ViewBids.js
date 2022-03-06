@@ -30,7 +30,7 @@ const ViewBids = () => {
         <h2 className=" text-white text-4xl text-center pt-4">View Bids</h2>
       </div>
 
-      <div className="flex flex-col justify-center">{bids}</div>
+      <div className="flex flex-col items-center">{bids}</div>
     </div>
   );
 };

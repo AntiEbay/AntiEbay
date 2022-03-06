@@ -69,12 +69,12 @@ const SignUp = () => {
     <div className="">
       <NavBar />
       <SolidAlert alertValues={alertValues} />
-      <div className="text-slate-600 bg-slate-600 h-24"></div>
-
+      <div className="text-slate-600 bg-slate-600 md:h-24"></div>
       {/* Everything below NavBar */}
-      <form className=" bg-slate-600 h-screen">
+      <form className=" bg-slate-600 h-fit md:h-screen">
         {/* Box Around actual form */}
-        <div className="m-auto bg-slate-800 rounded-t-lg w-3/4 h-4/5">
+        <div className="m-auto bg-slate-800 md:rounded-t-lg lg:w-3/4 lg:h-4/5">
+          <hr className=" md:hidden" />
           {/*logo*/}
           <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
             Anti-eBay
@@ -86,7 +86,7 @@ const SignUp = () => {
           </h2>
 
           {/* Input Boxes */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col md:items-center">
             {/* First line */}
             <div className="space-x-0 pb-6">
               {/* First Name */}
@@ -145,13 +145,13 @@ const SignUp = () => {
               />
             </div>
 
-            <p className="text-white pb-3">
+            <p className="text-white pb-3 text-center">
               Select the type of profile you would like to create
             </p>
 
             {/*Usertype = true means buyer, false means seller */}
             {/* Radio Buttons*/}
-            <ul className="flex flex-col w-96">
+            <ul className="flex flex-col w-full md:w-96">
               {/* Buyer Selection */}
               <li className="relative">
                 <input
@@ -224,15 +224,15 @@ const SignUp = () => {
 
             {/*Submit button*/}
             <button
-              className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
+              className=" bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700 mb-3 self-center"
               type="submit"
               onClick={postSignUpRequest}
             >
               Sign Up
             </button>
+            <div></div>
           </div>
         </div>
-        <div className="m-auto bg-slate-800 rounded-b-lg w-3/4 h-20"></div>
       </form>
     </div>
   );

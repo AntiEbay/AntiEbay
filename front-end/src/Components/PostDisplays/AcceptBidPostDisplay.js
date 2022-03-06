@@ -38,7 +38,7 @@ const AcceptBidPostDisplay = (props) => {
     //   .then(navigate("/ManagePosts"));
   };
   return (
-    <div className="flex max-w-md lg:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
+    <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
       <Swiper
         navigation={true}
         modules={[Navigation]}

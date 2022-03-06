@@ -97,8 +97,8 @@ const SearchResults = () => {
     return (
       <div className=" bg-slate-600 h-screen overflow-auto">
         <NavBar />
-        <div className="text-slate-600 bg-slate-600 h-24"></div>
-        <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5">
+        <div className="text-slate-600 bg-slate-600 h-12"></div>
+        <div className="m-auto bg-slate-800 rounded-lg w-full md:w-3/4 h-fit">
           {/*logo*/}
           <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
             Anti-eBay
@@ -110,7 +110,7 @@ const SearchResults = () => {
           {/* Input Boxes */}
           <div className="flex flex-col items-center pt-4 space-y-6">
             {/* Search */}
-            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Item Name
               </label>
@@ -121,7 +121,7 @@ const SearchResults = () => {
             </div>
 
             {/* Category */}
-            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Category (Optional)
               </label>
@@ -158,7 +158,7 @@ const SearchResults = () => {
             </div>
 
             {/* Min Price */}
-            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Min Price (Optional)
               </label>
@@ -176,7 +176,7 @@ const SearchResults = () => {
             </div>
 
             {/* Max Price */}
-            <div className="flex flex-col bg-slate-200 w-96 rounded-md border-2 border-gray-600">
+            <div className="flex flex-col bg-slate-200 w-full md:w-96 rounded-md border-2 border-gray-600">
               <label className=" text-md text-slate-600">
                 &nbsp;&nbsp;Max Price (Optional)
               </label>
@@ -194,9 +194,9 @@ const SearchResults = () => {
             </div>
 
             {/*buttons*/}
-            <div className="space-x-0 pb-6">
+            <div className="flex space-x-0 pb-6">
               <button
-                className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 md:w-44"
                 onClick={() => {
                   setAdvSearchShow(!advSearchShow);
                 }}
@@ -204,13 +204,14 @@ const SearchResults = () => {
                 Hide Search Options
               </button>
               <button
-                className=" bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                className=" bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 md:w-44"
                 onClick={startSearch}
               >
                 Search
               </button>
+              <div></div>
             </div>
-          </div>{" "}
+          </div>
           {/* End of Input boxes */}
         </div>
 

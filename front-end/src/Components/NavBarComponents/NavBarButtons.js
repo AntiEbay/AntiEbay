@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const NavBarButtons = (props) => {
+  const navigate = useNavigate();
   const logout = () => {
+    navigate("/");
     window.location.reload(false);
   };
 

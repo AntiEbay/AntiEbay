@@ -65,10 +65,10 @@ const SignIn = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col bg-slate-600 h-screen">
       <NavBar />
       <SolidAlert alertValues={alertValues} />
-      <form className="flex bg-slate-600 h-screen">
+      <form className="flex h-screen">
         {/* Box Around actual form */}
         <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5">
           {/*logo*/}
@@ -78,14 +78,14 @@ const SignIn = () => {
             </h1>
             <h2 className=" text-white text-4xl text-center pt-4">Sign In</h2>
             <input
-              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 my-5 pl-2"
+              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-60 lg:w-96 h-8 my-5 pl-2"
               value={emailAddress}
               onChange={(event) => setEmailAddress(event.target.value)}
               label="email address"
               placeholder="Email Address"
             />
             <input
-              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-96 h-8 mb-5 pl-2"
+              className="border-2 border-gray-600 rounded-md text-sm focus:outline-none w-60 lg:w-96 h-8 mb-5 pl-2"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               name="password"
@@ -94,7 +94,7 @@ const SignIn = () => {
               type="password"
             />
             <button
-              className="button1 bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
+              className="button1 bg-slate-600 text-white font-bold w-2/5 lg:w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700"
               type="submit"
               onClick={signInPostRequest}
             >
