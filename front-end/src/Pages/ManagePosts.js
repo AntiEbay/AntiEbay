@@ -11,6 +11,7 @@ const ManagePosts = () => {
   const [posts, setPosts] = useState(undefined);
   const accountEmailFromState = state.accountEmail;
   const accountTypeFromState = state.accountType;
+  const [forceRender, setForceRender] = useState(false);
   const newArray = [];
   useEffect(() => {
     const retrieveAccountposts = async () => {
@@ -54,6 +55,8 @@ const ManagePosts = () => {
                 postId={key.postId}
                 buyerEmail={key.buyerEmail}
                 quantity={key.quantity}
+                forceRender={setForceRender}
+                renderVar={forceRender}
               />
             )
           )
@@ -62,7 +65,7 @@ const ManagePosts = () => {
     };
     retrieveAccountposts();
     console.log(posts);
-  }, [accountEmailFromState]);
+  }, [forceRender]);
   return (
     <div className="bg-slate-600 h-screen overflow-auto">
       <NavBar />

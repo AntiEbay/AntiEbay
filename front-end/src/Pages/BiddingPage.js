@@ -30,7 +30,7 @@ const BiddingPage = () => {
     text: "",
   });
 
-  console.log(location.state.biddingInfo)
+  console.log(location.state.biddingInfo);
 
   const sendBid = async () => {
     const bidInfo = {
@@ -39,7 +39,7 @@ const BiddingPage = () => {
       bidAmount: sellerOffer,
       bidImage: imageClassList,
     };
-    console.log(bidInfo)
+    console.log(bidInfo);
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
       JSON.stringify(bidInfo),
@@ -201,7 +201,7 @@ const BiddingPage = () => {
               ) : (
                 <button
                   disabled={true}
-                  className="bg-slate-600 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded mr-3 w-44"
+                  className="bg-slate-400 cursor-not-allowed text-white font-bold py-2 px-2 rounded mr-3 w-44"
                 >
                   Review Sent!
                 </button>

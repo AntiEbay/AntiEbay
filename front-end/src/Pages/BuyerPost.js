@@ -3,7 +3,7 @@ import NavBar from "../Components/NavBar";
 import axios from "axios";
 import SolidAlert from "../Components/Alerts/SolidAlert";
 import "../Components/UploadForm/UploadForm.css";
-
+import { useNavigate } from "react-router-dom";
 var imageClassList = [];
 
 const buyerPostValues = {
@@ -29,6 +29,7 @@ class ImageObj {
 }
 
 const BuyerPost = () => {
+  const navigate = useNavigate();
   //Variables to send to backend
   const [title, setTitle] = useState(""); //Todo make this code more dry
   const [quantity, setQuantity] = useState();
@@ -43,33 +44,38 @@ const BuyerPost = () => {
 
   //Post Request Function
   async function buyerPostRequest(event) {
-    event.preventDefault();
-    buyerPostValues.title = title;
-    buyerPostValues.quantity = parseInt(quantity);
-    buyerPostValues.price = parseInt(price);
-    buyerPostValues.category = category;
-    buyerPostValues.productCondition = productCondition;
-    buyerPostValues.description = description;
-    buyerPostValues.imageList = imageClassList;
-    console.log(buyerPostValues);
-    const res = await axios.post(
-      "http://localhost:8080/user/post/writing",
-      JSON.stringify(buyerPostValues),
-      {
-        headers: {
-          // Overwrite Axioss automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+    try {
+      event.preventDefault();
+      buyerPostValues.title = title;
+      buyerPostValues.quantity = parseInt(quantity);
+      buyerPostValues.price = parseInt(price);
+      buyerPostValues.category = category;
+      buyerPostValues.productCondition = productCondition;
+      buyerPostValues.description = description;
+      buyerPostValues.imageList = imageClassList;
+      console.log(buyerPostValues);
+      const res = await axios.post(
+        "http://localhost:8080/user/post/writing",
+        JSON.stringify(buyerPostValues),
+        {
+          headers: {
+            // Overwrite Axioss automatically set Content-Type
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      navigate("/ManagePosts");
 
-    console.log(res.data.data);
-    console.log(res.data.headers["Content-Type"]);
-    setAlertValues({
-      visible: true,
-      text: "Post Successfully Created",
-    });
+      console.log(res.data.data);
+      console.log(res.data.headers["Content-Type"]);
+      setAlertValues({
+        visible: true,
+        text: "Post Successfully Created",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const gather = () => {

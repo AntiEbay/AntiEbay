@@ -69,11 +69,11 @@ const SignUp = () => {
     <div className="">
       <NavBar />
       <SolidAlert alertValues={alertValues} />
-      <div className="text-slate-600 bg-slate-600 md:h-24"></div>
+      <div className="text-slate-600 bg-slate-600 md:h-16"></div>
       {/* Everything below NavBar */}
       <form className=" bg-slate-600 h-fit md:h-screen">
         {/* Box Around actual form */}
-        <div className="m-auto bg-slate-800 md:rounded-t-lg lg:w-3/4 lg:h-4/5">
+        <div className="m-auto bg-slate-800 md:rounded-lg lg:w-3/4 lg:h-fit">
           <hr className=" md:hidden" />
           {/*logo*/}
           <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
@@ -224,7 +224,7 @@ const SignUp = () => {
 
             {/*Submit button*/}
             <button
-              className=" bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700 mb-3 self-center"
+              className=" bg-slate-600 text-white font-bold w-1/5 h-10 rounded-xl text-md focus:outline-none hover:bg-sky-700 mb-4 self-center"
               type="submit"
               onClick={postSignUpRequest}
             >

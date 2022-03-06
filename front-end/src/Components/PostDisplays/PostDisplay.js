@@ -17,7 +17,7 @@ const PostDisplay = (props) => {
     description: props.description,
     price: props.price,
   };
-  console.log(bidPageInfo)
+  console.log(bidPageInfo);
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />

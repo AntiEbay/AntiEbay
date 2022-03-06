@@ -5,14 +5,16 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import BidDisplay from "./BidDisplay";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import ManagePosts from "../../Pages/ManagePosts";
 // import required modules
 // This is the post com that is used in ManagePosts.js
 // The button leads to ViewBids.js and the com BidDisplay
 const AcceptBidPostDisplay = (props) => {
   console.log(props);
+  const navigate = useNavigate();
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
@@ -24,17 +26,15 @@ const AcceptBidPostDisplay = (props) => {
       postId: parseInt(props.postId),
     };
     console.log(postInfo);
-    const sendpostDelete = await axios.post(
-      "http://localhost:8080/post/delete",
-      JSON.stringify(postInfo),
-      {
+    const sendpostDelete = await axios
+      .post("http://localhost:8080/post/delete", JSON.stringify(postInfo), {
         headers: {
           // Overwrite Axios's automatically set Content-Type
           "Content-Type": "application/json",
         },
         withCredentials: true,
-      }
-    );
+      })
+      .then(props.forceRender(!props.renderVar));
     //   .then(navigate("/ManagePosts"));
   };
   return (
@@ -55,7 +55,7 @@ const AcceptBidPostDisplay = (props) => {
           </h1>
           <div>
             <span
-              className=" text-red-600 text-lg hover:text-red-900"
+              className=" text-red-600 cursor-pointer text-lg hover:text-red-900 hover:bg-red-50"
               onClick={postDelete}
             >
               X
