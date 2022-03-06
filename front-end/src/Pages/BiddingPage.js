@@ -30,6 +30,8 @@ const BiddingPage = () => {
     text: "",
   });
 
+  console.log(location.state.biddingInfo)
+
   const sendBid = async () => {
     const bidInfo = {
       sellerEmail: state.accountEmail,
@@ -37,6 +39,7 @@ const BiddingPage = () => {
       bidAmount: sellerOffer,
       bidImage: imageClassList,
     };
+    console.log(bidInfo)
     const sendBidInfo = await axios.post(
       "http://localhost:8080/user/interactions/makebid",
       JSON.stringify(bidInfo),

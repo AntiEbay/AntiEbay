@@ -76,7 +76,7 @@ const SearchResults = () => {
                 price={key.post.price}
                 condition={key.post.productCondition}
                 userRating={key.buyerRating}
-                postId={key.post.id}
+                postId={key.post.postId}
                 buyerEmail={key.post.buyerEmail}
                 quantity={key.post.quantity}
               />

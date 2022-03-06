@@ -296,6 +296,9 @@ public class AntiEbayRestController {
         List<UserPosts> userPosts = new ArrayList<>();
         String returnStr = "";
         for (SellerBidEntity bid : userBids) {
+            if (bid.getBuyerPostId() == null) {
+                continue;
+            }
             Optional<UserPosts> postOpt = postsRepository.findById(bid.getBuyerPostId());
             if (postOpt.isEmpty()) {
                 continue;

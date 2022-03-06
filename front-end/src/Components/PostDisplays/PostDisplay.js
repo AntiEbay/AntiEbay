@@ -10,12 +10,14 @@ import BiddingPage from "../../Pages/BiddingPage";
 // Post Display used in ManageBids and Search Results
 const PostDisplay = (props) => {
   const { state, update } = useContext(accountTypeContext);
+  console.log(props);
   const bidPageInfo = {
     postId: props.postId,
     title: props.title,
     description: props.description,
     price: props.price,
   };
+  console.log(bidPageInfo)
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
