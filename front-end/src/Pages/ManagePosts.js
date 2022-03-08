@@ -8,7 +8,7 @@ const ManagePosts = () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
   const { state, update } = useContext(accountTypeContext);
-  const [posts, setPosts] = useState(undefined);
+  const [posts, setPosts] = useState([]);
   const accountEmailFromState = state.accountEmail;
   const accountTypeFromState = state.accountType;
   const [forceRender, setForceRender] = useState(false);
@@ -66,34 +66,70 @@ const ManagePosts = () => {
     retrieveAccountposts();
     console.log(posts);
   }, [forceRender]);
-  return (
-    <div className="bg-slate-600 h-screen overflow-auto">
-      <NavBar />
+  if (Object.keys(posts).length > 0) {
+    return (
+      <div className="bg-slate-600 h-screen overflow-auto">
+        <NavBar />
 
-      <div className="text-slate-600 bg-slate-600 h-24"></div>
-      <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5 overflow-auto ">
-        {/*logo*/}
-        <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
-          Anti-eBay
-        </h1>
-        {/* Links */}
-        <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
-          <Link to="/ManagePosts">
-            <button className="text-white border-b border-white text-xl hover:bg-sky-700 rounded-t-lg p-1">
-              Active Posts
-            </button>
-          </Link>
-          <Link to="/CompletedPosts">
-            <button className="text-white text-xl hover:bg-sky-700 rounded-lg p-1">
-              Completed Posts
-            </button>
-          </Link>
+        <div className="text-slate-600 bg-slate-600 h-24"></div>
+        <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5 overflow-auto ">
+          {/*logo*/}
+          <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
+            Anti-eBay
+          </h1>
+          {/* Links */}
+          <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
+            <Link to="/ManagePosts">
+              <button className="text-white border-b border-white text-xl hover:bg-sky-700 rounded-t-lg p-1">
+                Active Posts
+              </button>
+            </Link>
+            <Link to="/CompletedPosts">
+              <button className="text-white text-xl hover:bg-sky-700 rounded-lg p-1">
+                Completed Posts
+              </button>
+            </Link>
+          </div>
+
+          <div className="flex flex-col w-full items-center">{posts}</div>
         </div>
-
-        <div className="flex flex-col w-full items-center">{posts}</div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="bg-slate-600 h-screen overflow-auto">
+        <NavBar />
+
+        <div className="text-slate-600 bg-slate-600 h-24"></div>
+        <div className="m-auto bg-slate-800 rounded-lg w-3/4 h-4/5 overflow-auto ">
+          {/*logo*/}
+          <h1 className="tracking-tighter text-white font-bold italic text-4xl text-center pt-8">
+            Anti-eBay
+          </h1>
+          {/* Links */}
+          <div className="flex justify-center w-full space-x-4 h-13 relative p-1 bg-slate-800">
+            <Link to="/ManagePosts">
+              <button className="text-white border-b border-white text-xl hover:bg-sky-700 rounded-t-lg p-1">
+                Active Posts
+              </button>
+            </Link>
+            <Link to="/CompletedPosts">
+              <button className="text-white text-xl hover:bg-sky-700 rounded-lg p-1">
+                Completed Posts
+              </button>
+            </Link>
+          </div>
+          <span className="text-white text-2xl text-center flex justify-center mt-5">
+            No post available!
+          </span>
+          <span className=" text-white text-2xl text-center flex justify-center mt-5">
+            Try creating a post using the navigation bar at the top of the
+            screen!
+          </span>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default ManagePosts;

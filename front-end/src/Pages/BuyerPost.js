@@ -255,7 +255,7 @@ const BuyerPost = () => {
 
   return (
     <div
-    //   id="container"
+      //   id="container"
       className="bg-slate-600 h-screen overflow-auto"
       // style={{
       //   width: "100%",
@@ -408,14 +408,24 @@ const BuyerPost = () => {
                 label="Category"
               >
                 <option value="null" selected="selected"></option>
-                <option value="Antiques & Collectibles">Antiques & Collectibles</option>
+                <option value="Antiques & Collectibles">
+                  Antiques & Collectibles
+                </option>
                 <option value="Arts & Crafts">Arts & Crafts</option>
-                <option value="Auto Parts & Accessories">Auto Parts & Accessories</option>
+                <option value="Auto Parts & Accessories">
+                  Auto Parts & Accessories
+                </option>
                 <option value="Baby Products">Baby Products</option>
                 <option value="Bags & Luggage">Bags & Luggage</option>
-                <option value="Books, Movies & Music">Books, Movies & Music</option>
-                <option value="Cell Phones & Accessories">Cell Phones & Accessories</option>
-                <option value="Clothing, Shoes & Accessories">Clothing, Shoes & Accessories</option>
+                <option value="Books, Movies & Music">
+                  Books, Movies & Music
+                </option>
+                <option value="Cell Phones & Accessories">
+                  Cell Phones & Accessories
+                </option>
+                <option value="Clothing, Shoes & Accessories">
+                  Clothing, Shoes & Accessories
+                </option>
                 <option value="Electronics">Electronics</option>
                 <option value="Furniture">Furniture</option>
                 <option value="Health & Beauty">Health & Beauty</option>
@@ -427,9 +437,13 @@ const BuyerPost = () => {
                 <option value="Patio & Garden">Patio & Garden</option>
                 <option value="Pet Supplies">Pet Supplies</option>
                 <option value="Sporting Goods">Sporting Goods</option>
-                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+                <option value="Tools & Home Improvement">
+                  Tools & Home Improvement
+                </option>
                 <option value="Toys & Games">Toys & Games</option>
-                <option value="Video Games & Consoles">Video Games & Consoles</option>
+                <option value="Video Games & Consoles">
+                  Video Games & Consoles
+                </option>
               </select>
             </div>
 

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 // import required modules
 // Final component to display bids
 const BidDisplay = (props) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   //Used for a buyer to accept a bid, under the viewBids tab
   const imageArray = Object.keys(props.imgStrings).map(
     (key) => (
@@ -28,17 +28,19 @@ const BidDisplay = (props) => {
       //   postId: props.postId,
       bidId: props.bidId,
     };
-    const postAcceptBid = await axios.post(
-      "http://localhost:8080/user/interactions/acceptbid",
-      JSON.stringify(bidInfo),
-      {
-        headers: {
-          // Overwrite Axios's automatically set Content-Type
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    ).then(navigate("/"));
+    const postAcceptBid = await axios
+      .post(
+        "http://localhost:8080/user/interactions/acceptbid",
+        JSON.stringify(bidInfo),
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then(navigate("/"));
   };
 
   return (
@@ -54,12 +56,8 @@ const BidDisplay = (props) => {
         <div className="flex justify-between">
           <h1 className="text-white font-bold text-2xl">${props.bidAmount}</h1>
           <div className="flex">
-            <span className=" text-3xl text-white">
-              {props.userRating}
-            </span>
-            <span className=" text-amber-300 text-3xl">
-                &#9733;
-            </span>
+            <span className=" text-3xl text-white">{props.userRating}</span>
+            <span className=" text-amber-300 text-3xl">&#9733;</span>
           </div>
         </div>
         <hr />

@@ -26,6 +26,8 @@ const RatingPopupSeller = (props) => {
         withCredentials: true,
       }
     );
+    props.review(true);
+    props.triggerOff(false);
   };
   if (props.trigger) {
     return (
