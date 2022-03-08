@@ -353,10 +353,12 @@ public class AntiEbayRestController {
         }
 
         List<UserPosts> postList = postsRepository.findByBuyerEmail(email);
+        List<UserPosts> postListToReturn = new ArrayList<>();
+
 
         for (UserPosts post : postList) {
             if (post.getPostIsComplete() != null && post.getPostIsComplete().equals("true")) {
-                postList.remove(post);
+//                postList.remove(post);
                 continue;
             }
             // load images
@@ -375,12 +377,13 @@ public class AntiEbayRestController {
             if (post.getImageList() == null) {
                 post.setImageList(new ArrayList<>());
             }
+            postListToReturn.add(post);
         }
 
         String returnStr = "";
 
         try {
-            returnStr = objectMapper.writeValueAsString(postList);
+            returnStr = objectMapper.writeValueAsString(postListToReturn);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
