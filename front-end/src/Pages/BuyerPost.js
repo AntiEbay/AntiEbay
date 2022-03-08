@@ -66,7 +66,7 @@ const BuyerPost = () => {
         }
       );
       navigate("/ManagePosts");
-
+      imageClassList = [];
       console.log(res.data.data);
       console.log(res.data.headers["Content-Type"]);
       setAlertValues({
