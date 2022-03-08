@@ -305,7 +305,15 @@ public class AntiEbayRestController {
             }
             UserPosts post = postOpt.get();
             if (!seenPosts.contains(post.getPostId())) {
+                logger.info("Loading images for post: " + post.getPostId());
                 post.loadImages();
+                try {
+                    logger.info("Loading bids for post: " + post.getPostId());
+                    List<SellerBidEntity> bids = bidRepository.findByBuyerPostId(post.getPostId());
+                    post.setBidList(bids);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 seenPosts.add(post.getPostId());
                 userPosts.add(post);
             }

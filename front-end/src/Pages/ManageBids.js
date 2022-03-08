@@ -48,7 +48,7 @@ const ManageBids = () => {
             (
               <BidDisplaySeller
                 imgStrings={key.imageList}
-                bids={key.bidList}
+                bidList={key.bidList}
                 title={key.title}
                 description={key.description}
                 price={key.price}
@@ -78,7 +78,7 @@ const ManageBids = () => {
         </h1>
         {/* "Account INfo" */}
         <h2 className=" text-white text-4xl text-center pt-4">View Bids</h2>
-        <div className="flex flex-col items-center">{bids}</div>
+        <div className="flex flex-col items-center">{posts}</div>
       </div>
     </div>
   );
