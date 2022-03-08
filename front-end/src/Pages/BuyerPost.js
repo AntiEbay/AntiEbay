@@ -256,13 +256,13 @@ const BuyerPost = () => {
   return (
     <div
       id="container"
-      className="bg-slate-600"
-      style={{
-        width: "100%",
-        overflow: "visible",
-        height: "1500px",
-        display: "table",
-      }}
+      className="bg-slate-600 table h-fit overflow-auto w-full"
+      // style={{
+      //   width: "100%",
+      //   overflow: "visible",
+      //   height: "h",
+      //   display: "table",
+      // }}
     >
       <NavBar />
       <SolidAlert alertValues={alertValues} />

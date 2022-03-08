@@ -15,8 +15,7 @@ const SearchResults = () => {
   //Making a list of all the search Results
   const [imgString, setImgString] = useState("");
 
-  const startSearch = async (event) => {
-    event.preventDefault();
+  const startSearch = async () => {
     const options = {};
     const search = {};
     if (
@@ -91,7 +90,7 @@ const SearchResults = () => {
   };
   useEffect(() => {
     console.log();
-    startSearch(event);
+    startSearch;
   }, [searchQuery]);
   if (advSearchShow) {
     return (
