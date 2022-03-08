@@ -54,12 +54,12 @@ const PostDisplay = (props) => {
             <div>
               <h1 className="text-white font-bold text-xl">${props.price}</h1>
               <h1 className="text-white text-sm">
-                Condition: {props.Condition}
+                Condition: {props.condition}
               </h1>
             </div>
             {state.accountType === "seller" ? (
               <Link to={"/Bidding"} state={{ biddingInfo: bidPageInfo }}>
-                <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3">
+                <button className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3 py-1">
                   Place A Bid
                 </button>
               </Link>
