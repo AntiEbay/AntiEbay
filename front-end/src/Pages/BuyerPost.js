@@ -255,8 +255,8 @@ const BuyerPost = () => {
 
   return (
     <div
-      id="container"
-      className="bg-slate-600 table h-fit overflow-auto w-full"
+    //   id="container"
+      className="bg-slate-600 h-screen overflow-auto"
       // style={{
       //   width: "100%",
       //   overflow: "visible",

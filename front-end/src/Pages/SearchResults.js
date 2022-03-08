@@ -90,7 +90,7 @@ const SearchResults = () => {
   };
   useEffect(() => {
     console.log();
-    startSearch;
+    startSearch();
   }, [searchQuery]);
   if (advSearchShow) {
     return (
