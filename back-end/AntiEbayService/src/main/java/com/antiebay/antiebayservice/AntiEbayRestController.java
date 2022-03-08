@@ -369,6 +369,12 @@ public class AntiEbayRestController {
                 bid.setAverageSellerReview(avgUserReview);
             }
             post.setBidList(postBids);
+            if (post.getBidList() == null) {
+                post.setBidList(new ArrayList<>());
+            }
+            if (post.getImageList() == null) {
+                post.setImageList(new ArrayList<>());
+            }
         }
 
         String returnStr = "";
