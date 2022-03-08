@@ -838,15 +838,16 @@ public class AntiEbayRestController {
 
     //PostMapping for deleting a post from the databse
     @PostMapping(value = "post/delete", consumes = {"application/json"})
-    private String postDelete(@RequestBody DeletePostRequest deletePost) {
+    private String postDelete(@RequestBody DeletePostRequest deletePost, 
+                                HttpServletRequest request) {
 
-        /*
-        HttpSession session = deletePost.getSession();
+        HttpSession session = request.getSession();
+
+        // Check if user is logged in
         if (!isUserLoggedIn(session)) {
             logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
-        */
 
         // Try deleting post from database
         try {
@@ -878,7 +879,17 @@ public class AntiEbayRestController {
     
     //PostMapping for deleting an account from the databse
     @PostMapping(value = "account/delete", consumes = {"application/json"})
-    private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount) {
+    private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount, 
+                                    HttpServletRequest request) {
+
+
+        HttpSession session = request.getSession();
+        
+        // Check if user is logged in
+        if (!isUserLoggedIn(session)) {
+            logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
+            return StatusMessages.USER_NOT_LOGGED_IN.toString();
+        }
 
         // Try deleting bid from database
         try {
