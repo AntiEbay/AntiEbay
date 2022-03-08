@@ -28,9 +28,8 @@ const ViewBids = () => {
         </h1>
         {/* "Account INfo" */}
         <h2 className=" text-white text-4xl text-center pt-4">View Bids</h2>
+        <div className="flex flex-col items-center">{bids}</div>
       </div>
-
-      <div className="flex flex-col items-center">{bids}</div>
     </div>
   );
 };
