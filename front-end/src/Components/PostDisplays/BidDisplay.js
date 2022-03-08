@@ -4,9 +4,11 @@ import { Lazy, Navigation } from "swiper";
 import axios from "axios";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
+import { useNavigate } from "react-router-dom";
 // import required modules
 // Final component to display bids
 const BidDisplay = (props) => {
+    const navigate = useNavigate();
   //Used for a buyer to accept a bid, under the viewBids tab
   const imageArray = Object.keys(props.imgStrings).map(
     (key) => (
@@ -36,11 +38,11 @@ const BidDisplay = (props) => {
         },
         withCredentials: true,
       }
-    );
+    ).then(navigate("/"));
   };
 
   return (
-    <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
+    <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 mt-2">
       <Swiper
         navigation={true}
         modules={[Navigation]}
@@ -50,13 +52,13 @@ const BidDisplay = (props) => {
       </Swiper>
       <div className="w-1/2 p-4">
         <div className="flex justify-between">
-          <h1 className="text-white font-bold text-2xl">{props.bidAmount}</h1>
-          <div>
-            <span className=" block hover:invisible text-amber-300 text-3xl">
-              &#9733;
+          <h1 className="text-white font-bold text-2xl">${props.bidAmount}</h1>
+          <div className="flex">
+            <span className=" text-3xl text-white">
+              {props.userRating}
             </span>
-            <span className=" invisible hover:flex text-3xl text-white">
-              Buyer Rating:{props.userRating}
+            <span className=" text-amber-300 text-3xl">
+                &#9733;
             </span>
           </div>
         </div>
@@ -64,7 +66,7 @@ const BidDisplay = (props) => {
         <div className="flex item-center mt-2"></div>
         <div className="flex flex-grow justify-end">
           <button
-            className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3"
+            className=" bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded my-1 px-3 py-1"
             onClick={acceptBid}
           >
             {" "}

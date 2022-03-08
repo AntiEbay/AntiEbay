@@ -3,8 +3,9 @@ import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import SolidAlert from "../Components/Alerts/SolidAlert";
+import { useNavigate } from "react-router-dom";
 
 var imageClassList = [];
 
@@ -20,6 +21,7 @@ class ImageObj {
 
 const BiddingPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   console.log(location);
   const { state, update } = useContext(accountTypeContext);
   const [sellerOffer, setSelleroffer] = useState(Number);
@@ -58,6 +60,7 @@ const BiddingPage = () => {
     setTimeout(function () {
       setAlertValues({ visible: false });
     }, 7000);
+    navigate("/ManageBids");
   };
 
   const gather = () => {

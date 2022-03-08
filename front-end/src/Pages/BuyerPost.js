@@ -408,28 +408,28 @@ const BuyerPost = () => {
                 label="Category"
               >
                 <option value="null" selected="selected"></option>
-                <option value="ant">Antiques & Collectibles</option>
-                <option value="art">Arts & Crafts</option>
-                <option value="aut">Auto Parts & Accessories</option>
-                <option value="bab">Baby Products</option>
-                <option value="bag">Bags & Luggage</option>
-                <option value="boo">Books, Movies & Music</option>
-                <option value="cell">Cell Phones & Accessories</option>
-                <option value="clo">Clothing, Shoes & Accessories</option>
-                <option value="ele">Electronics</option>
-                <option value="fur">Furniture</option>
-                <option value="hea">Health & Beauty</option>
-                <option value="hom">Home & Kitchen</option>
-                <option value="jwr">Jewelry</option>
-                <option value="mis">Miscellaneous</option>
-                <option value="mus">Musical Instruments</option>
-                <option value="off">Office Supplies</option>
-                <option value="pat">Patio & Garden</option>
-                <option value="pet">Pet Supplies</option>
-                <option value="spo">Sporting Goods</option>
-                <option value="too">Tools & Home Improvement</option>
-                <option value="toy">Toys & Games</option>
-                <option value="vid">Video Games & Consoles</option>
+                <option value="Antiques & Collectibles">Antiques & Collectibles</option>
+                <option value="Arts & Crafts">Arts & Crafts</option>
+                <option value="Auto Parts & Accessories">Auto Parts & Accessories</option>
+                <option value="Baby Products">Baby Products</option>
+                <option value="Bags & Luggage">Bags & Luggage</option>
+                <option value="Books, Movies & Music">Books, Movies & Music</option>
+                <option value="Cell Phones & Accessories">Cell Phones & Accessories</option>
+                <option value="Clothing, Shoes & Accessories">Clothing, Shoes & Accessories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Health & Beauty">Health & Beauty</option>
+                <option value="Home & Kitchen">Home & Kitchen</option>
+                <option value="Jewelry">Jewelry</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+                <option value="Musical Instruments">Musical Instruments</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Patio & Garden">Patio & Garden</option>
+                <option value="Pet Supplies">Pet Supplies</option>
+                <option value="Sporting Goods">Sporting Goods</option>
+                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+                <option value="Toys & Games">Toys & Games</option>
+                <option value="Video Games & Consoles">Video Games & Consoles</option>
               </select>
             </div>
 
@@ -446,10 +446,10 @@ const BuyerPost = () => {
                 label="Condition"
               >
                 <option value="null" selcted="selected"></option>
-                <option value="ant">New</option>
-                <option value="art">Used - Like New</option>
-                <option value="aut">Used - Good</option>
-                <option value="bab">Used - Fair</option>
+                <option value="New">New</option>
+                <option value="Used - Like New">Used - Like New</option>
+                <option value="Used - Good">Used - Good</option>
+                <option value="Used - Fair">Used - Fair</option>
               </select>
             </div>
 
