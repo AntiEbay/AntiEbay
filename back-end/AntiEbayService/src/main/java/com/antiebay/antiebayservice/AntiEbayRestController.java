@@ -299,6 +299,9 @@ public class AntiEbayRestController {
             if (bid.getBuyerPostId() == null) {
                 continue;
             }
+            if (bid.getAcceptedBid()) {
+                continue;
+            }
             Optional<UserPosts> postOpt = postsRepository.findById(bid.getBuyerPostId());
             if (postOpt.isEmpty()) {
                 continue;
@@ -352,6 +355,10 @@ public class AntiEbayRestController {
         List<UserPosts> postList = postsRepository.findByBuyerEmail(email);
 
         for (UserPosts post : postList) {
+            if (post.getPostIsComplete() != null && post.getPostIsComplete().equals("true")) {
+                postList.remove(post);
+                continue;
+            }
             // load images
             post.loadImages();
             // get all bids for post
@@ -541,7 +548,13 @@ public class AntiEbayRestController {
             UserPosts post = postOpt.get();
             boolean accepted = bid.getAcceptedBid();
             if (!seenPosts.contains(post.getPostId()) && accepted) {
+                if (post.getPostIsComplete() != null && post.getPostIsComplete().equals("true")) {
+                    seenPosts.add(post.getPostId());
+                    continue;
+                }
                 post.loadImages();
+                List<SellerBidEntity> bidListForPost = bidRepository.findByBuyerPostId(post.getPostId());
+                post.setBidList(bidListForPost);
                 seenPosts.add(post.getPostId());
                 userPosts.add(post);
             }

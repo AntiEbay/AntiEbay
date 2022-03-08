@@ -5,9 +5,11 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import axios from "axios";
 import { accountTypeContext } from "../../SessionVariables";
+import { useNavigate } from "react-router-dom";
 // import required modules
 const OrderToFillPost = (props) => {
   const { state, update } = useContext(accountTypeContext);
+  const navigate = useNavigate();
   const imageArray = Object.keys(props.imgStrings).map((key) => (
     <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
       <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
@@ -31,6 +33,7 @@ const OrderToFillPost = (props) => {
         withCredentials: true,
       }
     );
+    navigate("/ManageBids");
   };
   return (
     <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
@@ -57,7 +60,7 @@ const OrderToFillPost = (props) => {
             <div>
               <h1 className="text-white font-bold text-xl">${props.price}</h1>
               <h1 className="text-white text-sm">
-                Condition: {props.Condition}
+                Condition: {props.condition}
               </h1>
             </div>
             <button

@@ -24,6 +24,7 @@ const ManageBids = () => {
         };
         const getAccountPosts = await axios.post(
           "http://localhost:8080/user/interactions/allpostswithuserbids",
+        // "http://user/interactions/getAcceptedUserBids",
           { empty: 0 },
           {
             headers: {
@@ -89,7 +90,7 @@ const ManageBids = () => {
             </button>
           </Link>
         </div>
-        <div className="flex flex-col items-center">{posts}</div>
+        <div className="flex flex-col items-center mt-4">{posts}</div>
       </div>
     </div>
   );
