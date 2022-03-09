@@ -992,6 +992,11 @@ public class AntiEbayRestController {
     }
 
 
+    /**
+     * Helper function that gets the average review rating from a user's email for a seller
+     * @param email The email that is to be used to determine a user's average review
+     * @return The average review for the given user
+     */
     private double getAverageSellerReviewByEmail(String email) {
         double reviewSum = 0;
         double reviewCount = 0;
