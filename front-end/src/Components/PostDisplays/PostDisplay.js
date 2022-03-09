@@ -1,6 +1,6 @@
-import react, { useContext } from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
+import { Navigation } from "swiper";
 import { Link } from "react-router-dom";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";

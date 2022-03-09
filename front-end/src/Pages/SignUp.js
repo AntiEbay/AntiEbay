@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import NavBar from "../Components/NavBar";
 import SolidAlert from "../Components/Alerts/SolidAlert";
 import axios from "axios";

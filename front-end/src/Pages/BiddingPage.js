@@ -1,4 +1,4 @@
-import react, { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import NavBar from "../Components/NavBar";
 import RatingPopup from "../Components/RatingPopup";
 import axios from "axios";

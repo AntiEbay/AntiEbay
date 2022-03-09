@@ -1,4 +1,4 @@
-import react, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import NavBar from "../Components/NavBar";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";

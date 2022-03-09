@@ -1,4 +1,3 @@
-import "./App.css";
 import HomePage from "./Pages/HomePage";
 import SignUp from "./Pages/SignUp";
 import SignIn from "./Pages/SignIn";

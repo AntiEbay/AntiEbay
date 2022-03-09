@@ -1,4 +1,4 @@
-import react, { useContext } from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 // import required modules
 // Final component to display bids
 const BidDisplaySeller = (props) => {
-    const { state, update } = useContext(accountTypeContext);
+  const { state, update } = useContext(accountTypeContext);
   let bid = undefined;
   //Used for a buyer to accept a bid, under the viewBids tab
   console.log(props);
@@ -22,7 +22,7 @@ const BidDisplaySeller = (props) => {
       }
     }
   }
-  console.log(bid)
+  console.log(bid);
   const bidPageInfo = {
     postId: props.postId,
     title: props.title,

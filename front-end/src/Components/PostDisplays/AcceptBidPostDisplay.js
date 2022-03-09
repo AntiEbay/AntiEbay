@@ -1,4 +1,4 @@
-import react, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Lazy, Navigation } from "swiper";
 import "swiper/css/bundle";

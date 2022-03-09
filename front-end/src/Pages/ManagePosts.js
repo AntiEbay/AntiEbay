@@ -1,4 +1,4 @@
-import react, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
@@ -36,7 +36,7 @@ const ManagePosts = () => {
           newArray.push(getAccountPosts.data[key])
         );
       } catch (error) {
-        console.log("error");
+        console.log(error);
       }
       console.log(newArray);
       setPosts(

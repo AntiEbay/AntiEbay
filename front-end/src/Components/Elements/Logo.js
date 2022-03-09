@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 //Text that can be used as a logo
 const Logo = () => {
   return (
