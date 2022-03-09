@@ -578,7 +578,12 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-    //PostMapping for writing a post to the databse
+    /**
+     * REST API Endpoint for writing a user post to our database
+     * @param userPosts A user post object that is mapped via a JSON object
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating whether the post creation was successful or not
+     */
     @PostMapping(value = "user/post/writing", consumes = {"application/json"})
     private String userPostWriting(@RequestBody UserPosts userPosts, 
                                     HttpServletRequest request) {
@@ -700,7 +705,12 @@ public class AntiEbayRestController {
         return strToReturn;
     }
 
-    //PostMapping for writing a post review to the databse
+    /**
+     * REST API Endpoint for writing a post review to our database
+     * @param postReview A post review object that is mapped via a JSON object
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating whether the post review creation was successful or not
+     */
     @PostMapping(value = "post/review/writing", consumes = {"application/json"})
     private String postReview(@RequestBody PostReview postReview, 
                                     HttpServletRequest request) {
@@ -741,7 +751,12 @@ public class AntiEbayRestController {
         }
     }
 
-    //PostMapping for writing a seller review to the databse
+    /**
+     * REST API Endpoint for writing a seller review to our database
+     * @param sellerReview A seller review object that is mapped via a JSON object
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating whether the seller review creation was successful or not
+     */
     @PostMapping(value = "seller/review/writing", consumes = {"application/json"})
     private String sellerReview(@RequestBody SellerReview sellerReview,
                                     HttpServletRequest request) {
@@ -845,7 +860,12 @@ public class AntiEbayRestController {
         }
     }
 
-    //PostMapping for deleting a post from the databse
+    /**
+     * REST API Endpoint for deleting a post from our database
+     * @param deletePost A delete post object that is mapped via a JSON object
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating whether the post deletion was successful or not
+     */
     @PostMapping(value = "post/delete", consumes = {"application/json"})
     private String postDelete(@RequestBody DeletePostRequest deletePost, 
                                 HttpServletRequest request) {
@@ -885,8 +905,12 @@ public class AntiEbayRestController {
         }
     }
 
-    
-    //PostMapping for deleting an account from the databse
+    /**
+     * REST API Endpoint for deleting an account from our database
+     * @param deleteAccount A delete account object that is mapped via a JSON object
+     * @param request The HTTP request which contains the user session data
+     * @return A status message indicating whether the account deletion was successful or not
+     */
     @PostMapping(value = "account/delete", consumes = {"application/json"})
     private String accountDelete(@RequestBody DeleteAccountRequest deleteAccount, 
                                     HttpServletRequest request) {
