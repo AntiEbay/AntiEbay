@@ -16,6 +16,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.aspectj.apache.bcel.classfile.ExceptionTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -917,27 +921,73 @@ public class AntiEbayRestController {
 
 
         HttpSession session = request.getSession();
-        
+
         // Check if user is logged in
         if (!isUserLoggedIn(session)) {
             logger.warn(StatusMessages.USER_NOT_LOGGED_IN);
             return StatusMessages.USER_NOT_LOGGED_IN.toString();
         }
 
+        String email = session.getAttribute("email").toString();
+        String userType = session.getAttribute("userType").toString();
+
         // Try deleting bid from database
+        if (userType.equals("seller")) {
+            try {
+                List<SellerBidEntity> bids = bidRepository.findBySellerEmail(email);
+                for (SellerBidEntity bid : bids) {
+                    boolean deleteSuccess = deleteBidImages(bid);
+                    if (!deleteSuccess) {
+                        logger.warn(StatusMessages.BID_IMAGE_DELETE_FAIL + " for bid: " + bid.getBidPath());
+                    }
+                }
+                bidRepository.deleteBySellerEmail(email);
+                logger.info(StatusMessages.BID_DELETE_SUCCESS);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.warn(StatusMessages.BID_DELETE_FAIL);
+                return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
+            }
+            try {
+                postReviewRepository.deleteBySellerEmail(email);
+                logger.info(StatusMessages.POST_REVIEW_DELETE_SUCESS);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.warn(StatusMessages.POST_REVIEW_DELETE_FAIL);
+                return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
+            }
+        } else if (userType.equals("buyer")) {
+            try {
+                List<UserPosts> posts = postsRepository.findByBuyerEmail(email);
+                for (UserPosts post : posts) {
+                    deletePostImages(post);
+                }
+                postsRepository.deleteByBuyerEmail(email);
+                logger.info(StatusMessages.POST_DELETE_SUCCESS);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.warn(StatusMessages.POST_DELETE_FAIL);
+                return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
+            }
+            try {
+                sellerReviewRepository.deleteByBuyerEmail(email);
+                logger.info(StatusMessages.SELLER_REVIEW_DELETE_SUCCESS);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.warn(StatusMessages.SELLER_REVIEW_DELETE_FAIL.toString());
+                return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
+            }
+        }
         try {
-             bidRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
-             userRepository.deleteByEmailAddress(deleteAccount.getEmailAddress());
-             postsRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
-             postReviewRepository.deleteBySellerEmail(deleteAccount.getEmailAddress());
-             sellerReviewRepository.deleteByBuyerEmail(deleteAccount.getEmailAddress());
+            userRepository.deleteByEmailAddress(email);
             logger.info(StatusMessages.ACCOUNT_DELETE_SUCCESS);
-            return StatusMessages.ACCOUNT_DELETE_SUCCESS.toString();
         } catch (Exception ex) {
-            logger.warn(ex.getMessage());
+            ex.printStackTrace();
             logger.warn(StatusMessages.ACCOUNT_DELETE_FAIL);
             return StatusMessages.ACCOUNT_DELETE_FAIL.toString();
         }
+
+        return StatusMessages.ACCOUNT_DELETE_SUCCESS.toString();
     }
     
 
@@ -1057,5 +1107,30 @@ public class AntiEbayRestController {
             averageReview = reviewSum / reviewCount;
         }
         return averageReview;
+    }
+    private boolean deleteBidImages(SellerBidEntity bid) {
+        boolean deleteSuccess = false;
+        File f = new File(bid.getBidPath());
+        try {
+            FileUtils.deleteDirectory(f);
+            logger.info(StatusMessages.BID_IMAGE_DELETE_SUCCESS + " for bid: " + bid.getBidPath());
+            deleteSuccess = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return deleteSuccess;
+    }
+
+    private boolean deletePostImages(UserPosts post) {
+        boolean deleteSuccess = false;
+        File f = new File(post.getPostPath());
+        try {
+            FileUtils.deleteDirectory(f);
+            logger.info(StatusMessages.POST_IMAGE_DELETE_SUCCESS + " for post: " + post.getPostPath());
+            deleteSuccess = true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return deleteSuccess;
     }
 }
