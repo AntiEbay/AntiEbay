@@ -862,7 +862,7 @@ public class AntiEbayRestController {
 
     /**
      * REST API Endpoint for deleting a post from our database
-     * @param deletePost A delete post object that is mapped via a JSON object
+     * @param deletePost A delete post request object that is being sent to the service
      * @param request The HTTP request which contains the user session data
      * @return A status message indicating whether the post deletion was successful or not
      */
@@ -907,7 +907,7 @@ public class AntiEbayRestController {
 
     /**
      * REST API Endpoint for deleting an account from our database
-     * @param deleteAccount A delete account object that is mapped via a JSON object
+     * @param deleteAccount A delete account request object that is being sent to the service
      * @param request The HTTP request which contains the user session data
      * @return A status message indicating whether the account deletion was successful or not
      */
