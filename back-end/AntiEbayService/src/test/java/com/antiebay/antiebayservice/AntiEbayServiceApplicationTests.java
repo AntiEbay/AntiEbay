@@ -110,5 +110,45 @@ class AntiEbayServiceApplicationTests {
 //    }
 
 
+//    //For post review
+//    @Test
+//    void writePostReviewShouldSucceed() throws Exception {
+//        PostReview newPostReview = new PostReview();
+//        newPostReview.setRating("Rating");
+//        newPostReview.setSellerEmail("SellerEmail");
+//        newPostReview.setPostId("PostId");
+//        newPostReview.setComment("Comment");
+//
+//        when(postReviewRepository.save(any()))
+//                .thenReturn(mapper.writeValueAsString(newUser));
+//
+//        MvcResult result = mockMVc.perform(post("/post/review/writing")
+//                        .content(mapper.writeValueAsString(newUser))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//        Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.POST_REVIEW_CREATE_SUCCESS.toString());
+//    }
+//
+//    @Test
+//    void writePostReviewWhenReviewAlreadyExists() throws Exception {
+//        PostReview newPostReview = new PostReview();
+//        newPostReview.setRating("Rating");
+//        newPostReview.setSellerEmail("SellerEmail");
+//        newPostReview.setPostId("PostId");
+//        newPostReview.setComment("Comment");
+//
+//        when(postReviewRepository.findById(newPostReview.getSellerEmail()))
+//                .thenReturn(Optional.of(newUser));
+//
+//        MvcResult result = mockMVc.perform(post("/post/review/writing")
+//                .content(mapper.writeValueAsString(newPostReview))
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//        Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.POST_REVIEW_CREATE_FAIL.toString());
+//    }
+
+
 
 }
