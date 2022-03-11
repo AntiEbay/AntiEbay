@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.File;
 import java.util.List;
 
+
 @Entity
 @Table(name = "post_review")
 public class PostReview {
@@ -21,40 +22,78 @@ public class PostReview {
     private String comment;
     
 
+    
+    /** 
+     * Get function to get the post review Id
+     * @return The post review Id
+     */
     public Integer getPostReviewId() {
         return postReviewId;
     }
 
+    
+    /** 
+     * Set function to set the post review Id
+     * @param postReviewId from 
+     */
     public void setPostReviewId(Integer postReviewId) {
         this.postReviewId = postReviewId;
     }
 
+    
+    /** 
+     * @return Integer
+     */
     public Integer getRating() {
         return rating;
     }
 
+    
+    /** 
+     * @param rating
+     */
     public void setRating(Integer rating) {
         this.rating = rating;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getSellerEmail() {
         return sellerEmail;
     }
 
+    
+    /** 
+     * @param sellerEmail
+     */
     public void setSellerEmail(String sellerEmail) {
         this.sellerEmail = sellerEmail;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getComment() {
         return comment;
     }
 
+    
+    /** 
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
 
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "PostReview{" +
@@ -66,10 +105,18 @@ public class PostReview {
                 '}';
     }
 
+    
+    /** 
+     * @return Integer
+     */
     public Integer getPostId() {
         return postId;
     }
 
+    
+    /** 
+     * @param postId
+     */
     public void setPostId(Integer postId) {
         this.postId = postId;
     }

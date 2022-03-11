@@ -337,7 +337,13 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-    // this is the end point to get retrieval all the posts that a buyer has posted
+
+    
+    /** 
+     * Rest Endpoint that retrieves  all the posts that a buyer has posted
+     * @param request The http request object that is being sent to the endpoint
+     * @return A list of posts that a buyer has posted
+     */
     @PostMapping(value = "/user/getallposts")
     private String getAllPostsForUser(HttpServletRequest request) {
         logger.info("Received request to retrieve all posts by logged in user.");
@@ -832,7 +838,13 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-    // end point that retrieves the user's review rating
+
+    
+    /** 
+     * REST API Endpoint that gets the user's review rating
+     * @param request The HTTP Request that contains the user's login data.
+     * @return A String representing the rating for that user.
+     */
     @PostMapping( value = "user/review/retrieve", consumes = {"application/json"})
     private String getUserReview(HttpServletRequest request) {
 
