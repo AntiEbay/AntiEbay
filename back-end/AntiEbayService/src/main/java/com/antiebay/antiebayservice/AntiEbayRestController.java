@@ -401,6 +401,12 @@ public class AntiEbayRestController {
         return returnStr;
    }
 
+    /**
+     * Rest Endpoint that changes the accepted variable in the SellerBidEntity to TRUE
+     * @param bidID An integer that is the ID of the bid that is being requested to be changed
+     * @param request The http request object that is being sent to the endpoint
+     * @return Status message indicating if the bid was accepted or if it failed
+     */
     @PostMapping(value = "/user/interactions/acceptbid")
     private String buyerAcceptsBid(@RequestBody BidID bidID,
                                    HttpServletRequest request) {
@@ -449,6 +455,12 @@ public class AntiEbayRestController {
         }
     }
 
+    /**
+     *
+     * @param markCompleteRequest
+     * @param request The http request object that is being sent to the endpoint
+     * @return
+     */
     @PostMapping(value = "/user/interaction/completepost")
     private String markPostAsComplete(@RequestBody MarkCompleteRequest markCompleteRequest,
                                       HttpServletRequest request) {
@@ -497,6 +509,11 @@ public class AntiEbayRestController {
         return "success";
     }
 
+    /**
+     * Rest Endpoint that retrieves all posts that have been marked as completed
+     * @param request The http request object that is being sent to the endpoint
+     * @return String Object that is a list of all the posts that are complete
+     */
     @PostMapping(value = "/user/interactions/getcompletedposts")
     private String retrieveAllCompletedPosts(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -535,7 +552,11 @@ public class AntiEbayRestController {
         return returnStr;
     }
 
-
+    /**
+     * Rest Endpoint that retrieves all bids to user that have a SellerBidEntity accepted as TRUE
+     * @param request The http request object that is being sent to the endpoint
+     * @return String Object that contains a list of all UserPosts that have bids accepted as TRUE
+     */
     @PostMapping(value = "/user/interactions/getAcceptedUserBids")
     private String retrieveAllPostsThatHaveAcceptedBidOn(HttpServletRequest request) {
         HttpSession session = request.getSession();
