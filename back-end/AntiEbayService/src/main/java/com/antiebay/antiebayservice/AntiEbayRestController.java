@@ -76,7 +76,7 @@ public class AntiEbayRestController {
 
         // Check if user already exists
         Optional<UserAccountEntity> userAccountEnt = userRepository.findById(userAccount.getEmailAddress());
-
+        
         // If user already exists, don't write new data
         if (userAccountEnt.isPresent()) {
             logger.warn(StatusMessages.USER_ACCOUNT_CREATE_FAIL + " Cause: " + StatusMessages.USER_EXISTS);
@@ -755,6 +755,7 @@ public class AntiEbayRestController {
             logger.info(StatusMessages.POST_REVIEW_CREATE_SUCCESS);
             return StatusMessages.POST_REVIEW_CREATE_SUCCESS.toString();
         } catch (Exception ex) {
+            ex.printStackTrace();
             logger.warn(ex.getMessage());
             logger.warn(StatusMessages.POST_REVIEW_CREATE_FAIL);
             return StatusMessages.POST_REVIEW_CREATE_FAIL.toString();
