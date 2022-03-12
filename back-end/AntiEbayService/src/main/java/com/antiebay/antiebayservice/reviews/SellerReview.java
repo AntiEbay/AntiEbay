@@ -19,30 +19,62 @@ public class SellerReview {
     private String comment;
     
 
+
+    
+    /** 
+     * Get function to get the unique the sellerReveiwId 
+     * @return Integer
+     */
     public Integer getSellerReviewId() {
         return sellerReviewId;
     }
 
+    
+    /** 
+     * Set function to set the sellerReviewId to whatever value is passed through the function
+     * @param sellerReviewId
+     */
     public void setSellerReviewId(Integer sellerReviewId) {
         this.sellerReviewId = sellerReviewId;
     }
 
+    
+    /** 
+     * Get function to the rating
+     * @return The rating
+     */
     public Integer getRating() {
         return rating;
     }
 
+    
+    /** 
+     * Set function to set the rating to whatever value is passed through the function
+     * @param rating
+     */
     public void setRating(Integer rating) {
         this.rating = rating;
     }
 
+    
+    /** 
+     * Get function to get the buyerEmail
+     * @return buyerEmail
+     */
     public String getBuyerEmail() {
         return buyerEmail;
     }
 
+    
+    /** 
+     * Set function to set the buyerEmail to whatever value is passed through the function
+     * @param buyerEmail
+     */
     public void setBuyerEmail(String buyerEmail) {
         this.buyerEmail = buyerEmail;
     }
 
+    //Following two functions are not used
     public String getBuyerPostId() {
         return sellerEmail;
     }
@@ -51,16 +83,30 @@ public class SellerReview {
         this.sellerEmail = sellerId;
     }
 
+    
+    /** 
+     * Get function to get the comment for a review
+     * @return String
+     */
     public String getComment() {
         return comment;
     }
 
+    
+    /** 
+     * Set function to set the comment to whatever value is passed through the function
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
 
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "SellerReview{" +
