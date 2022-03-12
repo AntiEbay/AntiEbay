@@ -34,7 +34,7 @@ public class PostReview {
     
     /** 
      * Set function to set the post review Id to whatever value is passed through the function
-     * @param postReviewId from 
+     * @param postReviewId
      */
     public void setPostReviewId(Integer postReviewId) {
         this.postReviewId = postReviewId;
@@ -78,7 +78,7 @@ public class PostReview {
 
     
     /** 
-     * Get function to get the comment
+     * Get function to get the comment for a review
      * @return String
      */
     public String getComment() {
@@ -113,8 +113,8 @@ public class PostReview {
 
     
     /** 
-     * Get function to get the post Id
-     * @return Integer
+     * Get function to get the post Id for which the review is on
+     * @return postId
      */
     public Integer getPostId() {
         return postId;
