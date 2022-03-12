@@ -33,7 +33,7 @@ public class PostReview {
 
     
     /** 
-     * Set function to set the post review Id
+     * Set function to set the post review Id to whatever value is passed through the function
      * @param postReviewId from 
      */
     public void setPostReviewId(Integer postReviewId) {
@@ -42,6 +42,7 @@ public class PostReview {
 
     
     /** 
+     * Get function to get the rating
      * @return Integer
      */
     public Integer getRating() {
@@ -50,6 +51,7 @@ public class PostReview {
 
     
     /** 
+     * Set function to set the rating to whatever value is passed through the function
      * @param rating
      */
     public void setRating(Integer rating) {
@@ -58,6 +60,7 @@ public class PostReview {
 
     
     /** 
+     * Get function to get the seller email
      * @return String
      */
     public String getSellerEmail() {
@@ -66,6 +69,7 @@ public class PostReview {
 
     
     /** 
+     * Set function to set the seller email to whatever value is passed through the function
      * @param sellerEmail
      */
     public void setSellerEmail(String sellerEmail) {
@@ -74,6 +78,7 @@ public class PostReview {
 
     
     /** 
+     * Get function to get the comment
      * @return String
      */
     public String getComment() {
@@ -82,6 +87,7 @@ public class PostReview {
 
     
     /** 
+     * Set function to set the comment to whatever value is passed through the function
      * @param comment
      */
     public void setComment(String comment) {
@@ -107,6 +113,7 @@ public class PostReview {
 
     
     /** 
+     * Get function to get the post Id
      * @return Integer
      */
     public Integer getPostId() {
@@ -115,6 +122,7 @@ public class PostReview {
 
     
     /** 
+     * Set function to set the post Id to whatever value is passed through the function
      * @param postId
      */
     public void setPostId(Integer postId) {
