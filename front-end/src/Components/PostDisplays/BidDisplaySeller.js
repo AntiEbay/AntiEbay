@@ -6,7 +6,13 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import { Link } from "react-router-dom";
-// import required modules
+/**
+ *
+ * @param props Props containing informaiotn about the post.
+ * @returns A JSX element that displays information about the post in a card.
+ * Will Allow a seller account to see a bid they made.
+ * Conatinas a re-bid button which will allow the seller to navigate back to the bidding page to re-bid.
+ */
 // Final component to display bids
 const BidDisplaySeller = (props) => {
   const { state, update } = useContext(accountTypeContext);

@@ -9,9 +9,15 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import ManagePosts from "../../Pages/ManagePosts";
-// import required modules
-// This is the post com that is used in ManagePosts.js
-// The button leads to ViewBids.js and the com BidDisplay
+/**
+ *
+ * @param  props that contains all information about the post.
+ * @returns A JSX element that is a card the has the post information in a readable format
+ * This is the post com that is used in ManagePosts.js
+ * The button leads to ViewBids.js and the com BidDisplay
+ * This component is used in ManagePosts.js
+ */
+
 const AcceptBidPostDisplay = (props) => {
   console.log(props);
   const navigate = useNavigate();

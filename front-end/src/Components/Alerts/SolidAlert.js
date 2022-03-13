@@ -1,5 +1,9 @@
 import React from "react";
-
+/**
+ *
+ * @param  props Contains a variable of what text should be in the alert and a boolean variable to show the alert.
+ * @returns A JSX element containing the alert.
+ */
 const SolidAlert = (props) => {
   if (props.alertValues.visible === true) {
     return (

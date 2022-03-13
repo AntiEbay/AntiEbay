@@ -6,7 +6,12 @@ import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import BiddingPage from "../../Pages/BiddingPage";
-// import required modules
+/**
+ *
+ * @param  props Information about the post
+ * @returns A JSX element that contains a card with all the Post information
+ * If A seller account is logged in a button will appear that naviagtes them to the bidding page.
+ */
 // Post Display used in ManageBids and Search Results
 const PostDisplay = (props) => {
   const { state, update } = useContext(accountTypeContext);

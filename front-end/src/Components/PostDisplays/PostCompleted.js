@@ -6,7 +6,12 @@ import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import RatingPopupSeller from "../RatingPopupSeller";
 import axios from "axios";
-// import required modules
+/**
+ *
+ * @param  props Required information about the post.
+ * @returns A JSX component that displays all the post info in a card.
+ * Used to act as a form of transaction history. Once a buyer sees this card they can also rate a seller.
+ */
 //Used in the Completed Post page.
 const PostCompleted = (props) => {
   const { state, update } = useContext(accountTypeContext);

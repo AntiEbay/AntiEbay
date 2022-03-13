@@ -5,7 +5,12 @@ import axios from "axios";
 import "swiper/css/bundle";
 import ".//swiperArrow.css";
 import { useNavigate } from "react-router-dom";
-// import required modules
+/**
+ *
+ * @param  props that contains all information about the post.
+ * @returns A JSX element that is a card the has the post information in a readable format
+ * This component is used in ViewBids for a buyer to accept a bid
+ */
 // Final component to display bids
 const BidDisplay = (props) => {
   const navigate = useNavigate();

@@ -4,6 +4,11 @@ import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+/**
+ *
+ * @param  props Contains information about the logged in user
+ * @returns The side buttons for the nav bar based on the input that was provided.
+ */
 const NavBarButtons = (props) => {
   const navigate = useNavigate();
   const logout = () => {

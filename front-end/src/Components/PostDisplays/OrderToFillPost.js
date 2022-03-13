@@ -6,7 +6,13 @@ import ".//swiperArrow.css";
 import axios from "axios";
 import { accountTypeContext } from "../../SessionVariables";
 import { useNavigate } from "react-router-dom";
-// import required modules
+/**
+ *
+ * @param  props Contains information about the post
+ * @returns A JSX element that displays information about the post in a card
+ * This card will be dispayed when a seller wins their bid.
+ * Contains a button that allows seller to complete the order acting as a transaction.
+ */
 const OrderToFillPost = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const navigate = useNavigate();
