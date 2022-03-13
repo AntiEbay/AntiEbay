@@ -1,3 +1,4 @@
+/*
 package com.antiebay.antiebayservice.userposts;
 
 import com.antiebay.antiebayservice.JSONUtilities.JSONObjectMapper;
@@ -53,4 +54,4 @@ public class PostRequest {
                 ", buyerEmail='" + buyerEmail + '\'' +
                 '}';
     }
-}
+}*/
