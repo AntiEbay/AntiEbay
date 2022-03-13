@@ -109,9 +109,6 @@ const NavBarButtons = (props) => {
       <div className="flex">
         <div id="sideBar" className="flex lg:hidden">
           <Menu right outerContainerId="sideBar">
-            <button className="hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded">
-              FAQ
-            </button>
             <Link to="/SignIn">
               <button className="hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded">
                 Log In
@@ -125,9 +122,6 @@ const NavBarButtons = (props) => {
           </Menu>
         </div>
         <div className=" mx-5 hidden lg:flex">
-          <button className="hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded">
-            FAQ
-          </button>
           <Link to="/SignIn">
             <button className="hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-2 rounded">
               Log In
