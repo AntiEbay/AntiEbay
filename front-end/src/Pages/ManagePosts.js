@@ -11,7 +11,7 @@ import axios from "axios";
 const ManagePosts = () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
-  
+
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState([]);
   const accountEmailFromState = state.accountEmail;

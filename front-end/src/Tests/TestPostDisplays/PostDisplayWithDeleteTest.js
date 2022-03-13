@@ -1,20 +1,11 @@
 import React, { useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
 import { Link } from "react-router-dom";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 // import required modules
 // Post Display used in ManageBids and Search Results
-const PostDisplayWithDelete = (props) => {
+const PostDisplayWithDeleteTest = (props) => {
   const { state, update } = useContext(accountTypeContext);
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
-  const bidDelete = async () => {
+  const postDelete = async () => {
     const bidInfo = {
       postId: props.postId,
     };
@@ -28,17 +19,9 @@ const PostDisplayWithDelete = (props) => {
       })
       .then(navigate("/ManageBids"));
   };
-  console.log(imageArray);
 
   return (
     <div className="flex max-w-md bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        className="flex items-center justify-center w-1/3 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-      >
-        {imageArray}
-      </Swiper>
       <div className="w-2/3 p-4">
         <div className="flex justify-between">
           <h1 className="text-white font-bold text-2xl">
@@ -98,4 +81,4 @@ const PostDisplayWithDelete = (props) => {
   );
 };
 
-export default PostDisplayWithDelete;
+export default PostDisplayWithDeleteTest;
