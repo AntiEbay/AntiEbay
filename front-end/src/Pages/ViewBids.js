@@ -2,6 +2,10 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import BidDisplay from "../Components/PostDisplays/BidDisplay";
+/**
+ *
+ * @returns Renders an html page of the View Bids page
+ */
 const ViewBids = () => {
   //Location grabs info from react router dom
   // This page is called from AcceptBidPostDisplay.js

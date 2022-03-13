@@ -9,6 +9,10 @@ const signInValues = {
   password: "",
 };
 
+/**
+ *
+ * @returns Renders an html page of the Sign In page.
+ */
 const SignIn = () => {
   const navigate = useNavigate();
   const [emailAddress, setEmailAddress] = useState("");

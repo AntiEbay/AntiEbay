@@ -12,6 +12,10 @@ const signUpValues = {
   userType: "",
 };
 
+/**
+ *
+ * @returns  Renders an html page of the sign-up page.
+ */
 const SignUp = () => {
   //Variables to send to backend
   const navigate = useNavigate();

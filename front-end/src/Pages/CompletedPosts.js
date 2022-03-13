@@ -6,6 +6,10 @@ import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 import PostCompleted from "../Components/PostDisplays/PostCompleted";
 //Seller page to fill orders
+/**
+ *
+ * @returns Renders an html page of the Completed Posts page.
+ */
 const CompletedPosts = () => {
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState(undefined);

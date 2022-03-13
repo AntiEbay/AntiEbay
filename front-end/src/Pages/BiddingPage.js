@@ -18,7 +18,10 @@ class ImageObj {
     this.contents = contents;
   }
 }
-
+/**
+ *
+ * @returns Renders an html page of the Bidding page.
+ */
 const BiddingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();

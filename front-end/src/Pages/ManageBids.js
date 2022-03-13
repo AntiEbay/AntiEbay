@@ -6,7 +6,10 @@ import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 import BidDisplay from "../Components/PostDisplays/BidDisplay";
 import BidDisplaySeller from "../Components/PostDisplays/BidDisplaySeller";
-
+/**
+ *
+ * @returns Renders an html page of the Manage Bids page.
+ */
 const ManageBids = () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
