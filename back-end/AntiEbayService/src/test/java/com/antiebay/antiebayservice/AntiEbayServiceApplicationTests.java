@@ -543,7 +543,10 @@ class AntiEbayServiceApplicationTests {
         mockSession.setAttribute("userType", "buyer");
         when(bidRepository.save(any()))
                 .thenReturn(newBid);
- 
+        
+        when(postsRepository.findById(newBid.getBuyerPostId())).thenReturn(Optional.of(userPosts));
+        
+
         MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
                         .content(mapper.writeValueAsString(newBid))
                         .session(mockSession)
