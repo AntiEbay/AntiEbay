@@ -7,6 +7,7 @@ import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
 import com.antiebay.antiebayservice.search.*;
+import com.antiebay.antiebayservice.sellerbids.BidID;
 import com.antiebay.antiebayservice.sellerbids.BidRepository;
 import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 import com.antiebay.antiebayservice.useraccounts.UserAccountEntity;
@@ -523,6 +524,9 @@ class AntiEbayServiceApplicationTests {
         newBid.setBidImage(new ArrayList<>());
         newBid.setAccepted(true);
 
+        BidID newBidId = new BidID();
+        newBidId.setBidId(1);
+
         UserPosts userPost = new UserPosts();
         userPost.setPostId(1);
         userPost.setBuyerEmail(userPost.getBuyerEmail());
@@ -544,7 +548,7 @@ class AntiEbayServiceApplicationTests {
         when(bidRepository.save(any()))
                 .thenReturn(newBid);
         
-        when(postsRepository.findById(newBid.getBuyerPostId())).thenReturn(Optional.of(userPosts));
+        when(bidRepository.findById(newBidId.getBidId())).thenReturn(Optional.of(newBidId));
         
 
         MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
