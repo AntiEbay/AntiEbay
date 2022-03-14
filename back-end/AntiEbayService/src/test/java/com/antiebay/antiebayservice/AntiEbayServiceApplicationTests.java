@@ -369,7 +369,7 @@ class AntiEbayServiceApplicationTests {
 
         UserPosts userPost = new UserPosts();
         userPost.setPostId(1);
-        userPost.setBuyerEmail(newBid.getEmailAddress());
+        userPost.setBuyerEmail(userPost.getBuyerEmail());
         userPost.setPostPath("PostPath");
         userPost.setTitle("Title");
         userPost.setQuantity(1);
@@ -384,8 +384,8 @@ class AntiEbayServiceApplicationTests {
  
         MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute("email", newBid.getSellerEmail());
-        mockSession.setAttribute("userType", "seller");
-        when(postReviewRepository.save(any()))
+        mockSession.setAttribute("userType", "buyer");
+        when(bidRepository.save(any()))
                 .thenReturn(newBid);
  
         MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
