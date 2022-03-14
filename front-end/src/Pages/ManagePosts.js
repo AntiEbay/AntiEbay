@@ -4,9 +4,14 @@ import NavBar from "../Components/NavBar";
 import AcceptBidPostDisplay from "../Components/PostDisplays/AcceptBidPostDisplay";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
+/**
+ *
+ * @returns  Renders an html page of the Manage Posts page.
+ */
 const ManagePosts = () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay
+
   const { state, update } = useContext(accountTypeContext);
   const [posts, setPosts] = useState([]);
   const accountEmailFromState = state.accountEmail;

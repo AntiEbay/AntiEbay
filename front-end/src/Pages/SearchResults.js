@@ -3,6 +3,10 @@ import { useLocation } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import axios from "axios";
 import PostDisplay from "../Components/PostDisplays/PostDisplay";
+/**
+ *
+ * @returns  Renders an html page of the Search Results page
+ */
 const SearchResults = () => {
   const location = useLocation();
   const [advSearchShow, setAdvSearchShow] = useState(true);

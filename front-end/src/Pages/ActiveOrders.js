@@ -5,6 +5,10 @@ import NavBar from "../Components/NavBar";
 import OrderToFillPost from "../Components/PostDisplays/OrderToFillPost";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
+/**
+ *
+ * @returns Renders an html page of the Active Orders page.
+ */
 const ActiveOrders = () => {
   //Page for a buyer to view all their personal posts
   //Uses AcceptBidPostDisplay

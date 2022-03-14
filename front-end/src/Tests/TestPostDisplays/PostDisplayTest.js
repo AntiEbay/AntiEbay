@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
 import { Link } from "react-router-dom";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import BiddingPage from "../../Pages/BiddingPage";
 /**
@@ -13,32 +9,17 @@ import BiddingPage from "../../Pages/BiddingPage";
  * If A seller account is logged in a button will appear that naviagtes them to the bidding page.
  */
 // Post Display used in ManageBids and Search Results
-const PostDisplay = (props) => {
+const PostDisplayTest = (props) => {
   const { state, update } = useContext(accountTypeContext);
-  console.log(props);
   const bidPageInfo = {
     postId: props.postId,
     title: props.title,
     description: props.description,
     price: props.price,
   };
-  console.log(bidPageInfo);
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
-  console.log(imageArray);
 
   return (
     <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        className="flex items-center justify-center w-1/3 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-      >
-        {imageArray}
-      </Swiper>
       <div className="w-2/3 p-4">
         <div className="flex w-full justify-between">
           <h1 className="text-white font-bold text-2xl">
@@ -78,4 +59,4 @@ const PostDisplay = (props) => {
   );
 };
 
-export default PostDisplay;
+export default PostDisplayTest;

@@ -2,6 +2,10 @@ import React, { useContext } from "react";
 import TypeWriter from "typewriter-effect";
 import { accountTypeContext } from "../../SessionVariables";
 import { Link } from "react-router-dom";
+/**
+ *
+ * @returns All elements under the NavBar when on the homepage.
+ */
 const HomePageInfo = () => {
   const { state, update } = useContext(accountTypeContext);
   if (state.accountType == "buyer") {

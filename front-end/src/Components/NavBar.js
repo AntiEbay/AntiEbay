@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import Logo from "./Elements/Logo";
 import { accountTypeContext } from "../SessionVariables";
 import NavBarButtons from "./NavBarComponents/NavBarButtons";
+/**
+ *
+ * @returns A navBar which contains buttons to navigate through the webiste.
+ */
 const NavBar = () => {
   const { state, update } = useContext(accountTypeContext);
   const [searchQuery, setSearchQuery] = useState("");

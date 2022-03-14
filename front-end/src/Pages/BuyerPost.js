@@ -27,7 +27,10 @@ class ImageObj {
     this.contents = contents;
   }
 }
-
+/**
+ *
+ * @returns Renders an html page of the Buyer Post page.
+ */
 const BuyerPost = () => {
   const navigate = useNavigate();
   //Variables to send to backend

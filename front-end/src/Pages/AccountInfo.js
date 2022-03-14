@@ -3,6 +3,10 @@ import NavBar from "../Components/NavBar";
 import { accountTypeContext } from "../SessionVariables";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+/**
+ *
+ * @returns Renders an html page of the Account Info page.
+ */
 const AccountInfo = () => {
   const [rating, setRating] = useState();
   const { state, update } = useContext(accountTypeContext);

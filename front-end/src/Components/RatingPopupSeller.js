@@ -1,6 +1,12 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { accountTypeContext } from "../SessionVariables";
+/**
+ *
+ * @param  props Contains information about the bid a buyer will be rating.
+ * @returns A popup that displays a review form a buyer can fill out.
+ * Once a buyer complete the review form the review is sent to the backend service.
+ */
 const RatingPopupSeller = (props) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");

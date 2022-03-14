@@ -1,8 +1,4 @@
 import React, { useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
 import axios from "axios";
 import { accountTypeContext } from "../../SessionVariables";
 import { useNavigate } from "react-router-dom";
@@ -13,15 +9,9 @@ import { useNavigate } from "react-router-dom";
  * This card will be dispayed when a seller wins their bid.
  * Contains a button that allows seller to complete the order acting as a transaction.
  */
-const OrderToFillPost = (props) => {
+const OrderToFillPostTest = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const navigate = useNavigate();
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
-  console.log(imageArray);
   const postCompleteBid = async () => {
     const postValues = {
       postId: props.postId,
@@ -43,13 +33,6 @@ const OrderToFillPost = (props) => {
   };
   return (
     <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        className="flex items-center justify-center w-1/3 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-      >
-        {imageArray}
-      </Swiper>
       <div className="w-2/3 p-4">
         <div className="flex justify-between">
           <h1 className="text-white font-bold text-2xl">
@@ -82,4 +65,4 @@ const OrderToFillPost = (props) => {
   );
 };
 
-export default OrderToFillPost;
+export default OrderToFillPostTest;

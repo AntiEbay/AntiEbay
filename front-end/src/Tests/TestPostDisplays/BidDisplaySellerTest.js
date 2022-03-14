@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
 import axios from "axios";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
 import { Link } from "react-router-dom";
 /**
@@ -14,7 +10,7 @@ import { Link } from "react-router-dom";
  * Conatinas a re-bid button which will allow the seller to navigate back to the bidding page to re-bid.
  */
 // Final component to display bids
-const BidDisplaySeller = (props) => {
+const BidDisplaySellerTest = (props) => {
   const { state, update } = useContext(accountTypeContext);
   let bid = undefined;
   //Used for a buyer to accept a bid, under the viewBids tab
@@ -35,28 +31,9 @@ const BidDisplaySeller = (props) => {
     description: props.description,
     price: props.price,
   };
-  const imageArray = Object.keys(props.imgStrings).map(
-    (key) => (
-      console.log(props.imgStrings[key].contents),
-      (
-        <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-          <img
-            src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`}
-          />
-        </SwiperSlide>
-      )
-    )
-  );
 
   return (
     <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6">
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        className="flex items-center justify-center w-1/2 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-      >
-        {imageArray}
-      </Swiper>
       <div className="w-1/2 p-4">
         <div className="flex justify-between">
           <h1 className="text-white font-bold text-2xl">${bid.bidAmount}</h1>
@@ -75,4 +52,4 @@ const BidDisplaySeller = (props) => {
   );
 };
 
-export default BidDisplaySeller;
+export default BidDisplaySellerTest;

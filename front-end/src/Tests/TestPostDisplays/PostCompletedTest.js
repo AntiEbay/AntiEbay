@@ -1,11 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
 import { accountTypeContext } from "../../SessionVariables";
-import RatingPopupSeller from "../RatingPopupSeller";
-import axios from "axios";
+import RatingPopupSeller from "../../Components/RatingPopupSeller";
 /**
  *
  * @param  props Required information about the post.
@@ -13,7 +8,7 @@ import axios from "axios";
  * Used to act as a form of transaction history. Once a buyer sees this card they can also rate a seller.
  */
 //Used in the Completed Post page.
-const PostCompleted = (props) => {
+const PostCompletedTest = (props) => {
   const { state, update } = useContext(accountTypeContext);
   const [review, setReview] = useState(false);
   const [reviewScreen, setReviewScreen] = useState(false);
@@ -24,23 +19,11 @@ const PostCompleted = (props) => {
       mainBid = bid;
     }
   }
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
-  console.log(imageArray);
+
   console.log(mainBid);
   if (!reviewScreen) {
     return (
       <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
-        <Swiper
-          navigation={true}
-          modules={[Navigation]}
-          className="flex items-center justify-center w-1/3 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-        >
-          {imageArray}
-        </Swiper>
         <div className="w-2/3 p-4">
           <div className="flex justify-between w-full">
             <h1 className="text-white font-bold text-2xl">
@@ -96,4 +79,4 @@ const PostCompleted = (props) => {
   }
 };
 
-export default PostCompleted;
+export default PostCompletedTest;

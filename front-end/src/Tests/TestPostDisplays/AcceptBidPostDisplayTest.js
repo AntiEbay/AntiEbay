@@ -1,14 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation } from "swiper";
-import "swiper/css/bundle";
-import ".//swiperArrow.css";
-import { accountTypeContext } from "../../SessionVariables";
-import BidDisplay from "./BidDisplay";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-import ManagePosts from "../../Pages/ManagePosts";
 /**
  *
  * @param  props that contains all information about the post.
@@ -18,15 +10,7 @@ import ManagePosts from "../../Pages/ManagePosts";
  * This component is used in ManagePosts.js
  */
 
-const AcceptBidPostDisplay = (props) => {
-  console.log(props);
-  const navigate = useNavigate();
-  const imageArray = Object.keys(props.imgStrings).map((key) => (
-    <SwiperSlide className=" flex justify-center items-center w-full h-full object-contain">
-      <img src={`data:image/jpeg;base64,${props.imgStrings[key].contents}`} />
-    </SwiperSlide>
-  ));
-  console.log(imageArray);
+const AcceptBidPostDisplayTest = (props) => {
   const postDelete = async () => {
     const postInfo = {
       postId: parseInt(props.postId),
@@ -45,13 +29,6 @@ const AcceptBidPostDisplay = (props) => {
   };
   return (
     <div className="flex w-full md:w-96 bg-slate-800 hover:shadow-lg rounded-lg ring-2 ring-white py-6 my-2">
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        className="flex items-center justify-center w-1/3 bg-cover text-white swiper-button-next:text-white swiper-button-next:fill-white"
-      >
-        {imageArray}
-      </Swiper>
       <div className="w-2/3 p-4">
         <div className="flex justify-between w-full">
           <h1 className="text-white font-bold text-2xl">
@@ -92,4 +69,4 @@ const AcceptBidPostDisplay = (props) => {
   );
 };
 
-export default AcceptBidPostDisplay;
+export default AcceptBidPostDisplayTest;
