@@ -352,6 +352,52 @@ class AntiEbayServiceApplicationTests {
         Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.BID_SAVE_SUCCESS.toString());
     }
 
+    
+    /** 
+     * Unit test for accepting a bid that should succeed
+     * @throws Exception
+     */
+    @Test
+    void acceptPostBidShouldSucceed() throws Exception {
+        SellerBidEntity newBid = new SellerBidEntity();
+        newBid.setBidId(1);
+        newBid.setBidAmount(1);
+        newBid.setSellerEmail("SellerEmail");
+        newBid.setBuyerPostId(1);
+        newBid.setBidImage(new ArrayList<>());
+        newBid.setAccepted(true);
+
+        UserPosts userPost = new UserPosts();
+        userPost.setPostId(1);
+        userPost.setBuyerEmail(newBid.getEmailAddress());
+        userPost.setPostPath("PostPath");
+        userPost.setTitle("Title");
+        userPost.setQuantity(1);
+        userPost.setPrice(1);
+        userPost.setCategory("Category");
+        userPost.setProductCondition("ProductCondition");
+        userPost.setDescription("Description");
+        userPost.setImageList(new ArrayList<>());
+
+        ArrayList<UserPosts> userPosts = new ArrayList<>();
+        userPosts.add(userPost);
+ 
+        MockHttpSession mockSession = new MockHttpSession();
+        mockSession.setAttribute("email", newBid.getSellerEmail());
+        mockSession.setAttribute("userType", "seller");
+        when(postReviewRepository.save(any()))
+                .thenReturn(newBid);
+ 
+        MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
+                        .content(mapper.writeValueAsString(newBid))
+                        .session(mockSession)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.BID_ACCEPTED.toString());
+    }
+
+
 
    // ********* REVIEW TESTS *********
 
