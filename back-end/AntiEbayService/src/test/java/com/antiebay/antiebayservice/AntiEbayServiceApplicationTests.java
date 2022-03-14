@@ -548,8 +548,10 @@ class AntiEbayServiceApplicationTests {
         when(bidRepository.save(any()))
                 .thenReturn(newBid);
         
-        when(bidRepository.findById(newBidId.getBidId())).thenReturn(Optional.of(newBid));
         
+        
+        when(bidRepository.findById(newBidId.getBidId())).thenReturn(Optional.of(newBid));
+        when(postsRepository.findById(newBidId.getBuyerPostId())).thenReturn(Optional.of(newBid));
 
         MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
                         .content(mapper.writeValueAsString(newBid))
