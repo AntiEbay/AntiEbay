@@ -548,7 +548,7 @@ class AntiEbayServiceApplicationTests {
         when(bidRepository.save(any()))
                 .thenReturn(newBid);
         
-        when(bidRepository.findById(newBidId.getBidId())).thenReturn(Optional.of(newBidId));
+        when(bidRepository.findById(newBidId.getBidId())).thenReturn(Optional.of(newBid));
         
 
         MvcResult result = mockMVc.perform(post("/user/interactions/acceptbid")
