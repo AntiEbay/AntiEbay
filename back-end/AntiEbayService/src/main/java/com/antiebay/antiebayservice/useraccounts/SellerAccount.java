@@ -1,5 +1,5 @@
-package com.antiebay.antiebayservice.useraccounts;
+// package com.antiebay.antiebayservice.useraccounts;
 
-public class SellerAccount  {
+// public class SellerAccount  {
 
-}
+// }

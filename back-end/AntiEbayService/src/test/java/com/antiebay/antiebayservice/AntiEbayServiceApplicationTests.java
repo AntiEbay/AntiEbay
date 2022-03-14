@@ -6,8 +6,7 @@ import com.antiebay.antiebayservice.reviews.PostReview;
 import com.antiebay.antiebayservice.reviews.PostReviewRepository;
 import com.antiebay.antiebayservice.reviews.SellerReview;
 import com.antiebay.antiebayservice.reviews.SellerReviewRepository;
-import com.antiebay.antiebayservice.search.FilterSearchResultsService;
-import com.antiebay.antiebayservice.search.SearchService;
+import com.antiebay.antiebayservice.search.*;
 import com.antiebay.antiebayservice.sellerbids.BidRepository;
 import com.antiebay.antiebayservice.sellerbids.SellerBidEntity;
 import com.antiebay.antiebayservice.useraccounts.UserAccountEntity;
@@ -38,6 +37,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -178,8 +178,7 @@ class AntiEbayServiceApplicationTests {
         Assertions.assertEquals(mapper.writeValueAsString(response), result.getResponse().getContentAsString());
     }
 
-    // Delete account test
-    // login account
+    // TODO: Delete account test
 
     // ********* POST TESTS *********
 
@@ -312,7 +311,164 @@ class AntiEbayServiceApplicationTests {
    // get completed posts
 
     // ********* SEARCH TESTS *********
+    @Test
+    void searchWithoutOptionsShouldSucceed() throws JsonProcessingException, Exception {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setQuery("test");
 
+        UserAccountEntity user = new UserAccountEntity();
+        user.setEmailAddress("test");
+        user.setUserType("buyer");
+
+        UserPosts post = new UserPosts();
+        post.setBuyerEmail(user.getEmailAddress());
+        post.setPostId(1);
+
+        ArrayList<UserPosts> mockPostList = new ArrayList();
+        mockPostList.add(post);
+
+        SearchResult result = new SearchResult();
+        result.setBuyerRating(1);
+        result.setPost(post);
+
+        ArrayList<SearchResult> resultList = new ArrayList<>();
+        resultList.add(result);
+
+        PostReview postReview = new PostReview();
+        postReview.setRating(1);
+        ArrayList<PostReview> postReviewArrayList = new ArrayList<>();
+        postReviewArrayList.add(postReview);
+
+        SearchResponse response = new SearchResponse();
+        response.setSearchResults(resultList);
+        when(userRepository.findById(post.getBuyerEmail())).thenReturn(Optional.of(user));
+        when(postsRepository.findByBuyerEmail(user.getEmailAddress())).thenReturn(mockPostList);
+        when(postReviewRepository.findByPostId(post.getPostId())).thenReturn(postReviewArrayList);
+        when(searchService.listAll(searchRequest.getQuery()))
+                .thenReturn(mockPostList);
+
+        MvcResult mvcResult = mockMVc.perform(post("/search")
+                        .content(mapper.writeValueAsString(searchRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(mapper.writeValueAsString(response), mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void searchWithoutOptionsShouldReturnEmpty() throws Exception {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setQuery("test");
+
+        UserAccountEntity user = new UserAccountEntity();
+        user.setEmailAddress("test");
+        user.setUserType("buyer");
+
+        UserPosts post = new UserPosts();
+        post.setBuyerEmail(user.getEmailAddress());
+        post.setPostId(1);
+
+        ArrayList<UserPosts> mockPostList = new ArrayList();
+        mockPostList.add(post);
+
+        SearchResult result = new SearchResult();
+        result.setBuyerRating(1);
+        result.setPost(post);
+
+        ArrayList<SearchResult> resultList = new ArrayList<>();
+        resultList.add(result);
+
+        PostReview postReview = new PostReview();
+        postReview.setRating(1);
+        ArrayList<PostReview> postReviewArrayList = new ArrayList<>();
+        postReviewArrayList.add(postReview);
+
+        SearchResponse response = new SearchResponse();
+        response.setSearchResults(resultList);
+        when(userRepository.findById(post.getBuyerEmail())).thenReturn(Optional.of(user));
+        when(postsRepository.findByBuyerEmail(user.getEmailAddress())).thenReturn(mockPostList);
+        when(postReviewRepository.findByPostId(post.getPostId())).thenReturn(postReviewArrayList);
+        when(searchService.listAll(searchRequest.getQuery()))
+                .thenReturn(new ArrayList<>());
+
+        MvcResult mvcResult = mockMVc.perform(post("/search")
+                        .content(mapper.writeValueAsString(searchRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(mapper.writeValueAsString(new SearchResponse()), mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void searchWithOptionsShouldSucceed() throws Exception {
+        SearchOptions options = new SearchOptions();
+        options.setCategory("category");
+        options.setMinPrice(0.0f);
+        options.setMaxPrice(10.0f);
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setQuery("test");
+        searchRequest.setOptions(options);
+
+        UserAccountEntity user = new UserAccountEntity();
+        user.setEmailAddress("test");
+        user.setUserType("buyer");
+
+        UserPosts post = new UserPosts();
+        post.setBuyerEmail(user.getEmailAddress());
+        post.setTitle(user.getEmailAddress());
+        post.setCategory("category");
+        post.setPrice(2);
+        post.setPostId(1);
+
+        UserPosts post2 = new UserPosts();
+        post2.setBuyerEmail(user.getEmailAddress());
+        post2.setTitle(user.getEmailAddress());
+        post2.setCategory("category");
+        post2.setPostId(2);
+        post2.setPrice(200);
+
+        ArrayList<UserPosts> postRepositryResult = new ArrayList();
+        postRepositryResult.add(post);
+        postRepositryResult.add(post2);
+
+        ArrayList<UserPosts> filteredListExpected = new ArrayList<>();
+        filteredListExpected.add(post);
+
+        SearchResult result = new SearchResult();
+        result.setBuyerRating(1);
+        result.setPost(post);
+        SearchResult result2 = new SearchResult();
+        result2.setBuyerRating(2);
+        result2.setPost(post2);
+
+        ArrayList<SearchResult> resultList = new ArrayList<>();
+        resultList.add(result);
+        resultList.add(result2);
+
+        PostReview postReview = new PostReview();
+        postReview.setRating(1);
+        ArrayList<PostReview> postReviewArrayList = new ArrayList<>();
+        postReviewArrayList.add(postReview);
+
+        ArrayList<SearchResult> expectedResults = new ArrayList<>();
+        expectedResults.add(result);
+        SearchResponse expectedResponse = new SearchResponse();
+        expectedResponse.setSearchResults(expectedResults);
+        when(userRepository.findById(post.getBuyerEmail())).thenReturn(Optional.of(user));
+        when(postsRepository.findByBuyerEmail(user.getEmailAddress())).thenReturn(postRepositryResult);
+        when(postReviewRepository.findByPostId(post.getPostId())).thenReturn(postReviewArrayList);
+        when(searchService.listAll(searchRequest.getQuery()))
+                .thenReturn(postRepositryResult);
+        when(filterSearchResultsService.filterSearchBasedOnOptions(any(), any())).thenReturn(filteredListExpected);
+
+        MvcResult mvcResult = mockMVc.perform(post("/search")
+                        .content(mapper.writeValueAsString(searchRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(mapper.writeValueAsString(expectedResponse), mvcResult.getResponse().getContentAsString());
+    }
 
     // ********* BID TESTS *********
             // /post/getbidsforpost

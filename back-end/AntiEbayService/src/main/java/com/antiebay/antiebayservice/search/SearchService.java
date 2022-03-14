@@ -14,6 +14,11 @@ public class SearchService {
 	@Autowired
 	private ProductRepository productRepository;
 	
+    /**
+     * A function that searches for user posts that match the search term
+     * @param keyword
+     * @return A list of user posts that match the keyword
+     */
 	public List<UserPosts> listAll(String keyword) {
 		if (keyword != null) {
 			return productRepository.search(keyword);

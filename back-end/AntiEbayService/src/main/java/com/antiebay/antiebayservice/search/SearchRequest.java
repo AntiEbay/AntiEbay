@@ -4,6 +4,11 @@ public class SearchRequest {
     private String query;
     private SearchOptions options;
 
+    public SearchRequest() {
+        query = "";
+        options = new SearchOptions();
+    }
+
     public String getQuery() {
         return query;
     }
