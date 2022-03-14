@@ -54,6 +54,18 @@ public class UserPosts {
 
 
     public UserPosts() {
+        postId = -1;
+        buyerEmail = "";
+        postPath = ".";
+        title = "";
+        quantity = -1;
+        price = -1;
+        category = "";
+        productCondition = "";
+        description = "";
+        postIsComplete = "";
+        bidList = new ArrayList<>();
+        imageList = new ArrayList<>();
     }
 
     public void writeImages() {

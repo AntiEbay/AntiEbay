@@ -705,16 +705,20 @@ public class AntiEbayRestController {
         List<UserPosts> returnedPosts = new ArrayList();
         try {
              returnedPosts = searchService.listAll(searchRequest.getQuery());
+             logger.info("Search Service: " +  returnedPosts);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         for (UserPosts post : returnedPosts) {
             post.loadImages();
+            logger.info("Loaded images");
         }
 
         // if options are set, filter search results
         if (searchRequest.getOptions() != null && searchRequest.getOptions().getCategory() != null) {
+            logger.info("Filtering Posts: " + returnedPosts);
             returnedPosts = filterSearchResultsService.filterSearchBasedOnOptions(returnedPosts, searchRequest.getOptions());
+            logger.info("Filtered Search Results: " + returnedPosts);
         }
 
         // calculate average review score for user
@@ -725,11 +729,14 @@ public class AntiEbayRestController {
             response.addSearchResult(searchRes);
         }
 
+        logger.info("Average rating: " + response);
+
         // get rating for each search result
 
         String strToReturn = "";
         try {
             strToReturn = objectMapper.writeValueAsString(response);
+            logger.info("String to return: " + strToReturn);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

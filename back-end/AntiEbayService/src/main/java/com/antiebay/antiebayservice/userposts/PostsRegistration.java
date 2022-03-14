@@ -1,10 +1,10 @@
-package com.antiebay.antiebayservice.userposts;
+// package com.antiebay.antiebayservice.userposts;
 
-import org.springframework.stereotype.Component;
+// import org.springframework.stereotype.Component;
 
-@Component("postsRegistration")
-public class PostsRegistration {
-    public UserPosts registerPost(UserPosts userPosts) {
-        return userPosts;
-    }
-}
+// @Component("postsRegistration")
+// public class PostsRegistration {
+//     public UserPosts registerPost(UserPosts userPosts) {
+//         return userPosts;
+//     }
+// }

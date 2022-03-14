@@ -17,6 +17,11 @@ public class SearchResult {
     private UserPosts post;
     private double buyerRating;
 
+    public SearchResult() {
+        post = new UserPosts();
+        buyerRating = 0;
+    }
+
     public SearchResult(UserPosts post) {
         this.post = post;
         post.loadImages();

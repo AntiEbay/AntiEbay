@@ -1,6 +1,6 @@
-package com.antiebay.antiebayservice.useraccounts;
+// package com.antiebay.antiebayservice.useraccounts;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface sellerDataRepository  extends JpaRepository<SellerDataEntity, String> {
-}
+// public interface sellerDataRepository  extends JpaRepository<SellerDataEntity, String> {
+// }

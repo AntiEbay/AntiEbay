@@ -1,10 +1,10 @@
-package com.antiebay.antiebayservice.useraccounts;
+// package com.antiebay.antiebayservice.useraccounts;
 
-import org.springframework.stereotype.Component;
+// import org.springframework.stereotype.Component;
 
-@Component("userRegistrationService")
-public class UserRegistrationService {
-    public UserAccountEntity registerUser(UserAccountEntity userAccount) {
-        return userAccount;
-    }
-}
+// @Component("userRegistrationService")
+// public class UserRegistrationService {
+//     public UserAccountEntity registerUser(UserAccountEntity userAccount) {
+//         return userAccount;
+//     }
+// }
