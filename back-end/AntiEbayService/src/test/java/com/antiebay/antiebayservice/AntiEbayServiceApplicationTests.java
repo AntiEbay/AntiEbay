@@ -302,6 +302,8 @@ class AntiEbayServiceApplicationTests {
        Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.USER_POST_CREATE_SUCCESS.toString());
    }
 
+   
+   
    // complete post
    // delete post
    // all posts with user bids
@@ -321,6 +323,35 @@ class AntiEbayServiceApplicationTests {
             // bid delete
             
     // 
+
+    /** 
+    * Unit test for making a bid that should succeed
+    * @throws Exception
+    */
+    @Test
+    void makePostBidShouldSucceed() throws Exception {
+        SellerBidEntity newBid = new SellerBidEntity();
+        newBid.setBidId(1);
+        newBid.setBidAmount(1);
+        newBid.setSellerEmail("SellerEmail");
+        newBid.setBuyerPostId(1);
+        newBid.setBidImage(new ArrayList<>());
+ 
+        MockHttpSession mockSession = new MockHttpSession();
+        mockSession.setAttribute("email", newBid.getSellerEmail());
+        mockSession.setAttribute("userType", "seller");
+        when(postReviewRepository.save(any()))
+                .thenReturn(newBid);
+ 
+        MvcResult result = mockMVc.perform(post("/user/interactions/makebid")
+                        .content(mapper.writeValueAsString(newBid))
+                        .session(mockSession)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(result.getResponse().getContentAsString(), StatusMessages.BID_SAVE_SUCCESS.toString());
+    }
+
 
    // ********* REVIEW TESTS *********
 
